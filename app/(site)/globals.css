@@ -134,3 +134,11 @@
     animation-delay: 0s !important;
   }
 }
+
+/* Entrance for rows that swap in on live dashboards */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}

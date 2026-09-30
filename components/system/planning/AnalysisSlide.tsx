@@ -1,4 +1,4 @@
-import { AssetPlaceholder } from "@/components/slides/AssetPlaceholder";
+import { AudienceDashboard } from "@/components/dashboards/AudienceDashboard";
 import { SlideIntro } from "@/components/slides/SlideIntro";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
@@ -22,12 +22,8 @@ export function AnalysisSlide() {
         />
 
         <div className="mt-8 grid flex-1 items-center gap-10 md:mb-[2.5%] md:mt-[3%] md:grid-cols-[47.5%_1fr] md:gap-[11%]">
-          <RevealItem effect="scale" className="h-full min-h-[16rem] rounded-[2.5rem] bg-white p-3 md:max-h-[27vw]">
-            <AssetPlaceholder
-              label="Dashboard de audiencia"
-              tone="light"
-              className="h-full min-h-[15rem] rounded-[2rem]"
-            />
+          <RevealItem effect="scale">
+            <AudienceDashboard />
           </RevealItem>
 
           <RevealItem effect="fade" stagger={0.08} className="flex flex-col">
