@@ -50,6 +50,7 @@ export const Categories: CollectionConfig = {
       collection: "talents",
       on: "category",
       admin: {
+        position: "sidebar",
         defaultColumns: ["name", "active"],
       },
     },
