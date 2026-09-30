@@ -1,0 +1,71 @@
+// Influmedia theme for the Payload admin. Payload builds every surface,
+// border and input from the --color-base-* scale (dark mode just reads it
+// in reverse), so replacing the grey scale with one tinted toward the brand
+// violet re-themes both light and dark. Built from the official palette:
+// "blanco suave" #F7F5FB at 0, "panel oscuro" #17102E at 900 (the dark-mode
+// background) and "fondo principal" #100A23 at 1000.
+:root {
+    --color-base-0: rgb(247, 245, 251);
+    --color-base-50: rgb(235, 232, 240);
+    --color-base-100: rgb(222, 220, 228);
+    --color-base-150: rgb(210, 207, 217);
+    --color-base-200: rgb(197, 194, 205);
+    --color-base-250: rgb(185, 181, 194);
+    --color-base-300: rgb(172, 169, 183);
+    --color-base-350: rgb(160, 156, 171);
+    --color-base-400: rgb(147, 143, 160);
+    --color-base-450: rgb(135, 131, 149);
+    --color-base-500: rgb(123, 118, 137);
+    --color-base-550: rgb(110, 105, 126);
+    --color-base-600: rgb(98, 92, 114);
+    --color-base-650: rgb(85, 80, 103);
+    --color-base-700: rgb(73, 67, 92);
+    --color-base-750: rgb(60, 54, 80);
+    --color-base-800: rgb(48, 41, 69);
+    --color-base-850: rgb(35, 29, 57);
+    --color-base-900: rgb(23, 16, 46);
+    --color-base-950: rgb(20, 13, 41);
+    --color-base-1000: rgb(16, 10, 35);
+
+  // Brand violet ("morado principal") and a darker shade for hover.
+  --influmedia-violet: #6c3cf0;
+  --influmedia-violet-dark: #5a2dd4;
+  // "Morado secundario", for links on the dark background.
+  --influmedia-violet-light: #8c5cff;
+}
+
+// Primary actions (Save, Publish, Create) carry the brand in both themes.
+// White text on #6C3CF0 is 5.9:1 (AA). The lighter "morado secundario"
+// would drop it to 4.1:1, so hover darkens instead of lightening.
+.btn--style-primary {
+  --bg-color: var(--influmedia-violet);
+  --color: #fff;
+  --hover-bg: var(--influmedia-violet-dark);
+  --hover-color: #fff;
+}
+
+// Links and focus rings in the brand color instead of Payload's blue.
+html[data-theme="light"] {
+  --theme-success-500: var(--influmedia-violet);
+}
+html[data-theme="dark"] {
+  --theme-success-500: var(--influmedia-violet-light);
+}
+
+// Login logo: color version on light, white version on dark.
+.influmedia-logo {
+  width: 240px;
+  max-width: 100%;
+  height: auto;
+}
+.influmedia-logo--dark {
+  display: none;
+}
+html[data-theme="dark"] {
+  .influmedia-logo--light {
+    display: none;
+  }
+  .influmedia-logo--dark {
+    display: block;
+  }
+}

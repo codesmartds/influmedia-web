@@ -19,6 +19,16 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: { baseDir: dirname },
+    components: {
+      graphics: {
+        Logo: "/components/admin/Logo#Logo",
+        Icon: "/components/admin/Icon#Icon",
+      },
+    },
+    meta: {
+      titleSuffix: " | Influmedia",
+      icons: [{ rel: "icon", type: "image/png", url: "/images/brand/icon.png" }],
+    },
   },
   editor: lexicalEditor(),
   collections: [Users, Media, Talents, Categories],
