@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
+import { SharedElement } from "@/components/transitions/PageTransition";
 
 type HeroSlideProps = {
   logoSrc?: string;
@@ -23,7 +24,9 @@ export function HeroSlide({ logoSrc, imageSrc }: HeroSlideProps) {
     <section className="relative isolate flex min-h-dvh w-full overflow-hidden bg-base-100">
       {/* Decorative shapes: the big circle plus the diagonal "speech bubble" tail */}
       <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <div className="absolute left-[42%] top-[-10%] aspect-square w-[52%] rounded-full bg-[radial-gradient(circle_at_50%_45%,#4b2c8f_0%,#34206b_55%,#23174d_100%)] max-md:left-[10%] max-md:top-[-5%] max-md:w-[110%]" />
+        <SharedElement name="brand-circle">
+          <div className="absolute left-[42%] top-[-10%] aspect-square w-[52%] rounded-full bg-[radial-gradient(circle_at_50%_45%,#4b2c8f_0%,#34206b_55%,#23174d_100%)] max-md:left-[10%] max-md:top-[-5%] max-md:w-[110%]" />
+        </SharedElement>
         <div className="absolute bottom-[-32%] left-[39%] h-[70%] w-[11%] origin-top rotate-[-40deg] rounded-[4rem] bg-[#1d1540] max-md:hidden" />
       </div>
 
@@ -51,18 +54,20 @@ export function HeroSlide({ logoSrc, imageSrc }: HeroSlideProps) {
         </span>
 
         <div className="mt-10 md:ml-[4%] md:mt-[7%]">
-          {logoSrc ? (
-            <Image
-              src={logoSrc}
-              alt="Influmedia"
-              width={480}
-              height={210}
-              priority
-              className="h-auto w-[70%] max-w-[480px]"
-            />
-          ) : (
-            <AssetPlaceholder label="Logo" className="aspect-[480/210] w-[70%] max-w-[480px]" />
-          )}
+          <SharedElement name="brand-logo">
+            {logoSrc ? (
+              <Image
+                src={logoSrc}
+                alt="Influmedia"
+                width={480}
+                height={210}
+                priority
+                className="h-auto w-[70%] max-w-[480px]"
+              />
+            ) : (
+              <AssetPlaceholder label="Logo" className="aspect-[480/210] w-[70%] max-w-[480px]" />
+            )}
+          </SharedElement>
         </div>
 
         <div className="mt-auto pt-12">
@@ -83,6 +88,7 @@ export function HeroSlide({ logoSrc, imageSrc }: HeroSlideProps) {
             </span>
             <Link
               href="/desk"
+              transitionTypes={["nav-forward"]}
               className="btn btn-secondary order-1 h-auto w-full whitespace-nowrap rounded-lg px-10 py-4 text-[clamp(0.85rem,1.05vw,1.1rem)] font-bold uppercase shadow-lg md:order-2 md:w-auto md:min-w-[18vw]"
             >
               Explorar deck <FiArrowRight aria-hidden />
