@@ -87,7 +87,7 @@ export function HeroSlide({ logoSrc, imageSrc }: HeroSlideProps) {
               #WeAreInflumedia
             </span>
             <Link
-              href="/desk"
+              href="/deck"
               transitionTypes={["nav-forward"]}
               className="btn btn-secondary order-1 h-auto w-full whitespace-nowrap rounded-lg px-10 py-4 text-[clamp(0.85rem,1.05vw,1.1rem)] font-bold uppercase shadow-lg md:order-2 md:w-auto md:min-w-[18vw]"
             >

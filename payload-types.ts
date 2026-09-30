@@ -96,11 +96,13 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
+    deck: Deck;
     brands: Brand;
     gallery: Gallery;
     'contact-info': ContactInfo;
   };
   globalsSelect: {
+    deck: DeckSelect<false> | DeckSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     gallery: GallerySelect<false> | GallerySelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
@@ -470,6 +472,29 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Secciones que aparecen en /deck. El orden de la lista es el orden en pantalla.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "deck".
+ */
+export interface Deck {
+  id: string;
+  sections?:
+    | {
+        title: string;
+        color: 'primary' | 'secondary' | 'accent';
+        content: string;
+        /**
+         * Ruta interna de la sección, ej. /quienes-somos
+         */
+        route?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "brands".
  */
@@ -525,6 +550,24 @@ export interface ContactInfo {
   tiktok?: string | null;
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "deck_select".
+ */
+export interface DeckSelect<T extends boolean = true> {
+  sections?:
+    | T
+    | {
+        title?: T;
+        color?: T;
+        content?: T;
+        route?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

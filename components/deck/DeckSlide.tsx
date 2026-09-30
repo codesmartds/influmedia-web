@@ -2,28 +2,18 @@ import Link from "next/link";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { SharedElement } from "@/components/transitions/PageTransition";
 import { StaggerList } from "@/components/transitions/StaggerList";
+import type { Deck } from "@/payload-types";
 
-type Accent = "primary" | "secondary" | "accent";
-
-const sections: { title: string; subtitle: string; accent: Accent }[] = [
-  { title: "Quiénes somos", subtitle: "Powered by people.", accent: "primary" },
-  { title: "Nuestra historia", subtitle: "De Guatemala a la región.", accent: "secondary" },
-  { title: "Qué hacemos", subtitle: "Estrategia, contenido y comunidad.", accent: "accent" },
-  { title: "Impacto + clientes", subtitle: "Escala, operación y marcas.", accent: "secondary" },
-  { title: "Por qué Influmedia", subtitle: "Menos fricción. Más control.", accent: "primary" },
-  { title: "Nuestro enfoque", subtitle: "Fit, afinidad y medición.", accent: "accent" },
-  { title: "Nuestro sistema", subtitle: "Planning · Onway · Postbuy.", accent: "primary" },
-  { title: "Trabajo en acción", subtitle: "Creators + campañas reales.", accent: "secondary" },
-];
+type DeckSection = NonNullable<Deck["sections"]>[number];
 
 // Full class names so Tailwind picks them up.
-const accentClasses: Record<Accent, { bar: string; text: string }> = {
+const accentClasses: Record<DeckSection["color"], { bar: string; text: string }> = {
   primary: { bar: "bg-primary", text: "text-primary" },
   secondary: { bar: "bg-secondary", text: "text-secondary" },
   accent: { bar: "bg-accent", text: "text-accent" },
 };
 
-export function DeskSlide() {
+export function DeckSlide({ sections }: { sections: DeckSection[] }) {
   return (
     <section className="relative isolate flex min-h-dvh w-full flex-col overflow-hidden bg-base-100 px-6 py-10 md:px-[4%] md:py-[3.5%]">
       {/* Decorative circles: top-right pair and bottom-left */}
@@ -64,10 +54,10 @@ export function DeskSlide() {
 
       <StaggerList className="mt-8 grid gap-5 sm:grid-cols-2 md:mt-[3.5%] lg:grid-cols-4 lg:gap-[1.4vw] lg:pr-[2%]">
         {sections.map((section, index) => {
-          const accent = accentClasses[section.accent];
+          const accent = accentClasses[section.color];
           return (
             <article
-              key={section.title}
+              key={section.id ?? section.title}
               className="relative flex w-full flex-col rounded-[1.75rem] border border-white/40 bg-[#f4f2f9] px-[max(1.5rem,2.2vw)] pb-7 pt-5 text-[#14102b] shadow-[0_6px_16px_rgba(0,0,0,0.35)]"
             >
               <span aria-hidden className={`absolute right-6 top-3.5 h-3 w-[3.5rem] rounded-sm shadow ${accent.bar}`} />
@@ -77,7 +67,7 @@ export function DeskSlide() {
               <h2 className="text-[clamp(1.15rem,1.55vw,1.65rem)] font-bold uppercase leading-tight">
                 {section.title}
               </h2>
-              <p className="mt-1 text-[clamp(0.85rem,1vw,1.1rem)] text-[#5b5870]">{section.subtitle}</p>
+              <p className="mt-1 text-[clamp(0.85rem,1vw,1.1rem)] text-[#5b5870]">{section.content}</p>
               <button
                 type="button"
                 className={`mt-8 inline-flex cursor-pointer items-center gap-2 self-start text-[clamp(0.85rem,1.05vw,1.1rem)] font-bold uppercase underline underline-offset-4 ${accent.text}`}
