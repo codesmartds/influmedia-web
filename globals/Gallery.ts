@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import type { GlobalConfig } from "payload";
 
 export const Gallery: GlobalConfig = {
@@ -8,6 +9,13 @@ export const Gallery: GlobalConfig = {
   },
   admin: {
     group: "Contenido",
+  },
+  hooks: {
+    afterChange: [
+      ({ req }) => {
+        if (!req.context.skipRevalidate) revalidatePath("/trabajo");
+      },
+    ],
   },
   fields: [
     {
