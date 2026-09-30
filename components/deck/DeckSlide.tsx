@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { SharedElement } from "@/components/transitions/PageTransition";
-import { StaggerList } from "@/components/transitions/StaggerList";
+import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import type { Deck } from "@/payload-types";
 
 type DeckSection = NonNullable<Deck["sections"]>[number];
@@ -34,23 +34,32 @@ export function DeckSlide({ sections }: { sections: DeckSection[] }) {
         </SharedElement>
       </header>
 
-      <div className="mt-10 md:mt-[4%]">
-        <p className="text-sm font-bold uppercase text-secondary md:text-[clamp(0.85rem,1.1vw,1.2rem)]">
+      <Reveal className="mt-10 md:mt-[4%]" delay={0.25}>
+        <RevealItem
+          as="p"
+          className="text-sm font-bold uppercase text-secondary md:text-[clamp(0.85rem,1.1vw,1.2rem)]"
+        >
           Interactive new business deck
-        </p>
-        <h1 className="mt-2 text-[clamp(2rem,3.5vw,3.8rem)] font-bold uppercase leading-tight">
+        </RevealItem>
+        <RevealItem as="h1" className="mt-2 text-[clamp(2rem,3.5vw,3.8rem)] font-bold uppercase leading-tight">
           ¿Qué quieres ver?
-        </h1>
-        <p className="mt-2 text-[clamp(1rem,1.35vw,1.45rem)] text-muted">
+        </RevealItem>
+        <RevealItem as="p" className="mt-2 text-[clamp(1rem,1.35vw,1.45rem)] text-muted">
           Elige una sección y entra directo a la conversación.
-        </p>
-      </div>
+        </RevealItem>
+      </Reveal>
 
-      <StaggerList className="mt-8 grid gap-5 sm:grid-cols-2 md:mt-[3.5%] lg:grid-cols-4 lg:gap-[1.4vw] lg:pr-[2%]">
+      <Reveal
+        as="ul"
+        delay={0.45}
+        stagger={0.06}
+        className="mt-8 grid gap-5 sm:grid-cols-2 md:mt-[3.5%] lg:grid-cols-4 lg:gap-[1.4vw] lg:pr-[2%]"
+      >
         {sections.map((section, index) => {
           const accent = accentClasses[section.color];
           return (
-            <article
+            <RevealItem
+              as="li"
               key={section.id ?? section.title}
               className="relative flex w-full flex-col rounded-[1.75rem] border border-white/40 bg-[#f4f2f9] px-[max(1.5rem,2.2vw)] pb-7 pt-5 text-[#14102b] shadow-[0_6px_16px_rgba(0,0,0,0.35)]"
             >
@@ -75,10 +84,10 @@ export function DeckSlide({ sections }: { sections: DeckSection[] }) {
                   Ver sección <FiArrowRight aria-hidden />
                 </span>
               )}
-            </article>
+            </RevealItem>
           );
         })}
-      </StaggerList>
+      </Reveal>
 
       <footer className="mt-10 flex flex-wrap items-center justify-between gap-6 md:mt-auto md:pt-[2.5%]">
         <p className="text-xs font-bold uppercase text-white/50 md:text-[clamp(0.7rem,0.85vw,0.95rem)]">
