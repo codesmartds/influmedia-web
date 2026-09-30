@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { FiArrowRight } from "react-icons/fi";
 import type { Gallery, Media } from "@/payload-types";
 import { SlideFooter } from "@/components/slides/SlideFooter";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
@@ -68,6 +70,16 @@ export function WorkSlide({ items }: { items: GalleryItem[] }) {
             <li aria-hidden className="grow-[100] basis-0" />
           </RevealItem>
         )}
+
+        <RevealItem className="mt-8 md:mt-[3%]">
+          <Link
+            href="/talentos"
+            transitionTypes={["nav-forward"]}
+            className="btn btn-primary h-auto w-full rounded-lg border-0 px-10 py-4 text-base font-bold uppercase shadow-lg sm:w-auto sm:min-w-[20vw] md:text-[clamp(0.9rem,1.1vw,1.2rem)]"
+          >
+            Ver talentos <FiArrowRight aria-hidden />
+          </Link>
+        </RevealItem>
       </Reveal>
 
       <SlideFooter label="Lead the conversation" />
