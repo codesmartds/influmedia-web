@@ -113,6 +113,20 @@ const talents: { name: string; category: CategoryName; photo: string; instagram?
   { name: "Fabiana Quiñones", category: "Automotriz", photo: "13_p70_Fabiana_Quinones.jpg", instagram: "quinonesfabi_", tiktok: "lagymirage.gt" },
 ];
 
+// "Trabajo en acción" gallery: eight talent photos, spread across
+// categories. Portraits are all 3:4, so eight fill exactly one row of the
+// slide; more would wrap and push the footer off screen. Reuses the talent uploads, so nothing is uploaded twice.
+const galleryTalents = [
+  "Sandy Méndez",
+  "El Primaso",
+  "MakeUp Chikys",
+  "Joshua Aldana",
+  "Katherine Portt",
+  "Javier del Cid",
+  "Gyss Sierra",
+  "Victoria Romanof",
+];
+
 // Globals with a revalidation hook skip it when this is set: the script
 // runs outside Next's server, so there is no cache to revalidate.
 const SKIP_REVALIDATE = { context: { skipRevalidate: true } };
@@ -181,8 +195,17 @@ export async function seed() {
     else await payload.create({ collection: "talents", data });
   }
 
+  // Gallery global, replaced as a whole. Runs after talents so their photos exist.
+  const galleryItems = [];
+  for (const name of galleryTalents) {
+    const talent = talents.find((t) => t.name === name)!;
+    const folder = categories.find((c) => c.name === talent.category)!.folder;
+    galleryItems.push({ image: await upsertPhoto(payload, path.join(TALENT_PHOTOS, folder, talent.photo), name) });
+  }
+  await payload.updateGlobal({ slug: "gallery", data: { items: galleryItems }, ...SKIP_REVALIDATE });
+
   payload.logger.info(
-    `Seeded deck (${deckSections.length} sections), contact info, ${brands.length} brands, ${categories.length} categories and ${talents.length} talents`,
+    `Seeded deck (${deckSections.length} sections), contact info, ${brands.length} brands, ${galleryTalents.length} gallery photos, ${categories.length} categories and ${talents.length} talents`,
   );
 }
 
