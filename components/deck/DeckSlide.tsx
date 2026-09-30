@@ -19,15 +19,6 @@ const sectionLinkClass =
 export function DeckSlide({ sections }: { sections: DeckSection[] }) {
   return (
     <section className="relative isolate flex min-h-dvh w-full flex-col overflow-hidden bg-base-100 px-6 py-10 md:px-[4%] md:py-[3.5%]">
-      {/* Decorative circles: top-right pair and bottom-left */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <SharedElement name="brand-circle">
-          <div className="absolute right-[-8%] top-[-20%] aspect-square w-[max(16rem,24%)] rounded-full bg-primary/80" />
-        </SharedElement>
-        <div className="absolute right-[-5%] top-[-4%] aspect-square w-[max(11rem,15%)] rounded-full bg-[#4f7fc9]" />
-        <div className="absolute bottom-[-12%] left-[-9%] aspect-square w-[max(10rem,20%)] rounded-full bg-[#8a5a7e]" />
-      </div>
-
       <header className="flex items-start justify-between gap-6">
         <Link
           href="/"

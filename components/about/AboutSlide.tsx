@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { SharedElement } from "@/components/transitions/PageTransition";
-
 const pillars = [
   { label: "Creatividad", className: "bg-primary text-primary-content" },
   { label: "Data", className: "bg-secondary text-white" },
@@ -9,22 +6,7 @@ const pillars = [
 
 export function AboutSlide() {
   return (
-    <section className="relative isolate flex min-h-dvh w-full flex-col overflow-hidden bg-base-100 px-6 py-8 md:px-[4.4%] md:py-[2%]">
-      <header className="flex items-start justify-end gap-6 md:gap-[2.5%]">
-        <Link
-          href="/deck"
-          transitionTypes={["nav-back"]}
-          className="btn btn-primary h-auto min-w-[8rem] rounded-md border-0 px-10 py-3 text-xs font-bold uppercase shadow-lg md:mt-[0.1%] md:min-w-[8%]"
-        >
-          Menú
-        </Link>
-        <SharedElement name="brand-logo">
-          <div className="flex aspect-[170/75] w-[max(8rem,10%)] items-center justify-center rounded-xl border-2 border-dashed border-white/30 text-xs font-semibold uppercase tracking-widest text-white/60">
-            Logo
-          </div>
-        </SharedElement>
-      </header>
-
+    <section className="relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[4.4%] md:pb-[2%]">
       <div className="mt-6 grid flex-1 items-center gap-10 md:-mt-[2%] md:grid-cols-[1fr_39%] md:gap-[8%] md:pr-[3%]">
         <div className="self-start md:pt-[5%]">
           <p className="text-sm font-bold uppercase text-secondary md:text-[clamp(0.9rem,1.6vw,1.7rem)]">

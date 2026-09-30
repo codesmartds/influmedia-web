@@ -22,14 +22,6 @@ function AssetPlaceholder({ label, className }: { label: string; className?: str
 export function HeroSlide({ logoSrc, imageSrc }: HeroSlideProps) {
   return (
     <section className="relative isolate flex min-h-dvh w-full overflow-hidden bg-base-100">
-      {/* Decorative shapes: the big circle plus the diagonal "speech bubble" tail */}
-      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-        <SharedElement name="brand-circle">
-          <div className="absolute left-[42%] top-[-10%] aspect-square w-[52%] rounded-full bg-[radial-gradient(circle_at_50%_45%,#4b2c8f_0%,#34206b_55%,#23174d_100%)] max-md:left-[10%] max-md:top-[-5%] max-md:w-[110%]" />
-        </SharedElement>
-        <div className="absolute bottom-[-32%] left-[39%] h-[70%] w-[11%] origin-top rotate-[-40deg] rounded-[4rem] bg-[#1d1540] max-md:hidden" />
-      </div>
-
       {/* Hero image, bleeding off the right edge */}
       <div className="absolute inset-y-0 right-0 -z-10 w-[58%] max-md:w-full max-md:opacity-40">
         {imageSrc ? (
