@@ -537,7 +537,7 @@ export interface ContactInfo {
   id: string;
   email?: string | null;
   /**
-   * Con código de país, ej. +502 3033-8063
+   * Número con código de país (+502 3033-8063) o enlace de WhatsApp (https://wa.me/50230338063).
    */
   phone?: string | null;
   /**

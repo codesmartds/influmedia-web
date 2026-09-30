@@ -93,12 +93,13 @@ export function DeckSlide({ sections }: { sections: DeckSection[] }) {
         <p className="text-xs font-bold uppercase text-white/50 md:text-[clamp(0.7rem,0.85vw,0.95rem)]">
           Influmedia • Click to navigate • Lead the conversation
         </p>
-        <button
-          type="button"
+        <Link
+          href="/contacto"
+          transitionTypes={["nav-forward"]}
           className="btn btn-primary border-0 h-auto w-full rounded-lg px-10 py-4 text-base font-bold uppercase shadow-lg sm:w-auto sm:min-w-[20vw]"
         >
           Contacto <FiArrowRight aria-hidden />
-        </button>
+        </Link>
       </footer>
     </section>
   );

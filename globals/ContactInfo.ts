@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import type { GlobalConfig } from "payload";
 
 export const ContactInfo: GlobalConfig = {
@@ -9,6 +10,13 @@ export const ContactInfo: GlobalConfig = {
   admin: {
     group: "Configuración",
   },
+  hooks: {
+    afterChange: [
+      ({ req }) => {
+        if (!req.context.skipRevalidate) revalidatePath("/contacto");
+      },
+    ],
+  },
   fields: [
     {
       type: "row",
@@ -18,7 +26,9 @@ export const ContactInfo: GlobalConfig = {
           name: "phone",
           label: "Teléfono",
           type: "text",
-          admin: { description: "Con código de país, ej. +502 3033-8063" },
+          admin: {
+            description: "Número con código de país (+502 3033-8063) o enlace de WhatsApp (https://wa.me/50230338063).",
+          },
         },
       ],
     },
