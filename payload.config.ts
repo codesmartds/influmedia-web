@@ -6,6 +6,7 @@ import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { buildConfig } from "payload";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
+import { Talents } from "./collections/Talents";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -15,7 +16,7 @@ export default buildConfig({
     importMap: { baseDir: dirname },
   },
   editor: lexicalEditor(),
-  collections: [Users, Media],
+  collections: [Users, Media, Talents],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
