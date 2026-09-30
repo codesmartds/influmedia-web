@@ -1,10 +1,11 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { SharedElement } from "@/components/transitions/PageTransition";
 
 // Header shared by deck slides 3–20: back to the section menu + logo.
 export function CommonHeader() {
   return (
-    <header className="flex items-start justify-end gap-6 px-6 pt-8 md:gap-[2.5%] md:px-[4.4%] md:pt-[2%]">
+    <header className="flex items-start justify-end gap-6 px-6 pt-8 md:gap-[2.5%] md:px-[1.5%] md:pt-[2%]">
       <Link
         href="/deck"
         transitionTypes={["nav-back"]}
@@ -13,9 +14,9 @@ export function CommonHeader() {
         Menú
       </Link>
       <SharedElement name="brand-logo">
-        <div className="flex aspect-[170/75] w-[max(8rem,10%)] items-center justify-center rounded-xl border-2 border-dashed border-white/30 text-xs font-semibold uppercase tracking-widest text-white/60">
-          Logo
-        </div>
+        <Link href="/" transitionTypes={["nav-back"]} aria-label="Influmedia, ir a la portada">
+          <BrandLogo variant="white" priority className="w-[max(8rem,10.5vw)]" />
+        </Link>
       </SharedElement>
     </header>
   );

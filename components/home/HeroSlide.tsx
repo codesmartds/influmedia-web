@@ -1,44 +1,23 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
+import hero from "@/public/images/home/hero.png";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { SharedElement } from "@/components/transitions/PageTransition";
 
-type HeroSlideProps = {
-  logoSrc?: string;
-  imageSrc?: string;
-};
-
-// Dashed box that marks where an asset goes until it's provided.
-function AssetPlaceholder({ label, className }: { label: string; className?: string }) {
-  return (
-    <div
-      className={`flex items-center justify-center rounded-2xl border-2 border-dashed border-white/20 text-sm font-semibold uppercase tracking-widest text-white/40 ${className ?? ""}`}
-    >
-      {label}
-    </div>
-  );
-}
-
-export function HeroSlide({ logoSrc, imageSrc }: HeroSlideProps) {
+export function HeroSlide() {
   return (
     <section className="relative isolate flex min-h-dvh w-full overflow-hidden bg-base-100">
-      {/* Hero image, bleeding off the right edge */}
-      <div className="absolute inset-y-0 right-0 -z-10 w-[58%] max-md:w-full max-md:opacity-40">
-        {imageSrc ? (
-          <Image
-            src={imageSrc}
-            alt=""
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 58vw"
-            className="object-cover object-right"
-          />
-        ) : (
-          <AssetPlaceholder label="Imagen hero" className="absolute inset-[6%] max-md:hidden" />
-        )}
-        {/* Blend the image into the background on its left edge */}
-        <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-base-100 to-transparent" />
-      </div>
+      {/* Full-slide composition; its background was cut out, so the left side is transparent. */}
+      <Image
+        src={hero}
+        alt=""
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="-z-10 object-cover object-right max-md:opacity-40"
+      />
 
       <div className="relative flex w-full min-w-0 flex-col px-6 py-10 md:w-[52%] md:px-[4%] md:py-[4.5%]">
         <span className="self-start rounded-full bg-secondary px-5 py-2 text-sm font-bold uppercase text-secondary-content md:ml-[3%] md:text-[clamp(0.8rem,1.1vw,1.1rem)]">
@@ -47,18 +26,7 @@ export function HeroSlide({ logoSrc, imageSrc }: HeroSlideProps) {
 
         <div className="mt-10 md:ml-[4%] md:mt-[7%]">
           <SharedElement name="brand-logo">
-            {logoSrc ? (
-              <Image
-                src={logoSrc}
-                alt="Influmedia"
-                width={480}
-                height={210}
-                priority
-                className="h-auto w-[70%] max-w-[480px]"
-              />
-            ) : (
-              <AssetPlaceholder label="Logo" className="aspect-[480/210] w-[70%] max-w-[480px]" />
-            )}
+            <BrandLogo priority className="w-[70%] max-w-[480px]" sizes="(max-width: 768px) 70vw, 30vw" />
           </SharedElement>
         </div>
 

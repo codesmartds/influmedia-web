@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { IconType } from "react-icons";
 import { FaInstagram, FaLinkedinIn, FaTiktok } from "react-icons/fa";
 import type { ContactInfo } from "@/payload-types";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { SlideFooter } from "@/components/slides/SlideFooter";
 import { SharedElement } from "@/components/transitions/PageTransition";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
@@ -28,9 +29,9 @@ export function ContactSlide({ contact }: { contact: ContactInfo }) {
       {/* Own header: logo on the left, menu on the right */}
       <header className="flex items-start justify-between gap-6 px-6 pt-8 md:px-[4%] md:pt-[2.2%]">
         <SharedElement name="brand-logo">
-          <div className="flex aspect-[240/105] w-[max(9rem,14%)] items-center justify-center rounded-xl border-2 border-dashed border-white/30 text-xs font-semibold uppercase tracking-widest text-white/60 md:mt-[2%]">
-            Logo
-          </div>
+          <Link href="/" transitionTypes={["nav-back"]} aria-label="Influmedia, ir a la portada">
+            <BrandLogo priority className="w-[max(9rem,14vw)] md:mt-[2%]" />
+          </Link>
         </SharedElement>
         <Link
           href="/deck"

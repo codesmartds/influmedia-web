@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { SharedElement } from "@/components/transitions/PageTransition";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import type { Deck } from "@/payload-types";
@@ -28,9 +29,7 @@ export function DeckSlide({ sections }: { sections: DeckSection[] }) {
           <FiArrowLeft aria-hidden /> Portada
         </Link>
         <SharedElement name="brand-logo">
-          <div className="flex aspect-[170/75] w-[max(8rem,10%)] items-center justify-center rounded-xl border-2 border-dashed border-white/30 text-xs font-semibold uppercase tracking-widest text-white/60">
-            Logo
-          </div>
+          <BrandLogo variant="white" priority className="w-[max(8rem,10.5vw)]" />
         </SharedElement>
       </header>
 

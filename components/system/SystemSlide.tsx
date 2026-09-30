@@ -49,7 +49,7 @@ export function SystemSlide() {
               <Link
                 href={stageHref(stage.slug)}
                 transitionTypes={["nav-forward"]}
-                className={`mt-10 inline-flex w-fit items-center gap-1.5 whitespace-nowrap rounded-full px-12 py-4 text-sm font-bold uppercase text-white underline underline-offset-4 md:mt-[18%] md:min-w-[57%] md:justify-center md:px-[8%] md:text-[clamp(0.8rem,1.05vw,1.15rem)] ${accents[index].button}`}
+                className={`mt-10 inline-flex w-fit items-center gap-1.5 whitespace-nowrap rounded-full px-12 py-4 text-sm font-bold uppercase text-white md:mt-[18%] md:min-w-[57%] md:justify-center md:px-[8%] md:text-[clamp(0.8rem,1.05vw,1.15rem)] ${accents[index].button}`}
               >
                 Ver etapa <FiArrowRight aria-hidden />
               </Link>
