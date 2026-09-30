@@ -1,4 +1,8 @@
 @import "tailwindcss";
+/* Explicit sources: Turbopack on Windows misses edits to already-scanned
+   files with automatic detection, leaving new classes out of the CSS. */
+@source "../../components";
+@source "../../app";
 @plugin "daisyui" {
   themes: influmedia-web --default;
 }

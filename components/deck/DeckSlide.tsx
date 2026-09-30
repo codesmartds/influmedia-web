@@ -13,6 +13,9 @@ const accentClasses: Record<DeckSection["color"], { bar: string; text: string }>
   accent: { bar: "bg-accent", text: "text-accent" },
 };
 
+const sectionLinkClass =
+  "mt-8 inline-flex items-center gap-2 self-start text-[clamp(0.85rem,1.05vw,1.1rem)] font-bold uppercase underline underline-offset-4";
+
 export function DeckSlide({ sections }: { sections: DeckSection[] }) {
   return (
     <section className="relative isolate flex min-h-dvh w-full flex-col overflow-hidden bg-base-100 px-6 py-10 md:px-[4%] md:py-[3.5%]">
@@ -68,12 +71,19 @@ export function DeckSlide({ sections }: { sections: DeckSection[] }) {
                 {section.title}
               </h2>
               <p className="mt-1 text-[clamp(0.85rem,1vw,1.1rem)] text-[#5b5870]">{section.content}</p>
-              <button
-                type="button"
-                className={`mt-8 inline-flex cursor-pointer items-center gap-2 self-start text-[clamp(0.85rem,1.05vw,1.1rem)] font-bold uppercase underline underline-offset-4 ${accent.text}`}
-              >
-                Ver sección <FiArrowRight aria-hidden />
-              </button>
+              {section.route ? (
+                <Link
+                  href={section.route}
+                  transitionTypes={["nav-forward"]}
+                  className={`${sectionLinkClass} ${accent.text}`}
+                >
+                  Ver sección <FiArrowRight aria-hidden />
+                </Link>
+              ) : (
+                <span className={`${sectionLinkClass} ${accent.text} opacity-50`}>
+                  Ver sección <FiArrowRight aria-hidden />
+                </span>
+              )}
             </article>
           );
         })}
