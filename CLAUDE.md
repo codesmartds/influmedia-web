@@ -9,3 +9,4 @@ Every slide (page) follows the same transition rules:
 - **Shared header:** slides 3–20 live under `app/(site)/(common-header)/`, which renders the menu/logo header. Don't repeat it inside the slide.
 - **Background circles:** not implemented yet; leave them out of new slides.
 - **Shared slide pieces** (`components/slides/`): `SlideIntro` (eyebrow/title/subtitle, inside a `<Reveal>`), `SlideFooter`, `AssetPlaceholder` for images not yet provided, and `CountUp` for animated figures.
+- **Stage pages:** `/sistema/<stage>` and its sub-pages live under `app/(site)/(common-header)/sistema/(items)/`, whose layout adds the stage navbar (`StageNav`) and footer. Pages there render content only. Stage order and slugs come from `components/system/stages.ts`.

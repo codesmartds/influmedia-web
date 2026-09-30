@@ -1,13 +1,16 @@
+import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 import { TbCaretRightFilled } from "react-icons/tb";
 import { SlideFooter } from "@/components/slides/SlideFooter";
 import { SlideIntro } from "@/components/slides/SlideIntro";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
+import { stageHref, stages } from "./stages";
 
-const stages = [
-  { title: "Planning", text: "Definir, validar y proyectar", number: "text-primary", button: "bg-primary" },
-  { title: "Onway", text: "Coordinar, monitorear y alertar", number: "text-secondary", button: "bg-secondary" },
-  { title: "Postbuy", text: "Reportar, interpretar y aprender", number: "text-accent", button: "bg-accent" },
+// Per-stage accent, in the same order as `stages`.
+const accents = [
+  { number: "text-primary", button: "bg-primary" },
+  { number: "text-secondary", button: "bg-secondary" },
+  { number: "text-accent", button: "bg-accent" },
 ];
 
 export function SystemSlide() {
@@ -34,7 +37,7 @@ export function SystemSlide() {
               key={stage.title}
               className="relative flex flex-col rounded-2xl border-2 border-white/70 bg-white px-8 pb-8 pt-10 text-[#14102b] md:px-[8%] md:pb-[7%] md:pt-[10%]"
             >
-              <span className={`text-2xl font-bold md:text-[clamp(1.2rem,1.65vw,1.8rem)] ${stage.number}`}>
+              <span className={`text-2xl font-bold md:text-[clamp(1.2rem,1.65vw,1.8rem)] ${accents[index].number}`}>
                 {String(index + 1).padStart(2, "0")}
               </span>
               <h2 className="mt-6 text-4xl font-bold uppercase md:mt-[9%] md:text-[clamp(2rem,2.6vw,2.9rem)]">
@@ -43,11 +46,13 @@ export function SystemSlide() {
               <p className="mt-8 max-w-[18ch] text-xl leading-snug text-[#5b5870] md:mt-[14%] md:text-[clamp(1.1rem,1.75vw,1.9rem)]">
                 {stage.text}
               </p>
-              <span
-                className={`mt-10 inline-flex w-fit items-center gap-1.5 whitespace-nowrap rounded-full px-12 py-4 text-sm font-bold uppercase text-white underline underline-offset-4 md:mt-[18%] md:min-w-[57%] md:justify-center md:px-[8%] md:text-[clamp(0.8rem,1.05vw,1.15rem)] ${stage.button}`}
+              <Link
+                href={stageHref(stage.slug)}
+                transitionTypes={["nav-forward"]}
+                className={`mt-10 inline-flex w-fit items-center gap-1.5 whitespace-nowrap rounded-full px-12 py-4 text-sm font-bold uppercase text-white underline underline-offset-4 md:mt-[18%] md:min-w-[57%] md:justify-center md:px-[8%] md:text-[clamp(0.8rem,1.05vw,1.15rem)] ${accents[index].button}`}
               >
                 Ver etapa <FiArrowRight aria-hidden />
-              </span>
+              </Link>
 
               {/* Arrow to the next stage */}
               {index < stages.length - 1 && (
