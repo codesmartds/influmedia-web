@@ -504,6 +504,10 @@ export interface Brand {
     | {
         name: string;
         image: string | Media;
+        /**
+         * Para filtrar las marcas en /clientes.
+         */
+        industry?: ('fmcg' | 'beauty' | 'retail' | 'entertainment') | null;
         id?: string | null;
       }[]
     | null;
@@ -579,6 +583,7 @@ export interface BrandsSelect<T extends boolean = true> {
     | {
         name?: T;
         image?: T;
+        industry?: T;
         id?: T;
       };
   updatedAt?: T;

@@ -1,3 +1,4 @@
+import { revalidatePath } from "next/cache";
 import type { GlobalConfig } from "payload";
 
 export const Brands: GlobalConfig = {
@@ -8,6 +9,13 @@ export const Brands: GlobalConfig = {
   },
   admin: {
     group: "Contenido",
+  },
+  hooks: {
+    afterChange: [
+      ({ req }) => {
+        if (!req.context.skipRevalidate) revalidatePath("/clientes");
+      },
+    ],
   },
   fields: [
     {
@@ -34,6 +42,18 @@ export const Brands: GlobalConfig = {
           type: "upload",
           relationTo: "media",
           required: true,
+        },
+        {
+          name: "industry",
+          label: "Industria",
+          type: "select",
+          options: [
+            { label: "FMCG", value: "fmcg" },
+            { label: "Beauty", value: "beauty" },
+            { label: "Retail", value: "retail" },
+            { label: "Entertainment", value: "entertainment" },
+          ],
+          admin: { description: "Para filtrar las marcas en /clientes." },
         },
       ],
     },
