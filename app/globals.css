@@ -1,2 +1,57 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  themes: influmedia-web --default;
+}
+
+@plugin "daisyui/theme" {
+  name: "influmedia-web";
+  default: true;
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* Brand violet: MENÚ / CONTACTO buttons, primary pills */
+  --color-primary: #6c3af0;
+  --color-primary-content: #ffffff;
+  /* Cyan: eyebrows, "EXPLORAR DECK", DATA pill */
+  --color-secondary: #55d6ff;
+  --color-secondary-content: #0f0b24;
+  /* Pink: PEOPLE pill, Postbuy accents */
+  --color-accent: #f4a6d0;
+  --color-accent-content: #0f0b24;
+  /* Deep purple surfaces (decorative blobs) */
+  --color-neutral: #2a1f5c;
+  --color-neutral-content: #ffffff;
+
+  /* Page background, cards, borders */
+  --color-base-100: #0f0b24;
+  --color-base-200: #161030;
+  --color-base-300: #2a2350;
+  --color-base-content: #ffffff;
+
+  --color-info: #4aa8ff;
+  --color-success: #6ee0b0;
+  --color-warning: #ffb86b;
+  --color-error: #ff5c7a;
+
+  --radius-selector: 2rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+}
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+
+  /* Muted body copy (subtitles, card descriptions) */
+  --color-muted: #b8b3cc;
+
+  /* Talent category accents (Exclusive Creators section) */
+  --color-cat-lifestyle: #6c4ef0;
+  --color-cat-comedy: #e0a82e;
+  --color-cat-fashion: #d946a8;
+  --color-cat-entertainment: #e83e8c;
+  --color-cat-fitness: #34d399;
+  --color-cat-sport: #f0922e;
+  --color-cat-gaming: #14b8b8;
+  --color-cat-tech: #4f8ff7;
+  --color-cat-automotive: #ef4f4f;
+}
