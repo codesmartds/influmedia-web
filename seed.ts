@@ -5,6 +5,32 @@ import config from "@payload-config";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const TALENT_PHOTOS = path.join(dirname, "seed-source", "talents");
+const BRAND_LOGOS = path.join(dirname, "seed-source", "brands");
+
+// Client logos, in the order of the deck's "Algunos clientes" grid. The deck
+// shows the industry filters but doesn't say which brand is which, so these
+// industries are an editorial call; banking and ride-hailing fit none of the
+// four and stay unassigned (visible only with no filter active).
+const brands: { name: string; logo: string; industry?: "fmcg" | "beauty" | "retail" | "entertainment" }[] = [
+  { name: "Gallo", logo: "gallo.png", industry: "fmcg" },
+  { name: "Bam", logo: "bam.png" },
+  { name: "Doritos", logo: "doritos.png", industry: "fmcg" },
+  { name: "McDonald's", logo: "mcdonalds.png", industry: "retail" },
+  { name: "Vuse", logo: "vuse.png", industry: "fmcg" },
+  { name: "Eucerin", logo: "eucerin.png", industry: "beauty" },
+  { name: "L'Oréal", logo: "loreal.png", industry: "beauty" },
+  { name: "Garnier", logo: "garnier.png", industry: "beauty" },
+  { name: "Maybelline", logo: "maybelline.png", industry: "beauty" },
+  { name: "Shell", logo: "shell.png", industry: "retail" },
+  { name: "Grupo Promerica", logo: "grupo-promerica.png" },
+  { name: "inDrive", logo: "indrive.png" },
+  { name: "Miniso", logo: "miniso.png", industry: "retail" },
+  { name: "Chokis", logo: "chokis.png", industry: "fmcg" },
+  { name: "Temu", logo: "temu.png", industry: "retail" },
+  { name: "Quezalteca", logo: "quezalteca.png", industry: "fmcg" },
+  { name: "Lay's", logo: "lays.png", industry: "fmcg" },
+  { name: "Dorada Ice", logo: "dorada-ice.png", industry: "fmcg" },
+];
 
 // Array order is display order on /deck.
 const deckSections = [
@@ -118,6 +144,14 @@ export async function seed() {
   });
   await payload.updateGlobal({ slug: "contact-info", data: contactInfo, ...SKIP_REVALIDATE });
 
+  // Brands global: the list is replaced as a whole, in deck order.
+  const brandItems = [];
+  for (const brand of brands) {
+    const image = await upsertPhoto(payload, path.join(BRAND_LOGOS, brand.logo), `Logo de ${brand.name}`);
+    brandItems.push({ name: brand.name, image, industry: brand.industry ?? null });
+  }
+  await payload.updateGlobal({ slug: "brands", data: { items: brandItems }, ...SKIP_REVALIDATE });
+
   // Categories, matched by name.
   const categoryIds = new Map<CategoryName, string>();
   for (const { name, color } of categories) {
@@ -148,7 +182,7 @@ export async function seed() {
   }
 
   payload.logger.info(
-    `Seeded deck (${deckSections.length} sections), contact info, ${categories.length} categories and ${talents.length} talents`,
+    `Seeded deck (${deckSections.length} sections), contact info, ${brands.length} brands, ${categories.length} categories and ${talents.length} talents`,
   );
 }
 
