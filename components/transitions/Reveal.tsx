@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "motion/react";
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
 // Content entrance for every slide. The page-level <ViewTransition> moves
 // the slide as a whole; Reveal then brings its content in piece by piece.
@@ -21,6 +21,8 @@ const effects = {
   scale: { opacity: 0, scale: 0.94 },
   left: { opacity: 0, x: -32 },
   right: { opacity: 0, x: 32 },
+  // Lines and bars that grow from their start; pair with origin-left.
+  draw: { opacity: 0, scaleX: 0 },
 } as const;
 
 export type RevealEffect = keyof typeof effects;
@@ -69,13 +71,15 @@ export function Reveal({ children, className, as = "div", delay = 0.3, stagger =
 type RevealItemProps = {
   children?: ReactNode;
   className?: string;
+  /** For data-driven values Tailwind can't express, e.g. a computed `left`. */
+  style?: CSSProperties;
   as?: Tag;
   effect?: RevealEffect;
   /** Also stagger this item's own RevealItem children, after it enters. */
   stagger?: number | boolean;
 };
 
-export function RevealItem({ children, className, as = "div", effect = "up", stagger }: RevealItemProps) {
+export function RevealItem({ children, className, style, as = "div", effect = "up", stagger }: RevealItemProps) {
   const Component = tags[as];
   const staggerChildren = stagger === true ? 0.08 : stagger || undefined;
 
@@ -86,8 +90,9 @@ export function RevealItem({ children, className, as = "div", effect = "up", sta
       x: 0,
       y: 0,
       scale: 1,
+      scaleX: 1,
       transition: {
-        duration: 0.55,
+        duration: effect === "draw" ? 0.9 : 0.55,
         ease: EASE,
         ...(staggerChildren && { delayChildren: 0.15, staggerChildren }),
       },
@@ -95,7 +100,7 @@ export function RevealItem({ children, className, as = "div", effect = "up", sta
   };
 
   return (
-    <Component className={className} variants={variants}>
+    <Component className={className} style={style} variants={variants}>
       {children}
     </Component>
   );
