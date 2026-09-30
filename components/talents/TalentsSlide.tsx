@@ -74,7 +74,7 @@ export function TalentsSlide({ talents }: { talents: Talent[] }) {
                     alt={talent.name}
                     fill
                     sizes="(max-width: 768px) 50vw, 22vw"
-                    className="object-cover transition-transform duration-500 hover:scale-105"
+                    className="object-cover object-top transition-transform duration-500 hover:scale-105"
                   />
                 </RevealItem>
               ))}
