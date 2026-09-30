@@ -7,6 +7,7 @@ import { buildConfig } from "payload";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Talents } from "./collections/Talents";
+import { Categories } from "./collections/Categories";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -16,7 +17,7 @@ export default buildConfig({
     importMap: { baseDir: dirname },
   },
   editor: lexicalEditor(),
-  collections: [Users, Media, Talents],
+  collections: [Users, Media, Talents, Categories],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

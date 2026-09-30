@@ -70,16 +70,22 @@ export interface Config {
     users: User;
     media: Media;
     talents: Talent;
+    categories: Category;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    categories: {
+      talents: 'talents';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     talents: TalentsSelect<false> | TalentsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -188,16 +194,7 @@ export interface Media {
  */
 export interface Talent {
   id: string;
-  thumbnail: string | Media;
   name: string;
-  /**
-   * URL completa del perfil, ej. https://instagram.com/usuario
-   */
-  instagram?: string | null;
-  /**
-   * URL completa del perfil, ej. https://tiktok.com/@usuario
-   */
-  tiktok?: string | null;
   content?: {
     root: {
       type: string;
@@ -213,6 +210,40 @@ export interface Talent {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Si está desactivado, no aparece en el listado del sitio.
+   */
+  active?: boolean | null;
+  thumbnail: string | Media;
+  category?: (string | null) | Category;
+  /**
+   * URL completa del perfil, ej. https://instagram.com/usuario
+   */
+  instagram?: string | null;
+  /**
+   * URL completa del perfil, ej. https://tiktok.com/@usuario
+   */
+  tiktok?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: string;
+  name: string;
+  description?: string | null;
+  /**
+   * Color de acento de la categoría en el sitio.
+   */
+  color: string;
+  talents?: {
+    docs?: (string | Talent)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -251,6 +282,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'talents';
         value: string | Talent;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: string | Category;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -364,11 +399,25 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "talents_select".
  */
 export interface TalentsSelect<T extends boolean = true> {
-  thumbnail?: T;
   name?: T;
+  content?: T;
+  active?: T;
+  thumbnail?: T;
+  category?: T;
   instagram?: T;
   tiktok?: T;
-  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  name?: T;
+  description?: T;
+  color?: T;
+  talents?: T;
   updatedAt?: T;
   createdAt?: T;
 }
