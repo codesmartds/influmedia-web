@@ -13,7 +13,8 @@ export const ContactInfo: GlobalConfig = {
   hooks: {
     afterChange: [
       ({ req }) => {
-        if (!req.context.skipRevalidate) revalidatePath("/contacto");
+        // Contact details render in the footer of every page.
+        if (!req.context.skipRevalidate) revalidatePath("/", "layout");
       },
     ],
   },
@@ -49,6 +50,17 @@ export const ContactInfo: GlobalConfig = {
       label: "TikTok",
       type: "text",
       admin: { description: "URL completa del perfil" },
+    },
+    {
+      name: "needs",
+      label: "Opciones de necesidad",
+      labels: { singular: "Opción", plural: "Opciones" },
+      type: "array",
+      admin: {
+        description: "Lo que el visitante puede elegir en el campo \"¿Qué necesitas?\" del formulario de contacto.",
+        components: { RowLabel: "@/components/admin/ArrayRowLabel#ArrayRowLabel" },
+      },
+      fields: [{ name: "name", label: "Opción", type: "text", required: true }],
     },
   ],
 };

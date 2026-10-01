@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 import type { Gallery, Media } from "@/payload-types";
-import { SlideFooter } from "@/components/slides/SlideFooter";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
 type GalleryItem = NonNullable<Gallery["items"]>[number];
@@ -16,15 +15,15 @@ export function WorkSlide({ items }: { items: GalleryItem[] }) {
     .filter((image): image is Media => Boolean(image?.url));
 
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[5.5%] md:pb-[2%]">
-      <Reveal className="mt-6 flex flex-1 flex-col md:-mt-[3%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[5.5%]">
+      <Reveal className="mt-6 flex flex-1 flex-col">
         <RevealItem
           as="p"
           className="text-sm font-bold uppercase text-secondary md:text-[clamp(0.9rem,1.45vw,1.55rem)]"
         >
           Trabajo en acción
         </RevealItem>
-        <RevealItem as="h1" className="mt-4 text-[clamp(2rem,3.3vw,3.6rem)] font-bold leading-[1.15] md:mt-[2.2%]">
+        <RevealItem as="h2" className="mt-4 text-[clamp(2rem,3.3vw,3.6rem)] font-bold leading-[1.15] md:mt-[2.2%]">
           La data no reemplaza el contenido.
           <br />
           Lo hace más intencional.
@@ -73,7 +72,7 @@ export function WorkSlide({ items }: { items: GalleryItem[] }) {
 
         <RevealItem className="mt-8 md:mt-[3%]">
           <Link
-            href="/talentos"
+            href="/nosotros#talentos"
             transitionTypes={["nav-forward"]}
             className="btn btn-primary h-auto w-full rounded-lg border-0 px-10 py-4 text-base font-bold uppercase shadow-lg sm:w-auto sm:min-w-[20vw] md:text-[clamp(0.9rem,1.1vw,1.2rem)]"
           >
@@ -81,8 +80,6 @@ export function WorkSlide({ items }: { items: GalleryItem[] }) {
           </Link>
         </RevealItem>
       </Reveal>
-
-      <SlideFooter label="Lead the conversation" />
     </section>
   );
 }

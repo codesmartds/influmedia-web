@@ -16,18 +16,31 @@ export const Subscribers: CollectionConfig = {
     delete: ({ req }) => Boolean(req.user),
   },
   admin: {
-    group: "Contenido",
+    group: "Contacto",
     useAsTitle: "email",
-    defaultColumns: ["email", "source", "createdAt"],
+    defaultColumns: ["email", "firstName", "lastName", "birthday", "createdAt"],
   },
   defaultSort: "-createdAt",
   fields: [
     { name: "email", label: "Correo", type: "email", required: true, unique: true, index: true },
     {
+      type: "row",
+      fields: [
+        { name: "firstName", label: "Nombre", type: "text", required: true },
+        { name: "lastName", label: "Apellido", type: "text", required: true },
+      ],
+    },
+    {
+      name: "birthday",
+      label: "Cumpleaños",
+      type: "date",
+      admin: { date: { pickerAppearance: "dayOnly", displayFormat: "d MMM" } },
+    },
+    {
       name: "source",
       label: "Origen",
       type: "text",
-      defaultValue: "deck",
+      defaultValue: "home",
       admin: { readOnly: true, description: "Desde dónde se suscribió." },
     },
   ],

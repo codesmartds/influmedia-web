@@ -3,7 +3,6 @@ import Link from "next/link";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { FiArrowLeft } from "react-icons/fi";
 import type { Media, Post } from "@/payload-types";
-import { SlideFooter } from "@/components/slides/SlideFooter";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import { formatPostDate } from "./format";
 import { PostCard } from "./PostCard";
@@ -22,8 +21,8 @@ export function PostDetail({ post, more }: { post: Post; more: Post[] }) {
   const cover = typeof post.cover === "object" ? (post.cover as Media) : null;
 
   return (
-    <article className="relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[4.7%] md:pb-[2%]">
-      <Reveal className="mt-6 grid items-center gap-10 md:mt-[2%] md:grid-cols-[1fr_42%] md:gap-[6%]">
+    <article className="relative mx-auto flex w-full max-w-[96rem] flex-col px-6 pb-20 pt-10 md:px-[4.7%] md:pt-16">
+      <Reveal className="grid items-center gap-10 md:grid-cols-[1fr_42%] md:gap-[6%]">
         <RevealItem effect="fade" stagger className="flex flex-col">
           <RevealItem>
             <Link
@@ -72,7 +71,6 @@ export function PostDetail({ post, more }: { post: Post; more: Post[] }) {
         </section>
       )}
 
-      <SlideFooter label="Blog" />
     </article>
   );
 }

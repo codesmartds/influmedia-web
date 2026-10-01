@@ -12,8 +12,8 @@ const checks = [
 
 export function PlanningSlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 md:px-[4.7%]">
-      <Reveal className="mt-6 grid flex-1 gap-10 md:-mt-[3.2%] md:grid-cols-[1fr_38.5%] md:gap-[8%] md:pr-[2.5%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.7%]">
+      <Reveal className="mt-6 grid flex-1 gap-10 md:grid-cols-[1fr_38.5%] md:gap-[8%] md:pr-[2.5%]">
         <RevealItem effect="fade" stagger className="flex flex-col">
           <RevealItem
             as="p"
@@ -22,7 +22,7 @@ export function PlanningSlide() {
             Planning
           </RevealItem>
           <RevealItem
-            as="h1"
+            as="h2"
             className="mt-8 text-[clamp(2.8rem,3.9vw,4.3rem)] font-bold uppercase leading-none md:mt-[13%]"
           >
             Planning

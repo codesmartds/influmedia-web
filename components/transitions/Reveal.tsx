@@ -3,10 +3,11 @@
 import { motion, useReducedMotion, type Variants } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
 
-// Content entrance for every slide. The page-level <ViewTransition> moves
-// the slide as a whole; Reveal then brings its content in piece by piece.
+// Content entrance for every section. The page-level <ViewTransition> moves
+// the page as a whole; Reveal brings each block in piece by piece as it
+// scrolls into view.
 //
-//   <Reveal>                       root: starts the sequence on mount
+//   <Reveal>                       root: starts the sequence when in view
 //     <RevealItem>…</RevealItem>   each child enters in order
 //     <RevealItem stagger>         an item can also stagger its own children
 //       <RevealItem effect="scale">…</RevealItem>
@@ -47,13 +48,13 @@ type RevealProps = {
   children: ReactNode;
   className?: string;
   as?: Tag;
-  /** Seconds before the first item; lets the page transition settle. */
+  /** Seconds before the first item, once the block is in view. */
   delay?: number;
   /** Seconds between consecutive items. */
   stagger?: number;
 };
 
-export function Reveal({ children, className, as = "div", delay = 0.3, stagger = 0.08 }: RevealProps) {
+export function Reveal({ children, className, as = "div", delay = 0.1, stagger = 0.08 }: RevealProps) {
   const reduce = useReducedMotion();
   const Component = tags[as];
 
@@ -61,7 +62,10 @@ export function Reveal({ children, className, as = "div", delay = 0.3, stagger =
     <Component
       className={className}
       initial={reduce ? false : "hidden"}
-      animate="show"
+      // Starts when the block scrolls into view (once), so sections further
+      // down a landing page animate when reached, not on page load.
+      whileInView="show"
+      viewport={{ once: true, amount: 0.15 }}
       variants={{ show: { transition: { delayChildren: delay, staggerChildren: stagger } } }}
     >
       {children}

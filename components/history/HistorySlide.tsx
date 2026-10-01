@@ -27,22 +27,22 @@ const milestones = [
 
 export function HistorySlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[5.2%] md:pb-[2%]">
-      <Reveal className="mt-6 flex flex-1 flex-col md:-mt-[3.2%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[5.2%]">
+      <Reveal className="mt-6 flex flex-col">
         <RevealItem
           as="p"
           className="text-sm font-bold uppercase text-primary md:text-[clamp(0.9rem,1.45vw,1.55rem)]"
         >
           Nuestra historia
         </RevealItem>
-        <RevealItem as="h1" className="mt-4 text-[clamp(2rem,3.3vw,3.6rem)] font-bold leading-tight md:mt-[3.5%]">
+        <RevealItem as="h2" className="mt-4 text-[clamp(2rem,3.3vw,3.6rem)] font-bold leading-tight md:mt-[3.5%]">
           De Guatemala a la región.
         </RevealItem>
         <RevealItem as="p" className="mt-2 text-[clamp(1rem,1.75vw,1.9rem)] text-base-content/85">
           Crecimos rápido, manteniendo el foco en conectar marcas con audiencias afines.
         </RevealItem>
 
-        <div className="mt-6 grid flex-1 gap-10 md:mt-[1.3%] md:grid-cols-[1fr_22%] md:gap-[4%]">
+        <div className="mt-6 grid gap-10 md:mt-[1.3%] md:grid-cols-[1fr_22%] md:gap-[4%]">
           {/* Map card: map image, stage panels and trackbar */}
           <RevealItem
             effect="fade"
@@ -122,12 +122,6 @@ export function HistorySlide() {
           </RevealItem>
         </div>
       </Reveal>
-
-      <footer className="mt-10 md:mt-[2.5%]">
-        <p className="text-xs font-bold uppercase text-white/50 md:text-[clamp(0.7rem,0.85vw,0.95rem)]">
-          Influmedia • Our story
-        </p>
-      </footer>
     </section>
   );
 }

@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     posts: Post;
     subscribers: Subscriber;
+    'contact-submissions': ContactSubmission;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -100,13 +102,11 @@ export interface Config {
   };
   fallbackLocale: null;
   globals: {
-    deck: Deck;
     brands: Brand;
     gallery: Gallery;
     'contact-info': ContactInfo;
   };
   globalsSelect: {
-    deck: DeckSelect<false> | DeckSelect<true>;
     brands: BrandsSelect<false> | BrandsSelect<true>;
     gallery: GallerySelect<false> | GallerySelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
@@ -308,10 +308,32 @@ export interface Post {
 export interface Subscriber {
   id: string;
   email: string;
+  firstName: string;
+  lastName: string;
+  birthday?: string | null;
   /**
    * Desde dónde se suscribió.
    */
   source?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Proyectos enviados desde el formulario de /contacto.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: string;
+  name: string;
+  company: string;
+  email: string;
+  website?: string | null;
+  budget: 'under-1k' | '1k-5k' | '5k-15k' | 'over-15k' | 'unknown';
+  need: string;
+  message: string;
+  status?: ('new' | 'contacted' | 'closed') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -362,6 +384,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'subscribers';
         value: string | Subscriber;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: string | ContactSubmission;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -519,7 +545,26 @@ export interface PostsSelect<T extends boolean = true> {
  */
 export interface SubscribersSelect<T extends boolean = true> {
   email?: T;
+  firstName?: T;
+  lastName?: T;
+  birthday?: T;
   source?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  company?: T;
+  email?: T;
+  website?: T;
+  budget?: T;
+  need?: T;
+  message?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -564,30 +609,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
- * Secciones que aparecen en /deck. El orden de la lista es el orden en pantalla.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "deck".
- */
-export interface Deck {
-  id: string;
-  sections?:
-    | {
-        title: string;
-        color: 'primary' | 'secondary' | 'accent';
-        content: string;
-        action: 'link' | 'newsletter';
-        /**
-         * Ruta interna de la sección, ej. /quienes-somos
-         */
-        route?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "brands".
  */
@@ -598,7 +619,7 @@ export interface Brand {
         name: string;
         image: string | Media;
         /**
-         * Para filtrar las marcas en /clientes.
+         * Para filtrar las marcas en /influencer-marketing.
          */
         industry?: ('fmcg' | 'beauty' | 'retail' | 'entertainment') | null;
         id?: string | null;
@@ -645,27 +666,17 @@ export interface ContactInfo {
    * URL completa del perfil
    */
   tiktok?: string | null;
+  /**
+   * Lo que el visitante puede elegir en el campo "¿Qué necesitas?" del formulario de contacto.
+   */
+  needs?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt?: string | null;
   createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "deck_select".
- */
-export interface DeckSelect<T extends boolean = true> {
-  sections?:
-    | T
-    | {
-        title?: T;
-        color?: T;
-        content?: T;
-        action?: T;
-        route?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -709,6 +720,12 @@ export interface ContactInfoSelect<T extends boolean = true> {
   instagram?: T;
   linkedin?: T;
   tiktok?: T;
+  needs?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

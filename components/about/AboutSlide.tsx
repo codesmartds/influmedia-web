@@ -8,8 +8,8 @@ const pillars = [
 
 export function AboutSlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[4.4%] md:pb-[2%]">
-      <Reveal className="mt-6 grid flex-1 items-center gap-10 md:-mt-[2%] md:grid-cols-[1fr_39%] md:gap-[8%] md:pr-[3%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.4%]">
+      <Reveal className="mt-6 grid items-center gap-10 md:grid-cols-[1fr_39%] md:gap-[8%] md:pr-[3%]">
         <RevealItem effect="fade" stagger className="self-start md:pt-[5%]">
           <RevealItem
             as="p"
@@ -17,7 +17,7 @@ export function AboutSlide() {
           >
             Quiénes somos
           </RevealItem>
-          <RevealItem as="h1" className="mt-4 text-[clamp(2.5rem,3.8vw,4.2rem)] font-bold leading-[1.2]">
+          <RevealItem as="h2" className="mt-4 text-[clamp(2.5rem,3.8vw,4.2rem)] font-bold leading-[1.2]">
             Powered by
             <br />
             people.
@@ -84,12 +84,6 @@ export function AboutSlide() {
           </RevealItem>
         </RevealItem>
       </Reveal>
-
-      <footer className="mt-10 md:mt-[1%]">
-        <p className="text-xs font-bold uppercase text-white/50 md:text-[clamp(0.7rem,0.85vw,0.95rem)]">
-          Influmedia • Lead the conversation
-        </p>
-      </footer>
     </section>
   );
 }

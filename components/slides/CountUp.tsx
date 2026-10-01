@@ -1,6 +1,6 @@
 "use client";
 
-import { animate, useReducedMotion } from "motion/react";
+import { animate, useInView, useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
 
 type CountUpProps = {
@@ -13,15 +13,16 @@ type CountUpProps = {
   delay?: number;
 };
 
-// Counts from 0 to `value` once on mount. Server-renders the final value,
+// Counts from 0 to `value` once, when it scrolls into view. Server-renders the final value,
 // so the number is correct without JavaScript and for reduced motion.
 export function CountUp({ value, prefix = "", suffix = "", decimals = 0, delay = 0.5 }: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const reduce = useReducedMotion();
+  const inView = useInView(ref, { once: true, amount: 0.5 });
 
   useEffect(() => {
     const node = ref.current;
-    if (!node || reduce) return;
+    if (!node || reduce || !inView) return;
     const controls = animate(0, value, {
       delay,
       duration: 1.4,
@@ -31,7 +32,7 @@ export function CountUp({ value, prefix = "", suffix = "", decimals = 0, delay =
       },
     });
     return () => controls.stop();
-  }, [value, prefix, suffix, decimals, delay, reduce]);
+  }, [value, prefix, suffix, decimals, delay, reduce, inView]);
 
   return (
     <span ref={ref}>

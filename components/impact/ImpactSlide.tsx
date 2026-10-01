@@ -1,8 +1,5 @@
-import Link from "next/link";
-import { FiArrowRight } from "react-icons/fi";
 import { AssetPlaceholder } from "@/components/slides/AssetPlaceholder";
 import { CountUp } from "@/components/slides/CountUp";
-import { SlideFooter } from "@/components/slides/SlideFooter";
 import { SlideIntro } from "@/components/slides/SlideIntro";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
@@ -15,8 +12,8 @@ const stats = [
 
 export function ImpactSlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[4.5%] md:pb-[2%]">
-      <Reveal className="mt-6 flex flex-1 flex-col md:-mt-[3%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.5%]">
+      <Reveal className="mt-6 flex flex-1 flex-col">
         <SlideIntro
           eyebrow="Impacto"
           tone="primary"
@@ -38,7 +35,7 @@ export function ImpactSlide() {
             >
               <span aria-hidden className={`block h-1.5 w-12 rounded-full ${stat.bar}`} />
               <span className="mt-4 text-4xl font-bold md:text-[clamp(2rem,3vw,3.3rem)]">
-                <CountUp value={stat.value} prefix="+" suffix={stat.suffix} delay={0.8 + index * 0.1} />
+                <CountUp value={stat.value} prefix="+" suffix={stat.suffix} delay={0.2 + index * 0.1} />
               </span>
               <span className="mt-2 text-sm font-bold uppercase text-base-content/70 md:text-[clamp(0.8rem,1.15vw,1.25rem)] lg:whitespace-nowrap">
                 {stat.label}
@@ -72,16 +69,6 @@ export function ImpactSlide() {
           </RevealItem>
         </div>
       </Reveal>
-
-      <SlideFooter label="Impact">
-        <Link
-          href="/clientes"
-          transitionTypes={["nav-forward"]}
-          className="inline-flex items-center gap-1 text-sm font-bold uppercase text-info underline underline-offset-4 md:text-[clamp(0.8rem,1vw,1.1rem)]"
-        >
-          Clientes <FiArrowRight aria-hidden />
-        </Link>
-      </SlideFooter>
     </section>
   );
 }

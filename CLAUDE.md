@@ -1,13 +1,14 @@
 @AGENTS.md
 
-## Slide conventions
+## Site conventions
 
-Every slide (page) follows the same transition rules:
+The site is a traditional landing site (it began as a full-screen slide deck; old slide routes redirect in `next.config.ts`).
 
-- **Page transition:** wrap the page in `<PageTransition>` (`components/transitions/PageTransition.tsx`). Links between slides pass `transitionTypes={["nav-forward"]}` or `["nav-back"]`.
-- **Content entrance:** the slide's content enters with `<Reveal>` / `<RevealItem>` (`components/transitions/Reveal.tsx`), never ad-hoc Motion code. One `<Reveal>` root per content block; each heading, paragraph, card and list item is a `<RevealItem>`. Containers that group items use `effect="fade"` with `stagger`, so only the leaves move.
-- **Shared header:** slides 3–20 live under `app/(site)/(common-header)/`, which renders the menu/logo header. Don't repeat it inside the slide.
-- **Background circles:** not implemented yet; leave them out of new slides.
-- **Shared slide pieces** (`components/slides/`): `SlideIntro` (eyebrow/title/subtitle, inside a `<Reveal>`), `SlideFooter`, `AssetPlaceholder` for images not yet provided, and `CountUp` for animated figures.
-- **Stage pages:** `/sistema/<stage>` and its sub-pages live under `app/(site)/(common-header)/sistema/(items)/`, whose layout adds the stage navbar (`StageNav`) and footer. Pages there render content only. Stage order and slugs come from `components/system/stages.ts`; prev/next come from the ordered route list in `components/system/sequence.ts` (`SequenceNav` reads the URL, pages never declare their neighbours). A new stage page is added to that list.
+- **Pages:** `app/(site)/(landing)/` holds every page; its layout renders `SiteHeader` (sticky nav, items in `components/layout/nav.ts`) and `SiteFooter`. Pages: `/` (hero, about teaser, newsletter bar), `/nosotros`, `/influencer-marketing`, `/galeria`, `/contacto`, `/blog`.
+- **Page structure:** each inner page opens with `PageHeader` (its single `h1`), then content blocks wrapped in `LandingSection` (spacing, max width, an `id` anchor). Section components use `h2`, never `h1`. Close with `ContactCta` where it fits.
+- **Page transition:** wrap the page in `<PageTransition>` (`components/transitions/PageTransition.tsx`). The header is pinned during transitions.
+- **Content entrance:** `<Reveal>` / `<RevealItem>` (`components/transitions/Reveal.tsx`), never ad-hoc Motion code. Reveal starts when the block scrolls into view. Containers that group items use `effect="fade"` with `stagger`, so only the leaves move.
+- **Shared pieces** (`components/slides/`): `SlideIntro` (eyebrow/title/subtitle as `h2`, inside a `<Reveal>`), `AssetPlaceholder` for images not yet provided, and `CountUp` for figures (counts when in view).
+- **Forms:** server actions with the Local API; target collections (`subscribers`, `contact-submissions`) are admin-only in the public API. Actions echo submitted values so inputs refill after an error.
 - **Dashboards** (`components/dashboards/`): Recharts plus `useLiveData`, which simulates a real-time feed (pauses in hidden tabs and under reduced motion). Initial data must be deterministic, with no `Math.random()` at module level, or hydration fails. One y-axis per chart: measures on different scales go in separate charts sharing an x-axis.
+- **Background circles:** not implemented yet; leave them out.

@@ -1,6 +1,5 @@
 import type { IconType } from "react-icons";
 import { TbBulb, TbSquareChevronRight, TbTargetArrow, TbUsersGroup } from "react-icons/tb";
-import { SlideFooter } from "@/components/slides/SlideFooter";
 import { SlideIntro } from "@/components/slides/SlideIntro";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
@@ -37,8 +36,8 @@ const services: { title: string; text: string; Icon: IconType; number: string; b
 
 export function ServicesSlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[4.7%] md:pb-[2%]">
-      <Reveal className="mt-6 flex flex-1 flex-col md:-mt-[3.2%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.7%]">
+      <Reveal className="mt-6 flex flex-1 flex-col">
         <SlideIntro
           eyebrow="Qué hacemos"
           title="Convertimos influencia en conexión."
@@ -75,8 +74,6 @@ export function ServicesSlide() {
           ))}
         </RevealItem>
       </Reveal>
-
-      <SlideFooter label="Lead the conversation" />
     </section>
   );
 }

@@ -9,13 +9,13 @@ const deliverables = [
 
 export function PostbuySlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 md:px-[4.9%]">
-      <Reveal className="mt-6 grid flex-1 gap-10 md:-mt-[2.9%] md:grid-cols-[1fr_38.5%] md:gap-[10%] md:pr-[2.5%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.9%]">
+      <Reveal className="mt-6 grid flex-1 gap-10 md:grid-cols-[1fr_38.5%] md:gap-[10%] md:pr-[2.5%]">
         <RevealItem effect="fade" stagger className="flex flex-col">
           <RevealItem as="p" className="text-sm font-bold uppercase text-secondary md:text-[clamp(0.9rem,1.45vw,1.55rem)]">
             Postbuy
           </RevealItem>
-          <RevealItem as="h1" className="mt-8 text-[clamp(2.8rem,3.9vw,4.3rem)] font-bold uppercase leading-none md:mt-[15%]">
+          <RevealItem as="h2" className="mt-8 text-[clamp(2.8rem,3.9vw,4.3rem)] font-bold uppercase leading-none md:mt-[15%]">
             Postbuy
           </RevealItem>
           <RevealItem

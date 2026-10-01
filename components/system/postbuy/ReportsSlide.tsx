@@ -23,8 +23,8 @@ const metrics: {
 
 export function ReportsSlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 md:px-[4.6%]">
-      <Reveal className="mt-6 flex flex-1 flex-col md:-mt-[2.6%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.6%]">
+      <Reveal className="mt-6 flex flex-1 flex-col">
         <SlideIntro
           eyebrow="Postbuy / Reportes"
           tone="primary"
@@ -52,7 +52,7 @@ export function ReportsSlide() {
                     <span className="font-bold text-[#6c3af0]">{name}</span>
                   </span>
                   <span className="mt-1 text-3xl font-bold tabular-nums md:text-[clamp(1.6rem,2.6vw,2.8rem)]">
-                    <CountUp value={value} decimals={decimals} prefix={prefix} suffix={suffix} delay={0.9 + index * 0.1} />
+                    <CountUp value={value} decimals={decimals} prefix={prefix} suffix={suffix} delay={0.2 + index * 0.1} />
                   </span>
                   <span className="mt-1 text-xs text-[#6b6880] md:text-[clamp(0.65rem,0.8vw,0.9rem)]">{label}</span>
                 </RevealItem>

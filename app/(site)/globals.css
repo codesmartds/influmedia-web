@@ -40,6 +40,12 @@
   --radius-selector: 2rem;
   --radius-field: 0.5rem;
   --radius-box: 1rem;
+
+  /* Border width for inputs, selects and outlined buttons; without it
+     DaisyUI draws them borderless. */
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
 }
 
 @theme {
@@ -141,4 +147,16 @@
     opacity: 0;
     transform: translateY(-4px);
   }
+}
+
+/* The sticky site header stays still while page content transitions. */
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
 }

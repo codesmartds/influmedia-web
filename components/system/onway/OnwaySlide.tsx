@@ -8,13 +8,13 @@ const steps = [
 
 export function OnwaySlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 md:px-[4.4%]">
-      <Reveal className="mt-6 grid flex-1 gap-10 md:-mt-[3.2%] md:grid-cols-[1fr_44%] md:gap-[7%] md:pr-[10%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.4%]">
+      <Reveal className="mt-6 grid flex-1 gap-10 md:grid-cols-[1fr_44%] md:gap-[7%] md:pr-[10%]">
         <RevealItem effect="fade" stagger className="flex flex-col">
           <RevealItem as="p" className="text-sm font-bold uppercase text-secondary md:text-[clamp(0.9rem,1.45vw,1.55rem)]">
             Onway
           </RevealItem>
-          <RevealItem as="h1" className="mt-8 text-[clamp(2.8rem,3.9vw,4.3rem)] font-bold uppercase leading-none md:mt-[15%]">
+          <RevealItem as="h2" className="mt-8 text-[clamp(2.8rem,3.9vw,4.3rem)] font-bold uppercase leading-none md:mt-[15%]">
             Onway
           </RevealItem>
           <RevealItem as="p" className="mt-8 text-lg leading-snug text-base-content/85 md:mt-[7%] md:text-[clamp(1rem,1.75vw,1.9rem)]">

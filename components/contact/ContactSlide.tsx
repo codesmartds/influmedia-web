@@ -1,11 +1,8 @@
-import Link from "next/link";
 import type { IconType } from "react-icons";
 import { FaInstagram, FaLinkedinIn, FaTiktok } from "react-icons/fa";
 import type { ContactInfo } from "@/payload-types";
-import { BrandLogo } from "@/components/brand/BrandLogo";
-import { SlideFooter } from "@/components/slides/SlideFooter";
-import { SharedElement } from "@/components/transitions/PageTransition";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
+import { ContactForm } from "./ContactForm";
 import { phoneLink } from "./phone";
 
 type SocialKey = "instagram" | "tiktok" | "linkedin";
@@ -16,57 +13,39 @@ const socials: { key: SocialKey; label: string; Icon: IconType; className: strin
   { key: "linkedin", label: "LinkedIn", Icon: FaLinkedinIn, className: "bg-[#0a66c2]" },
 ];
 
-const linkClass = "text-xl font-medium text-info underline underline-offset-4 md:text-[clamp(1.1rem,1.75vw,1.9rem)]";
+const linkClass = "text-xl font-medium text-info underline underline-offset-4";
 
 export function ContactSlide({ contact }: { contact: ContactInfo }) {
+  const needs = (contact.needs ?? []).map((n) => n.name);
   const phone = contact.phone ? phoneLink(contact.phone) : null;
   const phoneIsExternal = phone?.href.startsWith("http");
   // Only networks with a URL in the admin are shown.
   const links = socials.flatMap((social) => (contact[social.key] ? [{ ...social, href: contact[social.key]! }] : []));
 
   return (
-    <div className="flex min-h-dvh flex-col bg-base-100">
-      {/* Own header: logo on the left, menu on the right */}
-      <header className="flex items-start justify-between gap-6 px-6 pt-8 md:px-[4%] md:pt-[2.2%]">
-        <SharedElement name="brand-logo">
-          <Link href="/" transitionTypes={["nav-back"]} aria-label="Influmedia, ir a la portada">
-            <BrandLogo priority className="w-[max(9rem,14vw)] md:mt-[2%]" />
-          </Link>
-        </SharedElement>
-        <Link
-          href="/deck"
-          transitionTypes={["nav-back"]}
-          className="btn btn-primary h-auto min-w-[8rem] rounded-md border-0 px-10 py-3 text-xs font-bold uppercase shadow-lg md:mr-[12.5%] md:min-w-[8%]"
-        >
-          Menú
-        </Link>
-      </header>
-
-      <main className="flex flex-1 flex-col px-6 pb-8 md:px-[5.3%] md:pb-[2%]">
-        <Reveal className="mt-10 grid flex-1 items-center gap-10 md:-mt-[4%] md:grid-cols-[1fr_37%] md:gap-[8%] md:pr-[1%]">
+    <section className="mx-auto w-full max-w-[96rem] px-6 pb-20 pt-16 md:px-[4.7%] md:pt-24">
+        <Reveal className="grid items-start gap-12 lg:grid-cols-[1fr_37%] lg:gap-[6%]">
           <RevealItem effect="fade" stagger className="flex flex-col">
-            <RevealItem as="h1" className="text-[clamp(2.2rem,3.6vw,4rem)] font-bold uppercase leading-[1.15]">
-              Let’s lead
-              <br />
-              the conversation.
+            <RevealItem as="h1" className="max-w-[18ch] text-[clamp(2.4rem,4.4vw,4.8rem)] font-bold leading-[1.05]">
+              Nos encantaría conocer tu proyecto.
             </RevealItem>
             <RevealItem
               as="p"
-              className="mt-8 max-w-[42ch] text-lg leading-snug text-base-content/85 md:mt-[11%] md:text-[clamp(1rem,1.75vw,1.9rem)]"
+              className="mt-6 max-w-[48ch] text-lg leading-snug text-base-content/85 md:text-xl"
             >
               Hagamos campañas que se sientan humanas, operen con control y terminen en insights.
             </RevealItem>
-            <RevealItem
-              effect="fade"
-              className="mt-12 hidden h-[4.5rem] w-[13.5rem] bg-[radial-gradient(circle,rgba(255,255,255,0.18)_1.5px,transparent_1.6px)] bg-[length:1.5rem_1.5rem] md:mt-[20%] md:block"
-            />
+            <RevealItem className="mt-10">
+              <ContactForm needs={needs} />
+            </RevealItem>
           </RevealItem>
 
           <RevealItem
             as="section"
             effect="right"
             stagger={0.08}
-            className="flex flex-col rounded-3xl border border-base-300 bg-base-200 px-8 py-10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] md:px-[8%] md:py-[11%]"
+            // Stays in view next to the form on large screens.
+            className="flex flex-col rounded-3xl border border-base-300 bg-base-200 px-8 py-10 shadow-[0_10px_30px_rgba(0,0,0,0.35)] md:px-10 md:py-12 lg:sticky lg:top-28"
           >
             <RevealItem as="p" className="text-lg font-bold uppercase text-secondary md:text-[clamp(1rem,1.5vw,1.6rem)]">
               #WeAreInflumedia
@@ -129,8 +108,6 @@ export function ContactSlide({ contact }: { contact: ContactInfo }) {
           </RevealItem>
         </Reveal>
 
-        <SlideFooter label="Lead the conversation" />
-      </main>
-    </div>
+    </section>
   );
 }

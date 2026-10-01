@@ -10,8 +10,8 @@ const checks = [
 
 export function CommandSlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 md:px-[4.8%]">
-      <Reveal className="mt-6 flex flex-1 flex-col md:-mt-[3.4%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.8%]">
+      <Reveal className="mt-6 flex flex-1 flex-col">
         <SlideIntro
           eyebrow="Onway / Command center"
           tone="primary"

@@ -8,7 +8,7 @@ type SlideIntroProps = {
   tone?: "primary" | "secondary";
 };
 
-// Eyebrow + title + subtitle that opens slides 3–20. Render inside a <Reveal>.
+// Eyebrow + title + subtitle that opens a section. Render inside a <Reveal>.
 export function SlideIntro({ eyebrow, title, subtitle, tone = "secondary" }: SlideIntroProps) {
   return (
     <>
@@ -20,7 +20,7 @@ export function SlideIntro({ eyebrow, title, subtitle, tone = "secondary" }: Sli
       >
         {eyebrow}
       </RevealItem>
-      <RevealItem as="h1" className="mt-4 text-[clamp(2rem,3.3vw,3.6rem)] font-bold leading-tight md:mt-[3.5%]">
+      <RevealItem as="h2" className="mt-4 text-[clamp(2rem,3.3vw,3.6rem)] font-bold leading-tight md:mt-[3.5%]">
         {title}
       </RevealItem>
       {subtitle && (

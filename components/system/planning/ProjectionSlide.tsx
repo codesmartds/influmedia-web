@@ -12,8 +12,8 @@ const projections = [
 
 export function ProjectionSlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 md:px-[4.5%]">
-      <Reveal className="mt-6 flex flex-1 flex-col md:-mt-[2.6%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.5%]">
+      <Reveal className="mt-6 flex flex-1 flex-col">
         <SlideIntro
           eyebrow="Planning / Proyección"
           title="Proyectamos antes de activar."
@@ -34,7 +34,7 @@ export function ProjectionSlide() {
             >
               <span aria-hidden className={`block h-1.5 w-14 ${item.bar}`} />
               <span className="mt-8 text-4xl font-bold md:mt-[20%] md:text-[clamp(2rem,3vw,3.3rem)]">
-                <CountUp value={item.value} decimals={item.decimals} suffix={item.suffix} delay={0.8 + index * 0.1} />
+                <CountUp value={item.value} decimals={item.decimals} suffix={item.suffix} delay={0.2 + index * 0.1} />
               </span>
               <span className="mt-auto pt-6 text-sm font-bold uppercase leading-tight text-base-content/70 md:text-[clamp(0.85rem,1.3vw,1.4rem)]">
                 {item.label}

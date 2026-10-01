@@ -13,7 +13,7 @@ export const Brands: GlobalConfig = {
   hooks: {
     afterChange: [
       ({ req }) => {
-        if (!req.context.skipRevalidate) revalidatePath("/clientes");
+        if (!req.context.skipRevalidate) revalidatePath("/influencer-marketing");
       },
     ],
   },
@@ -53,7 +53,7 @@ export const Brands: GlobalConfig = {
             { label: "Retail", value: "retail" },
             { label: "Entertainment", value: "entertainment" },
           ],
-          admin: { description: "Para filtrar las marcas en /clientes." },
+          admin: { description: "Para filtrar las marcas en /influencer-marketing." },
         },
       ],
     },

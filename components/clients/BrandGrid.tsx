@@ -40,7 +40,7 @@ export function BrandGrid({ brands }: { brands: BrandItem[] }) {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.25, ease: EASE } }}
                   // Staggered delay only for the first entrance; filter changes react immediately.
-                  transition={{ duration: 0.45, ease: EASE, delay: filtered ? 0 : 0.45 + index * 0.04 }}
+                  transition={{ duration: 0.45, ease: EASE, delay: filtered ? 0 : index * 0.04 }}
                   className="relative aspect-[1.7] overflow-hidden rounded-2xl border-2 border-white/60 bg-white shadow-[0_6px_16px_rgba(0,0,0,0.35)]"
                 >
                   {image?.url ? (
@@ -69,8 +69,9 @@ export function BrandGrid({ brands }: { brands: BrandItem[] }) {
       <motion.div
         className="mt-8 flex flex-wrap gap-3 md:mt-auto md:gap-[1.2%] md:px-[0.7%] md:pt-[3%]"
         initial={reduce ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: EASE, delay: 0.9 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.45, ease: EASE, delay: 0.4 }}
         role="group"
         aria-label="Filtrar por industria"
       >

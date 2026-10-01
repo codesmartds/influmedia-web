@@ -1,6 +1,5 @@
 import type { IconType } from "react-icons";
 import { TbBulb, TbChartBar, TbUsersGroup } from "react-icons/tb";
-import { SlideFooter } from "@/components/slides/SlideFooter";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
 const pillars: { label: string; Icon: IconType; className: string }[] = [
@@ -11,8 +10,8 @@ const pillars: { label: string; Icon: IconType; className: string }[] = [
 
 export function ApproachSlide() {
   return (
-    <section className="relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[4.7%] md:pb-[2%]">
-      <Reveal className="mt-6 flex flex-1 flex-col md:-mt-[2.8%]">
+    <section className="relative flex w-full flex-col px-6 md:px-[4.7%]">
+      <Reveal className="mt-6 flex flex-1 flex-col">
         <RevealItem
           as="p"
           className="text-sm font-bold uppercase text-secondary md:text-[clamp(0.9rem,1.45vw,1.55rem)]"
@@ -20,7 +19,7 @@ export function ApproachSlide() {
           Nuestro enfoque
         </RevealItem>
         <RevealItem
-          as="h1"
+          as="h2"
           className="mt-6 text-[clamp(2rem,3.4vw,3.7rem)] font-bold leading-[1.22] md:mt-[4.5%]"
         >
           El influencer marketing
@@ -63,8 +62,6 @@ export function ApproachSlide() {
           className="mt-8 hidden h-[4.5rem] w-[10.5rem] bg-[radial-gradient(circle,rgba(255,255,255,0.18)_1.5px,transparent_1.6px)] bg-[length:1.5rem_1.5rem] md:block"
         />
       </Reveal>
-
-      <SlideFooter label="Lead the conversation" />
     </section>
   );
 }

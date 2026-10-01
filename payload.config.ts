@@ -10,10 +10,10 @@ import { Talents } from "./collections/Talents";
 import { Categories } from "./collections/Categories";
 import { Posts } from "./collections/Posts";
 import { Subscribers } from "./collections/Subscribers";
+import { ContactSubmissions } from "./collections/ContactSubmissions";
 import { Brands } from "./globals/Brands";
 import { Gallery } from "./globals/Gallery";
 import { ContactInfo } from "./globals/ContactInfo";
-import { Deck } from "./globals/Deck";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -33,8 +33,8 @@ export default buildConfig({
     },
   },
   editor: lexicalEditor(),
-  collections: [Users, Media, Talents, Categories, Posts, Subscribers],
-  globals: [Deck, Brands, Gallery, ContactInfo],
+  collections: [Users, Media, Talents, Categories, Posts, Subscribers, ContactSubmissions],
+  globals: [Brands, Gallery, ContactInfo],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

@@ -13,7 +13,7 @@ export const Gallery: GlobalConfig = {
   hooks: {
     afterChange: [
       ({ req }) => {
-        if (!req.context.skipRevalidate) revalidatePath("/trabajo");
+        if (!req.context.skipRevalidate) revalidatePath("/galeria");
       },
     ],
   },

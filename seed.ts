@@ -34,20 +34,6 @@ const brands: { name: string; logo: string; industry?: "fmcg" | "beauty" | "reta
   { name: "Dorada Ice", logo: "dorada-ice.png", industry: "fmcg" },
 ];
 
-// Array order is display order on /deck.
-const deckSections = [
-  { title: "Quiénes somos", content: "Powered by people.", color: "primary", route: "/quienes-somos" },
-  { title: "Nuestra historia", content: "De Guatemala a la región.", color: "secondary", route: "/historia" },
-  { title: "Qué hacemos", content: "Estrategia, contenido y comunidad.", color: "accent", route: "/que-hacemos" },
-  { title: "Impacto + clientes", content: "Escala, operación y marcas.", color: "secondary", route: "/impacto" },
-  { title: "Por qué Influmedia", content: "Menos fricción. Más control.", color: "primary", route: "/por-que-influmedia" },
-  { title: "Nuestro enfoque", content: "Fit, afinidad y medición.", color: "accent", route: "/enfoque" },
-  { title: "Nuestro sistema", content: "Planning · Onway · Postbuy.", color: "primary", route: "/sistema" },
-  { title: "Trabajo en acción", content: "Creators + campañas reales.", color: "secondary", route: "/trabajo" },
-  { title: "Blog", content: "Lo que estamos conversando.", color: "accent", route: "/blog" },
-  { title: "Newsletter", content: "Ideas y tendencias en tu correo.", color: "primary", action: "newsletter" },
-] as const;
-
 // Social links from the deck's closing slide (tracking params removed; the
 // LinkedIn link in the deck pointed at the admin dashboard, this is the
 // public company page).
@@ -55,6 +41,18 @@ const contactInfo = {
   instagram: "https://www.instagram.com/influmediaca",
   tiktok: "https://www.tiktok.com/@influmediagt",
   linkedin: "https://www.linkedin.com/company/73252936/",
+  // Options for the contact form's "¿Qué necesitas?" field. The site map asks
+  // for eight but doesn't list them; these are a proposal, editable in the admin.
+  needs: [
+    "Campaña con influencers",
+    "Estrategia de marca",
+    "Producción de contenido",
+    "Talento exclusivo",
+    "Eventos y activaciones",
+    "Monitoreo de campaña",
+    "Reportes e insights",
+    "Otro",
+  ].map((name) => ({ name })),
 };
 
 // Categories from "Exclusive Creators 2026", with each one's accent color.
@@ -285,11 +283,6 @@ export async function seed() {
   const payload = await getPayload({ config });
 
   // Globals are upserted, not created: a global always exists.
-  await payload.updateGlobal({
-    slug: "deck",
-    data: { sections: deckSections.map((section) => ({ action: "link" as const, ...section })) },
-    ...SKIP_REVALIDATE,
-  });
   await payload.updateGlobal({ slug: "contact-info", data: contactInfo, ...SKIP_REVALIDATE });
 
   // Brands global: the list is replaced as a whole, in deck order.
@@ -359,7 +352,7 @@ export async function seed() {
   }
 
   payload.logger.info(
-    `Seeded deck (${deckSections.length} sections), contact info, ${brands.length} brands, ${galleryTalents.length} gallery photos, ${posts.length} posts, ${categories.length} categories and ${talents.length} talents`,
+    `Seeded contact info, ${brands.length} brands, ${galleryTalents.length} gallery photos, ${posts.length} posts, ${categories.length} categories and ${talents.length} talents`,
   );
 }
 

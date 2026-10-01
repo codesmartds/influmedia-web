@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { Anton, Montserrat } from "next/font/google";
 import type { Media, Talent } from "@/payload-types";
-import { SlideFooter } from "@/components/slides/SlideFooter";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
 // This slide comes from the "Exclusive Creators" deck, which uses its own
@@ -26,13 +25,13 @@ export function TalentsSlide({ talents }: { talents: Talent[] }) {
 
   return (
     <section className={`relative flex w-full flex-1 flex-col px-6 pb-8 md:px-[5.4%] md:pb-[2%] ${body.className}`}>
-      <Reveal className="mt-6 grid flex-1 items-center gap-10 md:-mt-[3.4%] md:grid-cols-[1fr_44%] md:gap-[4%]">
+      <Reveal className="mt-6 grid flex-1 items-center gap-10 md:grid-cols-[1fr_44%] md:gap-[4%]">
         <RevealItem effect="fade" stagger className="flex flex-col">
           <RevealItem as="p" className="text-sm font-bold uppercase text-[#d9667a] md:text-[clamp(0.85rem,1.2vw,1.3rem)]">
             #WeAreInflumedia
           </RevealItem>
           <RevealItem
-            as="h1"
+            as="h2"
             className={`mt-8 text-[clamp(3.2rem,5.6vw,6.2rem)] uppercase leading-[1.15] tracking-tight md:mt-[12%] ${display.className}`}
           >
             Talentos
@@ -82,8 +81,6 @@ export function TalentsSlide({ talents }: { talents: Talent[] }) {
           )}
         </RevealItem>
       </Reveal>
-
-      <SlideFooter label="Exclusive creators" />
     </section>
   );
 }
