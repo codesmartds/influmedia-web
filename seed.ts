@@ -2,6 +2,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { getPayload, type Payload } from "payload";
 import config from "@payload-config";
+import { slugify } from "./lib/slug";
+import type { Post } from "./payload-types";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const TALENT_PHOTOS = path.join(dirname, "seed-source", "talents");
@@ -42,6 +44,7 @@ const deckSections = [
   { title: "Nuestro enfoque", content: "Fit, afinidad y medición.", color: "accent", route: "/enfoque" },
   { title: "Nuestro sistema", content: "Planning · Onway · Postbuy.", color: "primary", route: "/sistema" },
   { title: "Trabajo en acción", content: "Creators + campañas reales.", color: "secondary", route: "/trabajo" },
+  { title: "Blog", content: "Lo que estamos conversando.", color: "accent", route: "/blog" },
 ] as const;
 
 // Social links from the deck's closing slide (tracking params removed; the
@@ -127,6 +130,136 @@ const galleryTalents = [
   "Victoria Romanof",
 ];
 
+// Minimal Lexical JSON builders for seeded post bodies.
+const text = (value: string) => ({ type: "text", text: value, format: 0, detail: 0, mode: "normal", style: "", version: 1 });
+const block = (type: string, children: object[], extra: object = {}) => ({
+  type, children, direction: "ltr", format: "", indent: 0, version: 1, ...extra,
+});
+const p = (value: string) => block("paragraph", [text(value)], { textFormat: 0, textStyle: "" });
+const h2 = (value: string) => block("heading", [text(value)], { tag: "h2" });
+const quote = (value: string) => block("quote", [text(value)]);
+const list = (items: string[]) =>
+  block("list", items.map((item, i) => block("listitem", [text(item)], { value: i + 1 })), { listType: "bullet", start: 1, tag: "ul" });
+const doc = (...children: object[]) => ({ root: block("root", children) });
+
+// Test posts (placeholder copy, not client content). Covers reuse talent
+// photos; dates are spaced a week apart so the listing has a clear order.
+const posts: { title: string; excerpt: string; cover: string; body: object[] }[] = [
+  {
+    title: "Por qué el follower count ya no alcanza",
+    excerpt: "Seguidores no es igual a influencia. Qué medimos antes de recomendar un perfil.",
+    cover: "Sandy Méndez",
+    body: [
+      p("Durante años, el tamaño de la audiencia fue la métrica que decidía casi todo. Hoy sabemos que es apenas el punto de partida."),
+      h2("Lo que miramos en su lugar"),
+      list(["Autenticidad de la audiencia", "Afinidad con la categoría de la marca", "Consistencia del engagement en el tiempo"]),
+      quote("Una audiencia pequeña y afín mueve más conversación que una grande y dispersa."),
+      p("Por eso cada recomendación pasa primero por un análisis de perfil."),
+    ],
+  },
+  {
+    title: "Cinco señales de una audiencia inflada",
+    excerpt: "Cómo detectamos seguidores comprados y actividad sospechosa antes de activar.",
+    cover: "Javier del Cid",
+    body: [
+      p("La prevención de fraude empieza antes de firmar. Estas son las señales que revisamos en cada perfil."),
+      list(["Picos de seguidores sin contenido que los explique", "Comentarios genéricos repetidos", "Ubicaciones que no coinciden con el mercado", "Engagement muy por debajo del promedio de su tamaño", "Cuentas recién creadas en la audiencia"]),
+      p("Ninguna señal sola es concluyente; el patrón sí lo es."),
+    ],
+  },
+  {
+    title: "Reels vs. carruseles: qué funcionó en 2026",
+    excerpt: "Lo que aprendimos de los formatos que más conversación generaron este año.",
+    cover: "MakeUp Chikys",
+    body: [
+      p("El formato no es un detalle de producción: cambia cómo la audiencia interactúa con la marca."),
+      h2("Reels para alcance"),
+      p("Los reels siguen siendo la mejor puerta de entrada a audiencias nuevas."),
+      h2("Carruseles para guardar"),
+      p("Los carruseles generan más guardados y comentarios largos: ideales para contenido de valor."),
+    ],
+  },
+  {
+    title: "Cómo proyectamos el ROI antes de activar",
+    excerpt: "Una proyección no es una promesa: es contexto para decidir mejor.",
+    cover: "Gyss Sierra",
+    body: [
+      p("Antes de cada campaña estimamos alcance, engagement y retorno a partir del histórico de cada perfil."),
+      quote("Proyección = contexto para decidir mejor, no promesa de resultado."),
+      p("Esa lectura permite ajustar el mix de talentos antes de invertir."),
+    ],
+  },
+  {
+    title: "El calendario también es estrategia",
+    excerpt: "Quién publica y cuándo puede cambiar el resultado de toda una campaña.",
+    cover: "Joshua Aldana",
+    body: [
+      p("Una buena idea mal calendarizada compite consigo misma. Ordenar las publicaciones es parte del diseño de la campaña."),
+      list(["Escalonar talentos para sostener la conversación", "Publicar en los horarios de mayor interacción", "Dejar espacio para reaccionar a lo que funciona"]),
+    ],
+  },
+  {
+    title: "Comedia: la categoría que más conversa",
+    excerpt: "Por qué el humor sigue siendo el formato con más comentarios y compartidos.",
+    cover: "El Primaso",
+    body: [
+      p("El humor baja las defensas de la audiencia y convierte un mensaje de marca en algo que la gente quiere compartir."),
+      p("La clave está en dejar que el creador cuente la historia a su manera."),
+    ],
+  },
+  {
+    title: "Del dato al insight: anatomía de un buen reporte",
+    excerpt: "Un PDF de métricas no cierra una campaña. Una lectura sí.",
+    cover: "Victoria Romanof",
+    body: [
+      p("Un reporte útil responde tres preguntas: qué pasó, qué aprendimos y qué sigue."),
+      h2("Más allá de las métricas"),
+      p("CPE, ROI, engagement y viewability importan, pero el valor está en interpretarlos juntos."),
+    ],
+  },
+  {
+    title: "Fitness y marcas: alianzas que duran",
+    excerpt: "Las categorías de hábitos premian la constancia más que el pico de una campaña.",
+    cover: "Katherine Portt",
+    body: [
+      p("En fitness, la credibilidad se construye con el tiempo. Las alianzas largas funcionan mejor que las activaciones aisladas."),
+    ],
+  },
+  {
+    title: "Gaming: audiencias que no se compran",
+    excerpt: "Una comunidad que detecta lo forzado al instante. Cómo entrar sin romperla.",
+    cover: "Norimm",
+    body: [
+      p("La audiencia gamer valora la autenticidad por encima de todo. Las marcas que entran con respeto a la comunidad son bienvenidas."),
+    ],
+  },
+  {
+    title: "Creative tech: la IA como herramienta creativa",
+    excerpt: "Cómo los creadores usan IA para producir más rápido sin perder su voz.",
+    cover: "Erick Alexander",
+    body: [
+      p("La IA acelera la producción, pero la voz del creador sigue siendo lo que conecta con la audiencia."),
+    ],
+  },
+  {
+    title: "Exclusividad por categoría, explicada",
+    excerpt: "Qué significa un convenio de exclusividad y por qué protege a la marca.",
+    cover: "Siloé Camacho",
+    body: [
+      p("Un talento exclusivo por categoría evita que la misma voz recomiende a dos competidores en la misma temporada."),
+    ],
+  },
+  {
+    title: "Lo que aprendimos de 800 campañas",
+    excerpt: "Patrones que se repiten en Centroamérica y el Caribe, campaña tras campaña.",
+    cover: "Fabiana Quiñones",
+    body: [
+      p("Después de más de 800 campañas en la región, algunos patrones se repiten sin importar la industria."),
+      list(["La afinidad le gana al alcance", "Medir desde el día uno cambia las decisiones", "Las comunidades se cuidan, no se compran"]),
+    ],
+  },
+];
+
 // Globals with a revalidation hook skip it when this is set: the script
 // runs outside Next's server, so there is no cache to revalidate.
 const SKIP_REVALIDATE = { context: { skipRevalidate: true } };
@@ -204,8 +337,28 @@ export async function seed() {
   }
   await payload.updateGlobal({ slug: "gallery", data: { items: galleryItems }, ...SKIP_REVALIDATE });
 
+  // Posts, matched by slug. Newest first: the first post is today's.
+  const day = 86_400_000;
+  for (const [index, post] of posts.entries()) {
+    const talent = talents.find((t) => t.name === post.cover)!;
+    const folder = categories.find((c) => c.name === talent.category)!.folder;
+    const slug = slugify(post.title);
+    const data = {
+      title: post.title,
+      slug,
+      excerpt: post.excerpt,
+      content: doc(...post.body) as Post["content"],
+      cover: await upsertPhoto(payload, path.join(TALENT_PHOTOS, folder, talent.photo), talent.name),
+      published: true,
+      publishedAt: new Date(Date.now() - index * 7 * day).toISOString(),
+    };
+    const found = await payload.find({ collection: "posts", where: { slug: { equals: slug } }, limit: 1 });
+    if (found.docs[0]) await payload.update({ collection: "posts", id: found.docs[0].id, data, ...SKIP_REVALIDATE });
+    else await payload.create({ collection: "posts", data, ...SKIP_REVALIDATE });
+  }
+
   payload.logger.info(
-    `Seeded deck (${deckSections.length} sections), contact info, ${brands.length} brands, ${galleryTalents.length} gallery photos, ${categories.length} categories and ${talents.length} talents`,
+    `Seeded deck (${deckSections.length} sections), contact info, ${brands.length} brands, ${galleryTalents.length} gallery photos, ${posts.length} posts, ${categories.length} categories and ${talents.length} talents`,
   );
 }
 

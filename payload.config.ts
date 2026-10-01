@@ -8,6 +8,7 @@ import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Talents } from "./collections/Talents";
 import { Categories } from "./collections/Categories";
+import { Posts } from "./collections/Posts";
 import { Brands } from "./globals/Brands";
 import { Gallery } from "./globals/Gallery";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -31,7 +32,7 @@ export default buildConfig({
     },
   },
   editor: lexicalEditor(),
-  collections: [Users, Media, Talents, Categories],
+  collections: [Users, Media, Talents, Categories, Posts],
   globals: [Deck, Brands, Gallery, ContactInfo],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
