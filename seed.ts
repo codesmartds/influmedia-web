@@ -45,6 +45,7 @@ const deckSections = [
   { title: "Nuestro sistema", content: "Planning · Onway · Postbuy.", color: "primary", route: "/sistema" },
   { title: "Trabajo en acción", content: "Creators + campañas reales.", color: "secondary", route: "/trabajo" },
   { title: "Blog", content: "Lo que estamos conversando.", color: "accent", route: "/blog" },
+  { title: "Newsletter", content: "Ideas y tendencias en tu correo.", color: "primary", action: "newsletter" },
 ] as const;
 
 // Social links from the deck's closing slide (tracking params removed; the
@@ -286,7 +287,7 @@ export async function seed() {
   // Globals are upserted, not created: a global always exists.
   await payload.updateGlobal({
     slug: "deck",
-    data: { sections: deckSections.map((section) => ({ ...section })) },
+    data: { sections: deckSections.map((section) => ({ action: "link" as const, ...section })) },
     ...SKIP_REVALIDATE,
   });
   await payload.updateGlobal({ slug: "contact-info", data: contactInfo, ...SKIP_REVALIDATE });

@@ -53,10 +53,24 @@ export const Deck: GlobalConfig = {
         },
         { name: "content", label: "Contenido", type: "text", required: true },
         {
+          name: "action",
+          label: "Acción",
+          type: "select",
+          required: true,
+          defaultValue: "link",
+          options: [
+            { label: "Ir a una ruta", value: "link" },
+            { label: "Abrir suscripción al newsletter", value: "newsletter" },
+          ],
+        },
+        {
           name: "route",
           label: "Ruta",
           type: "text",
-          admin: { description: "Ruta interna de la sección, ej. /quienes-somos" },
+          admin: {
+            description: "Ruta interna de la sección, ej. /quienes-somos",
+            condition: (_, siblingData) => siblingData?.action !== "newsletter",
+          },
         },
       ],
     },

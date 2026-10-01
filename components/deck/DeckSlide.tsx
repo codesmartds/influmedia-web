@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { NewsletterButton } from "@/components/newsletter/NewsletterButton";
 import { SharedElement } from "@/components/transitions/PageTransition";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import type { Deck } from "@/payload-types";
@@ -70,7 +71,11 @@ export function DeckSlide({ sections }: { sections: DeckSection[] }) {
                 {section.title}
               </h2>
               <p className="mt-1 text-[clamp(0.85rem,1vw,1.1rem)] text-[#5b5870]">{section.content}</p>
-              {section.route ? (
+              {section.action === "newsletter" ? (
+                <NewsletterButton className={`${sectionLinkClass} ${accent.text}`}>
+                  Suscribirme <FiArrowRight aria-hidden />
+                </NewsletterButton>
+              ) : section.route ? (
                 <Link
                   href={section.route}
                   transitionTypes={["nav-forward"]}

@@ -9,6 +9,7 @@ import { Media } from "./collections/Media";
 import { Talents } from "./collections/Talents";
 import { Categories } from "./collections/Categories";
 import { Posts } from "./collections/Posts";
+import { Subscribers } from "./collections/Subscribers";
 import { Brands } from "./globals/Brands";
 import { Gallery } from "./globals/Gallery";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -32,7 +33,7 @@ export default buildConfig({
     },
   },
   editor: lexicalEditor(),
-  collections: [Users, Media, Talents, Categories, Posts],
+  collections: [Users, Media, Talents, Categories, Posts, Subscribers],
   globals: [Deck, Brands, Gallery, ContactInfo],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
