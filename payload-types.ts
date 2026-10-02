@@ -405,8 +405,8 @@ export interface Post {
 export interface Subscriber {
   id: string;
   email: string;
-  firstName: string;
-  lastName: string;
+  firstName?: string | null;
+  lastName?: string | null;
   birthday?: string | null;
   /**
    * Desde dónde se suscribió.
@@ -846,6 +846,11 @@ export interface ContactInfo {
    * Número con código de país (+502 3033-8063) o enlace de WhatsApp (https://wa.me/50230338063).
    */
   phone?: string | null;
+  address?: string | null;
+  /**
+   * El src del iframe de Google Maps (Compartir › Insertar un mapa).
+   */
+  mapEmbedUrl?: string | null;
   /**
    * URL completa del perfil
    */
@@ -909,6 +914,8 @@ export interface GallerySelect<T extends boolean = true> {
 export interface ContactInfoSelect<T extends boolean = true> {
   email?: T;
   phone?: T;
+  address?: T;
+  mapEmbedUrl?: T;
   instagram?: T;
   linkedin?: T;
   tiktok?: T;

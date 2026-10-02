@@ -18,7 +18,7 @@ export const Subscribers: CollectionConfig = {
   admin: {
     group: "Contacto",
     useAsTitle: "email",
-    defaultColumns: ["email", "firstName", "lastName", "birthday", "createdAt"],
+    defaultColumns: ["email", "source", "createdAt"],
   },
   defaultSort: "-createdAt",
   fields: [
@@ -26,8 +26,8 @@ export const Subscribers: CollectionConfig = {
     {
       type: "row",
       fields: [
-        { name: "firstName", label: "Nombre", type: "text", required: true },
-        { name: "lastName", label: "Apellido", type: "text", required: true },
+        { name: "firstName", label: "Nombre", type: "text" },
+        { name: "lastName", label: "Apellido", type: "text" },
       ],
     },
     {

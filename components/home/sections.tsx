@@ -346,7 +346,7 @@ export function DualCta() {
         <RevealItem className="flex flex-col items-start gap-5 rounded-3xl bg-primary p-10 text-primary-content">
           <h2 className="text-3xl font-bold leading-tight">¿Tienes una marca?</h2>
           <p className="text-primary-content/85">Hablemos de tu próxima campaña.</p>
-          <Link href="/contacto" transitionTypes={["nav-forward"]} className="btn h-auto rounded-lg border-0 bg-white px-7 py-3.5 uppercase text-[#14102b] hover:bg-white/90">
+          <Link href="#contacto" className="btn h-auto rounded-lg border-0 bg-white px-7 py-3.5 uppercase text-[#14102b] hover:bg-white/90">
             Hablemos <FiArrowRight aria-hidden />
           </Link>
         </RevealItem>

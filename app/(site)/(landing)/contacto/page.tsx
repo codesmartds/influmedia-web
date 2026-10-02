@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { ContactSlide } from "@/components/contact/ContactSlide";
+import { ContactSection } from "@/components/contact/ContactSection";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
@@ -14,7 +14,7 @@ export default async function ContactPage() {
 
   return (
     <PageTransition>
-      <ContactSlide contact={contact} />
+      <ContactSection contact={contact} headingLevel="h1" />
     </PageTransition>
   );
 }

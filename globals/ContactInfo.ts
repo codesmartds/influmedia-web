@@ -33,6 +33,13 @@ export const ContactInfo: GlobalConfig = {
         },
       ],
     },
+    { name: "address", label: "Dirección", type: "textarea" },
+    {
+      name: "mapEmbedUrl",
+      label: "Mapa (URL de embed)",
+      type: "text",
+      admin: { description: "El src del iframe de Google Maps (Compartir › Insertar un mapa)." },
+    },
     {
       name: "instagram",
       label: "Instagram",

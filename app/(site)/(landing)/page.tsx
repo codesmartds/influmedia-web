@@ -1,6 +1,7 @@
 import { connection } from "next/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
+import { ContactSection } from "@/components/contact/ContactSection";
 import { HeroSlide } from "@/components/home/HeroSlide";
 import {
   BrandProblem,
@@ -31,12 +32,13 @@ function shuffle<T>(items: T[]): T[] {
 export default async function Home() {
   await connection(); // roster is shuffled per visit
   const payload = await getPayload({ config });
-  const [brands, talents, cases, testimonials, posts] = await Promise.all([
+  const [brands, talents, cases, testimonials, posts, contact] = await Promise.all([
     payload.findGlobal({ slug: "brands", depth: 1 }),
     payload.find({ collection: "talents", where: { active: { equals: true } }, depth: 1, limit: 100 }),
     payload.find({ collection: "case-studies", where: { featured: { equals: true }, published: { equals: true } }, limit: 3, depth: 1 }),
     payload.find({ collection: "testimonials", where: { active: { equals: true } }, limit: 6, depth: 1 }),
     payload.find({ collection: "posts", where: { published: { equals: true } }, sort: "-publishedAt", limit: 3, depth: 1 }),
+    payload.findGlobal({ slug: "contact-info" }),
   ]);
 
   return (
@@ -52,6 +54,7 @@ export default async function Home() {
       <Testimonials items={testimonials.docs} />
       <LatestPosts posts={posts.docs} />
       <DualCta />
+      <ContactSection contact={contact} />
       <NewsletterBar />
     </PageTransition>
   );

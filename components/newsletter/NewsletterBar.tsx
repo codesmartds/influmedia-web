@@ -4,72 +4,55 @@ import { useActionState } from "react";
 import { FiArrowRight, FiCheckCircle } from "react-icons/fi";
 import { subscribe, type SubscribeState } from "./actions";
 
-const initial: SubscribeState = {
-  status: "idle",
-  message: "",
-  errors: {},
-  values: { firstName: "", lastName: "", email: "", birthday: "" },
-};
+const initial: SubscribeState = { status: "idle", message: "", email: "" };
 
-const fields = [
-  { name: "firstName", label: "Nombre", type: "text", autoComplete: "given-name", required: true },
-  { name: "lastName", label: "Apellido", type: "text", autoComplete: "family-name", required: true },
-  { name: "email", label: "Correo electrónico", type: "email", autoComplete: "email", required: true },
-  { name: "birthday", label: "Cumpleaños (opcional)", type: "date", autoComplete: "bday", required: false },
-] as const;
-
-// Newsletter sign-up bar, shown on the home page above the footer.
+// Email-only newsletter banner, above the footer on the home page.
 export function NewsletterBar() {
   const [state, action, pending] = useActionState(subscribe, initial);
+  const error = state.status === "error";
 
   return (
     <section aria-labelledby="newsletter-title" className="mx-auto w-full max-w-[96rem] px-6 py-14 md:px-[4.7%]">
-      <div className="grid gap-8 rounded-3xl border border-base-300 bg-base-200 p-8 shadow-[0_10px_30px_rgba(0,0,0,0.35)] md:p-12 lg:grid-cols-[0.8fr_1.6fr] lg:items-center lg:gap-12">
+      <div className="flex flex-col gap-6 rounded-3xl bg-gradient-to-r from-primary to-[#8c5cff] p-8 text-primary-content md:p-10 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-sm font-bold uppercase text-secondary">Newsletter</p>
-          <h2 id="newsletter-title" className="mt-2 text-3xl font-bold leading-tight md:text-4xl">
+          <h2 id="newsletter-title" className="text-2xl font-bold md:text-3xl">
             ¡Sigamos creando juntos!
           </h2>
-          <p className="mt-3 text-base-content/75">Ideas, tendencias y aprendizajes de influencer marketing en tu correo.</p>
+          <p className="mt-1 text-primary-content/85">Ideas y tendencias de influencer marketing en tu correo.</p>
         </div>
 
         {state.status === "success" ? (
-          <p role="status" className="flex items-start gap-3 rounded-xl bg-success/15 p-5 text-lg text-success">
-            <FiCheckCircle aria-hidden className="mt-1 shrink-0 text-xl" />
+          <p role="status" className="flex items-center gap-2 font-bold">
+            <FiCheckCircle aria-hidden className="text-xl" />
             {state.message}
           </p>
         ) : (
-          <form action={action} noValidate className="grid gap-4 sm:grid-cols-2">
-            {fields.map((field) => {
-              const error = state.errors[field.name];
-              const id = `newsletter-${field.name}`;
-              return (
-                <div key={field.name} className="flex flex-col gap-1.5">
-                  <label htmlFor={id} className="text-sm font-bold">
-                    {field.label}
-                  </label>
-                  <input
-                    id={id}
-                    name={field.name}
-                    type={field.type}
-                    required={field.required}
-                    autoComplete={field.autoComplete}
-                    defaultValue={state.values[field.name]}
-                    aria-invalid={Boolean(error)}
-                    aria-describedby={error ? `${id}-error` : undefined}
-                    className="input w-full rounded-xl border-white/20 bg-base-100 [color-scheme:dark] focus:border-secondary aria-[invalid=true]:border-error"
-                  />
-                  {error && (
-                    <p id={`${id}-error`} className="text-sm text-error">
-                      {error}
-                    </p>
-                  )}
-                </div>
-              );
-            })}
-            <button type="submit" disabled={pending} className="btn btn-primary rounded-xl border-0 uppercase sm:col-span-2 sm:justify-self-start sm:px-10">
-              {pending ? "Suscribiendo…" : <>Suscribirme <FiArrowRight aria-hidden /></>}
-            </button>
+          <form action={action} noValidate className="w-full lg:max-w-md">
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <label htmlFor="newsletter-email" className="sr-only">
+                Correo electrónico
+              </label>
+              <input
+                id="newsletter-email"
+                name="email"
+                type="email"
+                required
+                autoComplete="email"
+                placeholder="tu@correo.com"
+                defaultValue={state.email}
+                aria-invalid={error}
+                aria-describedby={error ? "newsletter-error" : undefined}
+                className="input h-12 flex-1 rounded-xl border-white/40 bg-white/10 text-primary-content placeholder:text-primary-content/60 focus:border-white aria-[invalid=true]:border-[#ffd1da]"
+              />
+              <button type="submit" disabled={pending} className="btn h-12 rounded-xl border-0 bg-white px-6 uppercase text-[#14102b] hover:bg-white/90">
+                {pending ? "…" : <>Suscribirme <FiArrowRight aria-hidden /></>}
+              </button>
+            </div>
+            {error && (
+              <p id="newsletter-error" className="mt-2 text-sm font-bold text-[#ffd1da]">
+                {state.message}
+              </p>
+            )}
           </form>
         )}
       </div>
