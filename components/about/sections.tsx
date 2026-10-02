@@ -2,8 +2,8 @@ import Image from "next/image";
 import { FaLinkedinIn } from "react-icons/fa";
 import type { IconType } from "react-icons";
 import { TbChartBar, TbHeartHandshake, TbTargetArrow, TbUsersGroup } from "react-icons/tb";
-import type { Media, Team } from "@/payload-types";
-import { Heading } from "@/components/home/sections";
+import type { Category, Media, Talent, Team } from "@/payload-types";
+import { CtaLink, Heading } from "@/components/home/sections";
 import { CountUp } from "@/components/slides/CountUp";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import arcsMap from "@/public/images/quienes-somos/mapa-1.png";
@@ -201,6 +201,88 @@ export function Principles() {
               <p className="mt-2 leading-snug text-base-content/70">{text}</p>
             </RevealItem>
           ))}
+        </RevealItem>
+      </Reveal>
+    </section>
+  );
+}
+
+/* 7 · Talent roster: what representation means, categories and faces */
+const talentPoints = [
+  { title: "Gestión directa", text: "Negociación, contratos y calendario sin intermediarios." },
+  { title: "Exclusividad", text: "Convenios por categoría y marca." },
+  { title: "Roster activo", text: "Creadores en 9 categorías, listos para activar." },
+];
+
+export function TalentShowcase({ talents }: { talents: Talent[] }) {
+  const withPhoto = talents.filter((t) => t.thumbnail && typeof t.thumbnail === "object" && (t.thumbnail as Media).url);
+  // Category chips with how many creators each one has, largest first.
+  const counts = new Map<string, { category: Category; count: number }>();
+  for (const t of talents) {
+    if (!t.category || typeof t.category !== "object") continue;
+    const entry = counts.get(t.category.id) ?? { category: t.category, count: 0 };
+    entry.count += 1;
+    counts.set(t.category.id, entry);
+  }
+  const categories = [...counts.values()].sort((a, b) => b.count - a.count);
+
+  return (
+    <section className={`${wrap} py-20 md:py-28`}>
+      <Reveal>
+        <Heading eyebrow="Talentos exclusivos" title={`Representamos y gestionamos a +${Math.floor(talents.length / 10) * 10} creadores.`}>
+          Además de crear campañas, en Influmedia representamos talento: tú encuentras la voz correcta, ellos crean con
+          respaldo.
+        </Heading>
+
+        <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-4 md:grid-cols-3">
+          {talentPoints.map((p) => (
+            <RevealItem as="li" key={p.title} className="rounded-2xl border border-base-300 bg-base-200 p-6">
+              <h3 className="font-bold uppercase text-secondary">{p.title}</h3>
+              <p className="mt-1 text-base-content/75">{p.text}</p>
+            </RevealItem>
+          ))}
+        </RevealItem>
+
+        <RevealItem as="ul" effect="fade" stagger={0.04} className="mt-8 flex flex-wrap gap-2">
+          {categories.map(({ category, count }) => (
+            <RevealItem as="li" effect="scale" key={category.id} className="flex items-center gap-2 rounded-full border border-base-300 bg-base-200 px-4 py-2 text-sm">
+              <span aria-hidden className="size-2.5 rounded-full" style={{ background: category.color }} />
+              <span className="font-bold">{category.name}</span>
+              <span className="text-base-content/50">{count}</span>
+            </RevealItem>
+          ))}
+        </RevealItem>
+
+        <RevealItem as="ul" effect="fade" stagger={0.04} className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6">
+          {withPhoto.slice(0, 12).map((t) => {
+            const category = t.category && typeof t.category === "object" ? t.category : null;
+            return (
+              <RevealItem as="li" effect="scale" key={t.id} className="group relative aspect-[3/4] overflow-hidden rounded-xl">
+                <Image
+                  src={(t.thumbnail as Media).url!}
+                  alt={t.name}
+                  fill
+                  sizes="(max-width: 640px) 33vw, (max-width: 1024px) 25vw, 16vw"
+                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-3 pt-10">
+                  <p className="text-sm font-bold leading-tight">{t.name}</p>
+                  {category && (
+                    <p className="text-[0.65rem] font-bold uppercase" style={{ color: category.color }}>
+                      {category.name}
+                    </p>
+                  )}
+                </div>
+              </RevealItem>
+            );
+          })}
+        </RevealItem>
+
+        <RevealItem className="mt-10 flex flex-wrap gap-4">
+          <CtaLink href="/contacto">Quiero trabajar con este talento</CtaLink>
+          <CtaLink href="/creadores" variant="ghost">
+            Únete al roster
+          </CtaLink>
         </RevealItem>
       </Reveal>
     </section>

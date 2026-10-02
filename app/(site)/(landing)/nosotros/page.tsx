@@ -3,9 +3,8 @@ import { connection } from "next/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { Faq, institutionalFaqs } from "@/components/about/Faq";
-import { AboutHero, History, Manifesto, Presence, Principles, TeamGrid } from "@/components/about/sections";
+import { AboutHero, History, Manifesto, Presence, Principles, TalentShowcase, TeamGrid } from "@/components/about/sections";
 import { DualCta } from "@/components/home/sections";
-import { TalentsSlide } from "@/components/talents/TalentsSlide";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
@@ -46,9 +45,9 @@ export default async function AboutPage() {
         <TeamGrid members={team.docs} />
       </div>
       <Principles />
-      <section id="talentos" className="mx-auto w-full max-w-[96rem] scroll-mt-24 py-20 md:py-28">
-        <TalentsSlide talents={shuffle(talents.docs)} />
-      </section>
+      <div id="talentos" className="scroll-mt-24">
+        <TalentShowcase talents={shuffle(talents.docs)} />
+      </div>
       <section id="faq" className="mx-auto w-full max-w-[96rem] scroll-mt-24 py-20 md:py-28">
         <Faq items={institutionalFaqs} />
       </section>
