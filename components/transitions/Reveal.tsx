@@ -40,6 +40,7 @@ const tags = {
   span: motion.span,
   h1: motion.h1,
   h2: motion.h2,
+  h3: motion.h3,
 } as const;
 
 type Tag = keyof typeof tags;

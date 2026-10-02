@@ -1,3 +1,4 @@
+import { revalidateCollection } from "@/lib/revalidate";
 import type { CollectionConfig } from "payload";
 
 export const Talents: CollectionConfig = {
@@ -14,6 +15,7 @@ export const Talents: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["name", "category", "active", "updatedAt"],
   },
+  hooks: revalidateCollection,
   fields: [
     {
       name: "name",

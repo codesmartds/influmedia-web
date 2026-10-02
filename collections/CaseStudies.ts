@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateCollection } from "@/lib/revalidate";
 import type { CollectionConfig } from "payload";
 import { slugify } from "@/lib/slug";
 
@@ -26,12 +26,7 @@ export const CaseStudies: CollectionConfig = {
         return data;
       },
     ],
-    afterChange: [
-      ({ req }) => {
-        // Featured cases show on the home page.
-        if (!req.context.skipRevalidate) revalidatePath("/");
-      },
-    ],
+    ...revalidateCollection,
   },
   fields: [
     { name: "title", label: "Título", type: "text", required: true, admin: { description: "Ej. \"Lanzamiento de Flamin' Hot en Guatemala\"." } },

@@ -1,3 +1,4 @@
+import { revalidateCollection } from "@/lib/revalidate";
 import type { CollectionConfig } from "payload";
 
 export const Categories: CollectionConfig = {
@@ -14,6 +15,7 @@ export const Categories: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["name", "color", "updatedAt"],
   },
+  hooks: revalidateCollection,
   fields: [
     {
       name: "name",

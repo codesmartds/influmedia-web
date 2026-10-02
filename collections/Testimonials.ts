@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateCollection } from "@/lib/revalidate";
 import type { CollectionConfig } from "payload";
 
 export const Testimonials: CollectionConfig = {
@@ -16,13 +16,7 @@ export const Testimonials: CollectionConfig = {
     defaultColumns: ["author", "type", "company", "active", "updatedAt"],
     description: "Voces de marcas y de creadores. Solo testimonios reales y con permiso.",
   },
-  hooks: {
-    afterChange: [
-      ({ req }) => {
-        if (!req.context.skipRevalidate) revalidatePath("/");
-      },
-    ],
-  },
+  hooks: revalidateCollection,
   fields: [
     {
       name: "type",

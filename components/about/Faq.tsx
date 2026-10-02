@@ -63,7 +63,7 @@ export function Faq({ items, title = "Lo que suelen preguntarnos." }: { items: F
     <section className="relative flex w-full flex-col px-6 md:px-[4.7%]">
       <Reveal className="flex flex-col">
         <SlideIntro eyebrow="Preguntas frecuentes" title={title} />
-        <RevealItem as="div" effect="fade" stagger={0.06} className="mt-8 flex max-w-4xl flex-col gap-3">
+        <RevealItem as="div" effect="fade" stagger={0.06} className="mt-8 grid items-start gap-3 lg:grid-cols-2">
           {items.map((faq) => (
             <RevealItem key={faq.q}>
               <details className="group rounded-2xl border border-base-300 bg-base-200 open:border-primary/60">

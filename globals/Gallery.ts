@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateGlobal } from "@/lib/revalidate";
 import type { GlobalConfig } from "payload";
 
 export const Gallery: GlobalConfig = {
@@ -10,13 +10,7 @@ export const Gallery: GlobalConfig = {
   admin: {
     group: "Contenido",
   },
-  hooks: {
-    afterChange: [
-      ({ req }) => {
-        if (!req.context.skipRevalidate) revalidatePath("/galeria");
-      },
-    ],
-  },
+  hooks: revalidateGlobal,
   fields: [
     {
       name: "items",

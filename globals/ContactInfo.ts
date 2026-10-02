@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateGlobal } from "@/lib/revalidate";
 import type { GlobalConfig } from "payload";
 
 export const ContactInfo: GlobalConfig = {
@@ -10,14 +10,7 @@ export const ContactInfo: GlobalConfig = {
   admin: {
     group: "Configuración",
   },
-  hooks: {
-    afterChange: [
-      ({ req }) => {
-        // Contact details render in the footer of every page.
-        if (!req.context.skipRevalidate) revalidatePath("/", "layout");
-      },
-    ],
-  },
+  hooks: revalidateGlobal,
   fields: [
     {
       type: "row",

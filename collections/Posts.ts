@@ -1,4 +1,4 @@
-import { revalidatePath } from "next/cache";
+import { revalidateCollection } from "@/lib/revalidate";
 import type { CollectionConfig } from "payload";
 import { slugify } from "@/lib/slug";
 
@@ -25,13 +25,7 @@ export const Posts: CollectionConfig = {
         return data;
       },
     ],
-    afterChange: [
-      ({ doc, req }) => {
-        if (req.context.skipRevalidate) return;
-        revalidatePath("/blog");
-        revalidatePath(`/blog/${doc.slug}`);
-      },
-    ],
+    ...revalidateCollection,
   },
   fields: [
     { name: "title", label: "Título", type: "text", required: true },

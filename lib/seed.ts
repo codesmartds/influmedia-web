@@ -366,8 +366,8 @@ export async function seed() {
   for (const { name, color } of categories) {
     const found = await payload.find({ collection: "categories", where: { name: { equals: name } }, limit: 1 });
     const doc = found.docs[0]
-      ? await payload.update({ collection: "categories", id: found.docs[0].id, data: { color } })
-      : await payload.create({ collection: "categories", data: { name, color } });
+      ? await payload.update({ collection: "categories", id: found.docs[0].id, data: { color }, ...SKIP_REVALIDATE })
+      : await payload.create({ collection: "categories", data: { name, color }, ...SKIP_REVALIDATE });
     categoryIds.set(name, doc.id);
   }
 
@@ -386,8 +386,8 @@ export async function seed() {
       tiktok: talent.tiktok ? `https://www.tiktok.com/@${talent.tiktok}` : null,
     };
     const id = byName.get(nameKey(talent.name));
-    if (id) await payload.update({ collection: "talents", id, data });
-    else await payload.create({ collection: "talents", data });
+    if (id) await payload.update({ collection: "talents", id, data, ...SKIP_REVALIDATE });
+    else await payload.create({ collection: "talents", data, ...SKIP_REVALIDATE });
   }
 
   // Gallery global, replaced as a whole. Runs after talents so their photos exist.
