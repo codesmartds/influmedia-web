@@ -71,7 +71,7 @@ export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; 
       </nav>
 
       {/* Creator cards */}
-      <motion.ul layout className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
+      <motion.ul layout className="grid grid-cols-2 gap-5 sm:grid-cols-3 xl:grid-cols-4">
         <AnimatePresence mode="popLayout" initial={false}>
           {visible.map((t) => {
             const photo = photoOf(t);
@@ -89,26 +89,41 @@ export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; 
                   type="button"
                   onClick={() => open(t)}
                   aria-haspopup="dialog"
-                  className="group relative block aspect-[3/4] w-full cursor-pointer overflow-hidden rounded-2xl border-2 border-transparent text-left transition-colors focus-visible:outline-none"
+                  // Framed card in the site's card language; the category color
+                  // only appears as an accent and as the hover glow.
+                  className="group flex w-full cursor-pointer flex-col rounded-2xl border border-base-300 bg-base-200 p-2 text-left transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-1 hover:border-[var(--accent)] hover:shadow-[0_24px_48px_-24px_var(--accent)] focus-visible:border-[var(--accent)] focus-visible:outline-none"
                   style={{ ["--accent" as string]: category?.color ?? "#6c3cf0" }}
                 >
-                  {photo?.url && (
-                    <Image
-                      src={photo.url}
-                      alt=""
-                      fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1280px) 25vw, 18vw"
-                      className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                    />
-                  )}
-                  <span className="absolute inset-0 rounded-2xl border-2 border-transparent transition-colors group-hover:border-[var(--accent)] group-focus-visible:border-[var(--accent)]" />
-                  <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-4 pt-14">
-                    <span className="block font-bold leading-tight">{t.name}</span>
+                  <span className="relative block aspect-[4/5] overflow-hidden rounded-xl bg-base-300">
+                    {photo?.url && (
+                      <Image
+                        src={photo.url}
+                        alt=""
+                        fill
+                        sizes="(max-width: 640px) 50vw, (max-width: 1280px) 25vw, 18vw"
+                        className="object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                      />
+                    )}
+                    {/* Soft vignette so photos with bright backgrounds sit on the dark card. */}
+                    <span aria-hidden className="absolute inset-0 bg-gradient-to-t from-base-200/60 via-transparent to-transparent" />
+                  </span>
+                  <span className="flex flex-col gap-1.5 px-2 pb-2 pt-4">
                     {category && (
-                      <span className="text-xs font-bold uppercase" style={{ color: category.color }}>
+                      <span className="flex items-center gap-2 text-[0.65rem] font-bold uppercase tracking-[0.14em] text-base-content/60">
+                        <span aria-hidden className="h-px w-5" style={{ background: category.color }} />
                         {category.name}
                       </span>
                     )}
+                    <span className="text-lg font-bold leading-tight">{t.name}</span>
+                    <span className="mt-1 flex items-center justify-between text-base-content/50">
+                      <span className="flex gap-2.5 text-sm">
+                        {t.instagram && <FaInstagram aria-label="Instagram" />}
+                        {t.tiktok && <FaTiktok aria-label="TikTok" />}
+                      </span>
+                      <span className="text-xs font-bold uppercase tracking-wider transition-colors group-hover:text-[var(--accent)]">
+                        Ver perfil →
+                      </span>
+                    </span>
                   </span>
                 </button>
               </motion.li>
