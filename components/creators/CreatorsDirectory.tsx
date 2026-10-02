@@ -39,30 +39,53 @@ export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; 
   const selPhoto = selected ? photoOf(selected) : null;
   const accent = selCategory?.color ?? "#6c3cf0";
 
+  // minmax(0,1fr): the swipeable category row must not widen the column on mobile.
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_3fr] lg:gap-10">
+    <div className="grid grid-cols-[minmax(0,1fr)] gap-8 lg:grid-cols-[1fr_3fr] lg:gap-10">
       {/* Categories */}
-      <nav aria-label="Categorías" className="lg:sticky lg:top-24 lg:self-start">
-        <h2 className="mb-3 text-xs font-bold uppercase tracking-wider text-base-content/50">Categorías</h2>
-        <ul className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] lg:flex-col lg:overflow-visible lg:pb-0">
-          {[{ id: null as string | null, name: "Todos", color: "#6c3cf0", count: talents.length }, ...categories.map((c) => ({ id: c.id, name: c.name, color: c.color, count: counts.get(c.id) ?? 0 }))]
+      <nav aria-label="Categorías" className="min-w-0 lg:sticky lg:top-24 lg:self-start">
+        <h2 className="mb-4 flex items-center gap-3 text-[0.65rem] font-bold uppercase tracking-[0.18em] text-base-content/50">
+          <span aria-hidden className="h-px w-6 bg-base-content/30" />
+          Categorías
+        </h2>
+        {/* Editorial list: hairline dividers, and the active row gets a bar
+            and a soft wash in its category color. On mobile, a swipeable row. */}
+        <ul className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] lg:flex-col lg:gap-0 lg:overflow-visible lg:border-t lg:border-white/10 lg:pb-0">
+          {[{ id: null as string | null, name: "Todos", color: "#8c5cff", count: talents.length }, ...categories.map((c) => ({ id: c.id, name: c.name, color: c.color, count: counts.get(c.id) ?? 0 }))]
             .filter((c) => c.count > 0)
             .map((c) => {
               const isActive = active === c.id;
               return (
-                <li key={c.id ?? "all"} className="shrink-0">
+                <li key={c.id ?? "all"} className="shrink-0 lg:border-b lg:border-white/10">
                   <button
                     type="button"
                     aria-pressed={isActive}
                     onClick={() => setActive(c.id)}
-                    style={isActive ? { backgroundColor: c.color, borderColor: c.color } : undefined}
-                    className={`flex w-full cursor-pointer items-center gap-3 rounded-xl border px-4 py-3 text-left font-bold transition-colors ${
-                      isActive ? "text-white" : "border-base-300 bg-base-200 hover:border-white/30"
+                    style={{
+                      ["--cat" as string]: c.color,
+                      backgroundImage: isActive ? `linear-gradient(90deg, ${c.color}29, transparent 85%)` : undefined,
+                    }}
+                    className={`group relative flex w-full cursor-pointer items-center gap-3 overflow-hidden whitespace-nowrap rounded-full border px-4 py-2 text-left text-sm transition-colors lg:rounded-none lg:border-0 lg:px-5 lg:py-3.5 lg:text-[0.95rem] ${
+                      isActive
+                        ? "border-[var(--cat)] font-bold text-base-content"
+                        : "border-base-300 text-base-content/55 hover:text-base-content"
                     }`}
                   >
-                    <span aria-hidden className="size-2.5 shrink-0 rounded-full" style={{ background: isActive ? "#fff" : c.color }} />
-                    <span className="flex-1 whitespace-nowrap">{c.name}</span>
-                    <span className={isActive ? "text-white/80" : "text-base-content/50"}>{c.count}</span>
+                    {/* Accent bar (desktop) */}
+                    <span
+                      aria-hidden
+                      className={`absolute inset-y-2 left-0 hidden w-[3px] rounded-full bg-[var(--cat)] transition-transform duration-300 lg:block ${
+                        isActive ? "scale-y-100" : "scale-y-0 group-hover:scale-y-50"
+                      }`}
+                    />
+                    <span
+                      aria-hidden
+                      className="size-1.5 shrink-0 rounded-full bg-[var(--cat)] transition-transform group-hover:scale-125"
+                    />
+                    <span className="flex-1">{c.name}</span>
+                    <span className={`text-xs tabular-nums tracking-wider ${isActive ? "text-[var(--cat)]" : "text-base-content/35"}`}>
+                      {String(c.count).padStart(2, "0")}
+                    </span>
                   </button>
                 </li>
               );
@@ -121,7 +144,7 @@ export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; 
                         {t.tiktok && <FaTiktok aria-label="TikTok" />}
                       </span>
                       <span className="text-xs font-bold uppercase tracking-wider transition-colors group-hover:text-[var(--accent)]">
-                        Ver perfil →
+                        <span className="hidden sm:inline">Ver perfil </span>→
                       </span>
                     </span>
                   </span>
