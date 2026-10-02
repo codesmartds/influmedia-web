@@ -327,6 +327,18 @@ const mockTestimonials = [
   },
 ];
 
+// Example team (invented names: replace with the real team before launch).
+const team = [
+  { name: "Andrea Castro", role: "Directora general", bio: "Lidera la estrategia regional y la relación con marcas." },
+  { name: "Diego Morales", role: "Director de cuentas", bio: "Acompaña a cada marca de la propuesta al reporte." },
+  { name: "Lucía Herrera", role: "Head de talento", bio: "Gestiona el roster y la relación con los creadores." },
+  { name: "Pablo Rivas", role: "Líder de data e insights", bio: "Convierte métricas en decisiones para la próxima campaña." },
+  { name: "Sofía Méndez", role: "Directora creativa", bio: "Diseña ideas que la audiencia quiere ver." },
+  { name: "Javier López", role: "Coordinador de campañas", bio: "Mantiene calendario, creadores y entregas en orden." },
+  { name: "Mariana Paz", role: "Estratega de contenido", bio: "Traduce objetivos de marca en formatos que conectan." },
+  { name: "Carlos Estrada", role: "Analista de performance", bio: "Monitorea cada campaña en tiempo real." },
+];
+
 // Globals with a revalidation hook skip it when this is set: the script
 // runs outside Next's server, so there is no cache to revalidate.
 const SKIP_REVALIDATE = { context: { skipRevalidate: true } };
@@ -442,6 +454,14 @@ export async function seed() {
     const found = await payload.find({ collection: "testimonials", where: { author: { equals: mock.author } }, limit: 1 });
     if (found.docs[0]) await payload.update({ collection: "testimonials", id: found.docs[0].id, data, ...SKIP_REVALIDATE });
     else await payload.create({ collection: "testimonials", data, ...SKIP_REVALIDATE });
+  }
+
+  // Team, matched by name.
+  for (const [order, member] of team.entries()) {
+    const found = await payload.find({ collection: "team", where: { name: { equals: member.name } }, limit: 1 });
+    const data = { ...member, order, active: true };
+    if (found.docs[0]) await payload.update({ collection: "team", id: found.docs[0].id, data, ...SKIP_REVALIDATE });
+    else await payload.create({ collection: "team", data, ...SKIP_REVALIDATE });
   }
 
   // Posts, matched by slug. Newest first: the first post is today's.

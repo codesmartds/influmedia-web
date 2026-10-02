@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
     const to = (source: string, destination: string) => ({ source, destination, permanent: true });
     return [
       to("/deck", "/"),
-      to("/quienes-somos", "/nosotros#quienes-somos"),
+      to("/quienes-somos", "/nosotros"),
       to("/historia", "/nosotros#historia"),
       to("/talentos", "/nosotros#talentos"),
       to("/que-hacemos", "/influencer-marketing#servicios"),

@@ -14,6 +14,7 @@ import { ContactSubmissions } from "./collections/ContactSubmissions";
 import { CreatorApplications } from "./collections/CreatorApplications";
 import { CaseStudies } from "./collections/CaseStudies";
 import { Testimonials } from "./collections/Testimonials";
+import { Team } from "./collections/Team";
 import { Brands } from "./globals/Brands";
 import { Gallery } from "./globals/Gallery";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -43,6 +44,7 @@ export default buildConfig({
     Categories,
     CaseStudies,
     Testimonials,
+    Team,
     Posts,
     Subscribers,
     ContactSubmissions,

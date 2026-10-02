@@ -73,6 +73,7 @@ export interface Config {
     categories: Category;
     'case-studies': CaseStudy;
     testimonials: Testimonial;
+    team: Team;
     posts: Post;
     subscribers: Subscriber;
     'contact-submissions': ContactSubmission;
@@ -94,6 +95,7 @@ export interface Config {
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
     testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
+    team: TeamSelect<false> | TeamSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
@@ -359,6 +361,30 @@ export interface Testimonial {
   createdAt: string;
 }
 /**
+ * Personas que aparecen en /nosotros. Se ordenan por el campo Orden.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team".
+ */
+export interface Team {
+  id: string;
+  name: string;
+  role: string;
+  /**
+   * Una o dos frases.
+   */
+  bio?: string | null;
+  linkedin?: string | null;
+  /**
+   * Sin foto se muestran las iniciales.
+   */
+  photo?: (string | null) | Media;
+  order?: number | null;
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
@@ -502,6 +528,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'testimonials';
         value: string | Testimonial;
+      } | null)
+    | ({
+        relationTo: 'team';
+        value: string | Team;
       } | null)
     | ({
         relationTo: 'posts';
@@ -693,6 +723,21 @@ export interface TestimonialsSelect<T extends boolean = true> {
   company?: T;
   talent?: T;
   photo?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "team_select".
+ */
+export interface TeamSelect<T extends boolean = true> {
+  name?: T;
+  role?: T;
+  bio?: T;
+  linkedin?: T;
+  photo?: T;
+  order?: T;
   active?: T;
   updatedAt?: T;
   createdAt?: T;

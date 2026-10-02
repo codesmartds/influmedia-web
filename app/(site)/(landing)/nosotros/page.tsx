@@ -2,17 +2,15 @@ import type { Metadata } from "next";
 import { connection } from "next/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { AboutSlide } from "@/components/about/AboutSlide";
 import { Faq, institutionalFaqs } from "@/components/about/Faq";
-import { HistorySlide } from "@/components/history/HistorySlide";
-import { LandingSection } from "@/components/layout/LandingSection";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { AboutHero, History, Manifesto, Presence, Principles, TeamGrid } from "@/components/about/sections";
+import { DualCta } from "@/components/home/sections";
 import { TalentsSlide } from "@/components/talents/TalentsSlide";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
   title: "Nosotros | Influmedia",
-  description: "Somos tu partner para que tu campaña llegue a los medios correctos.",
+  description: "Somos tu partner para que tu campaña llegue a los medios correctos. Powered by people.",
 };
 
 // Fisher–Yates shuffle, so the talent panel shows a different mix each visit.
@@ -25,32 +23,36 @@ function shuffle<T>(items: T[]): T[] {
   return result;
 }
 
+// Who Influmedia is and why to trust them: purpose → story → reach →
+// people → principles → roster → institutional FAQ → two-way close.
 export default async function AboutPage() {
   // Render per request: the shuffle must not be frozen at build time.
   await connection();
   const payload = await getPayload({ config });
-  const { docs: talents } = await payload.find({
-    collection: "talents",
-    where: { active: { equals: true } },
-    depth: 1,
-    limit: 100,
-  });
+  const [talents, team] = await Promise.all([
+    payload.find({ collection: "talents", where: { active: { equals: true } }, depth: 1, limit: 100 }),
+    payload.find({ collection: "team", where: { active: { equals: true } }, sort: "order", depth: 1, limit: 50 }),
+  ]);
 
   return (
     <PageTransition>
-      <PageHeader eyebrow="Nosotros" title="Somos tu partner para que tu campaña llegue a los medios correctos." />
-      <LandingSection id="quienes-somos">
-        <AboutSlide />
-      </LandingSection>
-      <LandingSection id="historia">
-        <HistorySlide />
-      </LandingSection>
-      <LandingSection id="talentos">
-        <TalentsSlide talents={shuffle(talents)} />
-      </LandingSection>
-      <LandingSection id="faq">
+      <AboutHero />
+      <Manifesto />
+      <div id="historia" className="scroll-mt-24">
+        <History />
+      </div>
+      <Presence />
+      <div id="equipo" className="scroll-mt-24">
+        <TeamGrid members={team.docs} />
+      </div>
+      <Principles />
+      <section id="talentos" className="mx-auto w-full max-w-[96rem] scroll-mt-24 py-20 md:py-28">
+        <TalentsSlide talents={shuffle(talents.docs)} />
+      </section>
+      <section id="faq" className="mx-auto w-full max-w-[96rem] scroll-mt-24 py-20 md:py-28">
         <Faq items={institutionalFaqs} />
-      </LandingSection>
+      </section>
+      <DualCta contactHref="/contacto" />
     </PageTransition>
   );
 }
