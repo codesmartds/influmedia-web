@@ -38,9 +38,9 @@ const brands: { name: string; logo: string; industry?: "fmcg" | "beauty" | "reta
 // LinkedIn link in the deck pointed at the admin dashboard, this is the
 // public company page).
 const contactInfo = {
-  address: "Campus Tecnológico TEC I\nVía 4 1-00, Zona 4\nCiudad de Guatemala",
-  mapEmbedUrl:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3422.3511320018924!2d-90.51680733030346!3d14.622091667298621!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8589a2306668db31%3A0xe26e432c111eca0d!2sTec!5e0!3m2!1ses!2sgt!4v1790953466881!5m2!1ses!2sgt",
+  address: "Campus Tecnológico TEC I, Oficina 601\nVía 4 1-00, Zona 4\nCiudad de Guatemala",
+  googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Campus%20Tecnol%C3%B3gico%20TEC%20I%2C%20V%C3%ADa%204%201-00%2C%20Zona%204%2C%20Guatemala",
+  wazeUrl: "https://waze.com/ul?ll=14.6221,-90.5168&navigate=yes",
   instagram: "https://www.instagram.com/influmediaca",
   tiktok: "https://www.tiktok.com/@influmediagt",
   linkedin: "https://www.linkedin.com/company/73252936/",

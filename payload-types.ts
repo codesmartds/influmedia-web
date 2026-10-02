@@ -847,10 +847,8 @@ export interface ContactInfo {
    */
   phone?: string | null;
   address?: string | null;
-  /**
-   * El src del iframe de Google Maps (Compartir › Insertar un mapa).
-   */
-  mapEmbedUrl?: string | null;
+  googleMapsUrl?: string | null;
+  wazeUrl?: string | null;
   /**
    * URL completa del perfil
    */
@@ -915,7 +913,8 @@ export interface ContactInfoSelect<T extends boolean = true> {
   email?: T;
   phone?: T;
   address?: T;
-  mapEmbedUrl?: T;
+  googleMapsUrl?: T;
+  wazeUrl?: T;
   instagram?: T;
   linkedin?: T;
   tiktok?: T;

@@ -1,5 +1,6 @@
 import type { IconType } from "react-icons";
-import { FaInstagram, FaLinkedinIn, FaTiktok } from "react-icons/fa";
+import { FaInstagram, FaLinkedinIn, FaTiktok, FaWaze } from "react-icons/fa";
+import { SiGooglemaps } from "react-icons/si";
 import { FiMail, FiMapPin, FiPhone } from "react-icons/fi";
 import type { ContactInfo } from "@/payload-types";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
@@ -19,6 +20,10 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
   const phoneIsExternal = phone?.href.startsWith("http");
   const links = socials.flatMap((s) => (contact[s.key] ? [{ ...s, href: contact[s.key]! }] : []));
   const needs = (contact.needs ?? []).map((n) => n.name);
+  const directions = [
+    contact.googleMapsUrl && { href: contact.googleMapsUrl, name: "Google Maps", Icon: SiGooglemaps },
+    contact.wazeUrl && { href: contact.wazeUrl, name: "Waze", Icon: FaWaze },
+  ].filter(Boolean) as { href: string; name: string; Icon: IconType }[];
 
   const rows = [
     contact.email && { Icon: FiMail, label: "Correo", value: contact.email, href: `mailto:${contact.email}` },
@@ -60,6 +65,21 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
                   ) : (
                     <span className="whitespace-pre-line text-lg">{value}</span>
                   )}
+                  {label === "Oficina" && directions.length > 0 && (
+                    <span className="mt-3 flex flex-wrap gap-2">
+                      {directions.map(({ href, name, Icon: DirIcon }) => (
+                        <a
+                          key={name}
+                          href={href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 rounded-lg border border-base-300 px-3 py-1.5 text-sm font-bold transition-colors hover:border-secondary hover:text-secondary"
+                        >
+                          <DirIcon aria-hidden /> {name}
+                        </a>
+                      ))}
+                    </span>
+                  )}
                 </span>
               </RevealItem>
             ))}
@@ -83,20 +103,6 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
             </RevealItem>
           )}
 
-          {contact.mapEmbedUrl && (
-            <RevealItem effect="scale" className="mt-8 overflow-hidden rounded-2xl border border-base-300">
-              {/* Dark mode: invert the map, then rotate hue back so water and
-                  parks keep roughly their colors. */}
-              <iframe
-                src={contact.mapEmbedUrl}
-                title="Ubicación de Influmedia en el mapa"
-                loading="lazy"
-                referrerPolicy="strict-origin-when-cross-origin"
-                allowFullScreen
-                className="block aspect-[16/10] w-full border-0 [filter:invert(0.9)_hue-rotate(180deg)_saturate(0.8)_brightness(0.95)]"
-              />
-            </RevealItem>
-          )}
         </RevealItem>
 
         <RevealItem
