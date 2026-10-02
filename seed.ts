@@ -1,9 +1,8 @@
 import { resetContent, seed } from "@/lib/seed";
 
-// CLI entry. The same logic runs in production through /api/seed.
-//   npm run seed          add or update the seed content
-//   npm run seed:reset    delete all seeded content and files, then seed again
-// No `users` are ever seeded: the first admin is created from /admin.
-if (process.argv.includes("--reset")) await resetContent();
+// CLI entry: `npm run seed` cleans up the seeded collections (and their
+// uploads), then inserts the data again. The same runs in production
+// through POST /api/seed. No `users` are ever seeded or touched.
+await resetContent();
 await seed();
 process.exit(0);

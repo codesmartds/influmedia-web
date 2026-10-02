@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "generate:types": "payload generate:types",
-    "seed": "payload run seed.ts",
-    "seed:reset": "payload run seed.ts -- --reset"
+    "seed": "payload run seed.ts"
   },
   "dependencies": {
     "@payloadcms/db-mongodb": "^3.90.2",
