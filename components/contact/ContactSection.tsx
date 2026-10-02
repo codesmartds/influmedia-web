@@ -32,7 +32,7 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
   ].filter(Boolean) as { Icon: IconType; label: string; value: string; href?: string; external?: boolean }[];
 
   return (
-    <section id="contacto" className="mx-auto w-full max-w-[96rem] scroll-mt-24 px-6 py-20 md:px-[4.7%] md:py-28">
+    <section id="contacto" className="mx-auto w-full max-w-[96rem] scroll-mt-36 px-6 py-20 md:px-[4.7%] md:py-28">
       <Reveal className="grid items-start gap-12 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
         <RevealItem effect="fade" stagger className="flex flex-col">
           <RevealItem as="p" className="text-sm font-bold uppercase text-secondary md:text-base">

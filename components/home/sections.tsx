@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import type { Brand, CaseStudy, Media, Post, Talent, Testimonial } from "@/payload-types";
 import { PostCard } from "@/components/blog/PostCard";
+import { CaseCard } from "@/components/cases/CaseCard";
 import { CountUp } from "@/components/slides/CountUp";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import { AudienceDashboard } from "@/components/dashboards/AudienceDashboard";
@@ -45,6 +46,8 @@ function CtaLink({ href, children, variant = "primary" }: { href: string; childr
     </Link>
   );
 }
+
+export { CtaLink, Heading };
 
 /* 2 · Client logos, scrolling */
 export function ClientMarquee({ brands }: { brands: NonNullable<Brand["items"]> }) {
@@ -169,31 +172,16 @@ export function CaseStudies({ cases }: { cases: CaseStudy[] }) {
       <Reveal>
         <Heading eyebrow="Casos de éxito" title="Conversaciones que movieron resultados." />
         <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-6 lg:grid-cols-3">
-          {cases.map((c) => {
-            const cover = media(c.cover);
-            return (
-              <RevealItem as="li" key={c.id} className="flex flex-col overflow-hidden rounded-2xl border border-base-300 bg-base-200">
-                {cover?.url && (
-                  <div className="relative aspect-[16/10]">
-                    <Image src={cover.url} alt={cover.alt} fill sizes="(max-width: 1024px) 100vw, 33vw" className="object-cover" />
-                  </div>
-                )}
-                <div className="flex flex-1 flex-col p-6">
-                  <p className="text-xs font-bold uppercase text-secondary">{c.brandName}</p>
-                  <h3 className="mt-2 text-xl font-bold leading-snug">{c.title}</h3>
-                  <p className="mt-2 text-base-content/70">{c.objective}</p>
-                  <dl className="mt-auto grid grid-cols-2 gap-4 pt-6">
-                    {(c.results ?? []).slice(0, 2).map((r) => (
-                      <div key={r.id}>
-                        <dt className="text-xs uppercase text-base-content/60">{r.label}</dt>
-                        <dd className="text-2xl font-bold">{r.name}</dd>
-                      </div>
-                    ))}
-                  </dl>
-                </div>
-              </RevealItem>
-            );
-          })}
+          {cases.map((c) => (
+            <RevealItem as="li" key={c.id}>
+              <CaseCard item={c} />
+            </RevealItem>
+          ))}
+        </RevealItem>
+        <RevealItem className="mt-10">
+          <CtaLink href="/influencer-marketing#resultados" variant="ghost">
+            Ver más resultados
+          </CtaLink>
         </RevealItem>
       </Reveal>
     </section>
@@ -201,7 +189,8 @@ export function CaseStudies({ cases }: { cases: CaseStudy[] }) {
 }
 
 /* 7 · Talent roster: the hinge between brands and creators */
-export function Roster({ talents }: { talents: Talent[] }) {
+// `forBrands` drops the creator CTA where the page only talks to brands.
+export function Roster({ talents, forBrands = false }: { talents: Talent[]; forBrands?: boolean }) {
   const shown = talents.filter((t) => media(t.thumbnail)?.url).slice(0, 8);
   return (
     <section className={`${wrap} py-20 md:py-28`}>
@@ -235,9 +224,11 @@ export function Roster({ talents }: { talents: Talent[] }) {
         </RevealItem>
         <RevealItem className="mt-10 flex flex-wrap gap-4">
           <CtaLink href="/nosotros#talentos">Ver talentos</CtaLink>
-          <CtaLink href="/creadores" variant="ghost">
-            Únete al roster
-          </CtaLink>
+          {!forBrands && (
+            <CtaLink href="/creadores" variant="ghost">
+              Únete al roster
+            </CtaLink>
+          )}
         </RevealItem>
       </Reveal>
     </section>

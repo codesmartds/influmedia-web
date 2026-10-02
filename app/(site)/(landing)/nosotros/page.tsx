@@ -3,7 +3,7 @@ import { connection } from "next/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { AboutSlide } from "@/components/about/AboutSlide";
-import { Faq } from "@/components/about/Faq";
+import { Faq, institutionalFaqs } from "@/components/about/Faq";
 import { HistorySlide } from "@/components/history/HistorySlide";
 import { LandingSection } from "@/components/layout/LandingSection";
 import { PageHeader } from "@/components/layout/PageHeader";
@@ -49,7 +49,7 @@ export default async function AboutPage() {
         <TalentsSlide talents={shuffle(talents)} />
       </LandingSection>
       <LandingSection id="faq">
-        <Faq />
+        <Faq items={institutionalFaqs} />
       </LandingSection>
     </PageTransition>
   );
