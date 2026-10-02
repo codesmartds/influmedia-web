@@ -42,18 +42,24 @@ export function HeroSlide() {
             Estrategia, creatividad y tecnología para conectar marcas con personas reales.
           </p>
 
-          <div className="mt-8 flex flex-wrap items-end gap-6 md:gap-[12%]">
-            <span className="order-2 text-[clamp(0.9rem,1.25vw,1.3rem)] font-bold uppercase text-secondary md:order-1">
-              #WeAreInflumedia
-            </span>
+          {/* Brands are the primary path; creators get a visible second one. */}
+          <div className="mt-8 flex flex-wrap items-center gap-4">
             <Link
-              href="/influencer-marketing"
+              href="/contacto"
               transitionTypes={["nav-forward"]}
-              className="btn btn-secondary order-1 h-auto w-full whitespace-nowrap rounded-lg px-10 py-4 text-[clamp(0.85rem,1.05vw,1.1rem)] font-bold uppercase shadow-lg md:order-2 md:w-auto md:min-w-[18vw]"
+              className="btn btn-secondary h-auto w-full whitespace-nowrap rounded-lg px-10 py-4 text-[clamp(0.85rem,1.05vw,1.1rem)] font-bold uppercase shadow-lg sm:w-auto"
             >
-              Conoce cómo trabajamos <FiArrowRight aria-hidden />
+              Quiero una campaña <FiArrowRight aria-hidden />
+            </Link>
+            <Link
+              href="/creadores"
+              transitionTypes={["nav-forward"]}
+              className="btn btn-outline h-auto w-full whitespace-nowrap rounded-lg border-white/40 px-8 py-4 text-[clamp(0.85rem,1.05vw,1.1rem)] font-bold uppercase hover:border-secondary hover:bg-transparent hover:text-secondary sm:w-auto"
+            >
+              Soy creador
             </Link>
           </div>
+          <p className="mt-6 text-[clamp(0.9rem,1.25vw,1.3rem)] font-bold uppercase text-secondary">#WeAreInflumedia</p>
         </div>
       </div>
     </section>

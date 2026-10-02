@@ -160,3 +160,10 @@
 ::view-transition-new(site-header) {
   animation: none;
 }
+
+/* Client logo marquee: the track holds two copies, so -50% loops seamlessly. */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
