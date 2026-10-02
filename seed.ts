@@ -259,6 +259,72 @@ const posts: { title: string; excerpt: string; cover: string; body: object[] }[]
   },
 ];
 
+// DEVELOPMENT MOCKS: invented case studies and testimonials so the home
+// sections render. Titles/authors carry "[Mock]" so they're easy to find
+// and must be replaced with real, approved content before launch.
+const mockCases = [
+  {
+    title: "[Mock] Lanzamiento de temporada con creators de lifestyle",
+    brand: "Gallo",
+    objective: "Generar conversación alrededor del lanzamiento de temporada entre audiencias de 18 a 34 años.",
+    approach: "Seleccionamos 6 creadores de lifestyle y comedia con alta afinidad, escalonados en tres semanas.",
+    results: [
+      { name: "2.4M", label: "Alcance" },
+      { name: "+38%", label: "Engagement vs. benchmark" },
+    ],
+    talents: ["Sandy Méndez", "El Primaso", "Jafita"],
+    category: "Lifestyle",
+  },
+  {
+    title: "[Mock] Rutina de belleza en 30 días",
+    brand: "Garnier",
+    objective: "Posicionar la nueva línea de skincare con contenido educativo y reseñas auténticas.",
+    approach: "Reto de 30 días con creadoras de belleza: tutoriales, antes y después, y preguntas en vivo.",
+    results: [
+      { name: "1.1M", label: "Visualizaciones" },
+      { name: "4.8x", label: "ROI estimado" },
+    ],
+    talents: ["MakeUp Chikys", "Victoria Romanof", "Diana Castro"],
+    category: "Fashion & Beauty",
+  },
+  {
+    title: "[Mock] Gaming night patrocinada",
+    brand: "Doritos",
+    objective: "Conectar la marca con la comunidad gamer de la región sin sentirse forzada.",
+    approach: "Streams patrocinados con retos de la comunidad y producto integrado en el juego.",
+    results: [
+      { name: "850K", label: "Minutos vistos" },
+      { name: "$0.04", label: "CPE" },
+    ],
+    talents: ["Gyss Sierra", "Norimm"],
+    category: "Gaming",
+  },
+];
+
+const mockTestimonials = [
+  {
+    type: "brand" as const,
+    quote: "Por primera vez supimos qué esperar antes de activar, y el reporte final nos dio argumentos para la siguiente campaña.",
+    author: "[Mock] María López",
+    role: "Brand Manager",
+    company: "Marca de consumo masivo",
+  },
+  {
+    type: "brand" as const,
+    quote: "Un solo equipo, una sola factura y monitoreo en tiempo real. Nos quitaron toda la fricción de trabajar con creadores.",
+    author: "[Mock] Carlos Méndez",
+    role: "Gerente de Marketing",
+    company: "Retail regional",
+  },
+  {
+    type: "creator" as const,
+    quote: "Influmedia negocia por mí y me conecta con marcas que encajan con mi contenido. Yo solo me enfoco en crear.",
+    author: "[Mock] Sandy Méndez",
+    role: "Creadora de lifestyle",
+    talent: "Sandy Méndez",
+  },
+];
+
 // Globals with a revalidation hook skip it when this is set: the script
 // runs outside Next's server, so there is no cache to revalidate.
 const SKIP_REVALIDATE = { context: { skipRevalidate: true } };
@@ -330,6 +396,48 @@ export async function seed() {
     galleryItems.push({ image: await upsertPhoto(payload, path.join(TALENT_PHOTOS, folder, talent.photo), name) });
   }
   await payload.updateGlobal({ slug: "gallery", data: { items: galleryItems }, ...SKIP_REVALIDATE });
+
+  // Mock case studies (matched by slug) and testimonials (by author).
+  const findTalent = async (name: string) =>
+    (await payload.find({ collection: "talents", where: { name: { equals: name } }, limit: 1, depth: 1 })).docs[0];
+  const brandsGlobal = await payload.findGlobal({ slug: "brands", depth: 0 });
+  for (const [index, mock] of mockCases.entries()) {
+    const caseTalents = (await Promise.all(mock.talents.map(findTalent))).filter(Boolean);
+    const lead = caseTalents[0]!;
+    const data = {
+      title: mock.title,
+      slug: slugify(mock.title),
+      brandName: mock.brand,
+      brandLogo: (brandsGlobal.items ?? []).find((b) => b.name === mock.brand)?.image as string | undefined,
+      objective: mock.objective,
+      approach: mock.approach,
+      results: mock.results,
+      cover: typeof lead.thumbnail === "object" ? lead.thumbnail.id : lead.thumbnail,
+      talents: caseTalents.map((t) => t!.id),
+      category: categoryIds.get(mock.category as CategoryName),
+      featured: true,
+      published: true,
+      publishedAt: new Date(Date.now() - (index + 1) * 30 * 86_400_000).toISOString(),
+    };
+    const found = await payload.find({ collection: "case-studies", where: { slug: { equals: data.slug } }, limit: 1 });
+    if (found.docs[0]) await payload.update({ collection: "case-studies", id: found.docs[0].id, data, ...SKIP_REVALIDATE });
+    else await payload.create({ collection: "case-studies", data, ...SKIP_REVALIDATE });
+  }
+  for (const mock of mockTestimonials) {
+    const talent = "talent" in mock && mock.talent ? await findTalent(mock.talent) : undefined;
+    const data = {
+      type: mock.type,
+      quote: mock.quote,
+      author: mock.author,
+      role: mock.role,
+      company: "company" in mock ? mock.company : null,
+      talent: talent?.id ?? null,
+      active: true,
+    };
+    const found = await payload.find({ collection: "testimonials", where: { author: { equals: mock.author } }, limit: 1 });
+    if (found.docs[0]) await payload.update({ collection: "testimonials", id: found.docs[0].id, data, ...SKIP_REVALIDATE });
+    else await payload.create({ collection: "testimonials", data, ...SKIP_REVALIDATE });
+  }
 
   // Posts, matched by slug. Newest first: the first post is today's.
   const day = 86_400_000;
