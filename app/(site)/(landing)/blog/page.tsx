@@ -16,9 +16,18 @@ export default async function BlogPage({ searchParams }: PageProps<"/blog">) {
   if (!Number.isInteger(page) || page < 1) notFound();
 
   const payload = await getPayload({ config });
-  const result = await payload.find({
+  // The newest post is featured on page 1 and kept out of the paginated grid.
+  const latest = await payload.find({
     collection: "posts",
     where: { published: { equals: true } },
+    sort: "-publishedAt",
+    limit: 1,
+    depth: 1,
+  });
+  const featured = latest.docs[0] ?? null;
+  const result = await payload.find({
+    collection: "posts",
+    where: { published: { equals: true }, ...(featured && { id: { not_equals: featured.id } }) },
     sort: "-publishedAt",
     limit: POSTS_PER_PAGE,
     page,
@@ -29,7 +38,7 @@ export default async function BlogPage({ searchParams }: PageProps<"/blog">) {
 
   return (
     <PageTransition>
-      <BlogSlide posts={result.docs} page={page} totalPages={result.totalPages} />
+      <BlogSlide featured={page === 1 ? featured : null} posts={result.docs} page={page} totalPages={result.totalPages} />
     </PageTransition>
   );
 }

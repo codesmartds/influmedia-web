@@ -30,7 +30,7 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
     collection: "posts",
     where: { published: { equals: true }, id: { not_equals: post.id } },
     sort: "-publishedAt",
-    limit: 4,
+    limit: 3,
     depth: 1,
   });
 

@@ -871,9 +871,18 @@ export interface Brand {
  */
 export interface Gallery {
   id: string;
+  /**
+   * El orden de la lista es el orden en el mosaico. Las destacadas ocupan un espacio grande.
+   */
   items?:
     | {
         image: string | Media;
+        /**
+         * Ej. Lanzamiento de temporada · 2026
+         */
+        caption?: string | null;
+        brand?: string | null;
+        featured?: boolean | null;
         id?: string | null;
       }[]
     | null;
@@ -944,6 +953,9 @@ export interface GallerySelect<T extends boolean = true> {
     | T
     | {
         image?: T;
+        caption?: T;
+        brand?: T;
+        featured?: T;
         id?: T;
       };
   updatedAt?: T;

@@ -407,7 +407,13 @@ export async function seed() {
   for (const name of galleryTalents) {
     const talent = talents.find((t) => t.name === name)!;
     const folder = categories.find((c) => c.name === talent.category)!.folder;
-    galleryItems.push({ image: await upsertPhoto(payload, path.join(TALENT_PHOTOS, folder, talent.photo), name) });
+    galleryItems.push({
+      image: await upsertPhoto(payload, path.join(TALENT_PHOTOS, folder, talent.photo), name),
+      caption: `${name} · ${talent.category}`,
+      brand: null,
+      // Every fourth photo takes the large slot so the mosaic has rhythm.
+      featured: galleryItems.length % 4 === 0,
+    });
   }
   await payload.updateGlobal({ slug: "gallery", data: { items: galleryItems }, ...SKIP_REVALIDATE });
 
