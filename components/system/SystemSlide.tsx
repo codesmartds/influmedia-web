@@ -54,10 +54,16 @@ export function SystemSlide() {
         <SlideIntro eyebrow="Nuestro sistema" tone="primary" title="Una campaña, tres momentos." />
       </Reveal>
       <ol className="mt-14 flex flex-col gap-20 md:gap-28">
-        {stages.map((stage, index) => (
+        {stages.map((stage, index) => {
+          // Odd panels flip sides. The column widths flip with them, so the
+          // dashboard always gets the wide (1.2fr) column.
+          const flipped = index % 2 === 1;
+          return (
           <li key={stage.name}>
-            <Reveal className="grid items-center gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-              <RevealItem effect="fade" stagger className={index % 2 === 1 ? "lg:order-2" : undefined}>
+            <Reveal
+              className={`grid items-center gap-10 lg:gap-16 ${flipped ? "lg:grid-cols-[1.2fr_0.8fr]" : "lg:grid-cols-[0.8fr_1.2fr]"}`}
+            >
+              <RevealItem effect="fade" stagger className={flipped ? "lg:order-2" : undefined}>
                 <RevealItem as="p" className={`text-5xl font-bold ${stage.accent}`}>
                   {stage.step}
                 </RevealItem>
@@ -79,10 +85,13 @@ export function SystemSlide() {
                   ))}
                 </RevealItem>
               </RevealItem>
-              <RevealItem effect={index % 2 === 1 ? "left" : "right"}>{stage.visual}</RevealItem>
+              <RevealItem effect={flipped ? "left" : "right"} className={flipped ? "lg:order-1" : undefined}>
+                {stage.visual}
+              </RevealItem>
             </Reveal>
           </li>
-        ))}
+          );
+        })}
       </ol>
     </div>
   );

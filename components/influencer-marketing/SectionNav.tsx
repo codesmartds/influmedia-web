@@ -11,6 +11,17 @@ const items = [
   { id: "contacto", label: "Contacto" },
 ];
 
+// Smooth-scrolls to the section (instant under reduced motion) and keeps
+// the hash in the URL without the browser's jump.
+function scrollToSection(event: React.MouseEvent, id: string) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  event.preventDefault();
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  target.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  history.replaceState(null, "", `#${id}`);
+}
+
 // In-page index, pinned under the site header; highlights the section in view.
 export function SectionNav() {
   const [active, setActive] = useState<string | null>(null);
@@ -37,6 +48,7 @@ export function SectionNav() {
           <li key={id} className="shrink-0">
             <a
               href={`#${id}`}
+              onClick={(e) => scrollToSection(e, id)}
               aria-current={active === id ? "true" : undefined}
               className="block rounded-full px-4 py-2 text-sm font-bold uppercase text-base-content/60 transition-colors hover:text-base-content aria-[current=true]:bg-primary aria-[current=true]:text-primary-content"
             >

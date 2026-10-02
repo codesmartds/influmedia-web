@@ -362,6 +362,14 @@ async function upsertPhoto(payload: Payload, filePath: string, alt: string) {
 export async function seed() {
   const payload = await getPayload({ config });
 
+  // clean ups
+  
+  await payload.updateGlobal({ slug: 'brands', data: { items: [] }, ...SKIP_REVALIDATE }); // clear first, so upsertPhoto doesn't find old logos
+  await payload.updateGlobal({ slug: 'gallery', data: { items: [] }, ...SKIP_REVALIDATE }); // clear first, so upsertPhoto doesn't find old photos  
+  await payload.delete({ collection: "categories", where: {}, ...SKIP_REVALIDATE }); // clean up old mock categories
+  await payload.delete({ collection: "talents", where: {}, ...SKIP_REVALIDATE });
+
+
   // Globals are upserted, not created: a global always exists.
   await payload.updateGlobal({ slug: "contact-info", data: contactInfo, ...SKIP_REVALIDATE });
 
@@ -386,7 +394,7 @@ export async function seed() {
   // Talents, matched by normalized name so hand-made entries get updated.
   const existing = await payload.find({ collection: "talents", limit: 500, depth: 0 });
   const byName = new Map(existing.docs.map((doc) => [nameKey(doc.name), doc.id]));
-
+ // clean up old mock talents
   for (const talent of talents) {
     const folder = categories.find((c) => c.name === talent.category)!.folder;
     const data = {
@@ -404,6 +412,7 @@ export async function seed() {
 
   // Gallery global, replaced as a whole. Runs after talents so their photos exist.
   const galleryItems = [];
+  await payload.updateGlobal({ slug: 'gallery', data: { items: [] }, ...SKIP_REVALIDATE }); // clear first, so upsertPhoto doesn't find old photos
   for (const name of galleryTalents) {
     const talent = talents.find((t) => t.name === name)!;
     const folder = categories.find((c) => c.name === talent.category)!.folder;
@@ -419,8 +428,8 @@ export async function seed() {
 
   // Example case studies (matched by slug) and testimonials (by author).
   // Clean up copies from earlier runs that carried a "[Mock]" prefix.
-  await payload.delete({ collection: "case-studies", where: { slug: { like: "mock-" } }, ...SKIP_REVALIDATE });
-  await payload.delete({ collection: "testimonials", where: { author: { like: "[Mock]" } }, ...SKIP_REVALIDATE });
+  await payload.delete({ collection: "case-studies", where: {}, ...SKIP_REVALIDATE });
+  await payload.delete({ collection: "testimonials", where: {}, ...SKIP_REVALIDATE });
   const findTalent = async (name: string) =>
     (await payload.find({ collection: "talents", where: { name: { equals: name } }, limit: 1, depth: 1 })).docs[0];
   const brandsGlobal = await payload.findGlobal({ slug: "brands", depth: 0 });
@@ -495,3 +504,38 @@ export async function seed() {
   );
 }
 
+
+// Content the seed owns, deleted children-first so nothing points at a
+// removed document. Users and form submissions (subscribers, contact
+// submissions, creator applications) are never touched.
+const SEEDED_COLLECTIONS = ["posts", "case-studies", "testimonials", "team", "talents", "categories", "media"] as const;
+
+/**
+ * Deletes all seeded content and every uploaded file. Used before reseeding
+ * on hosts whose disk is wiped on redeploy (uploads are lost, documents stay).
+ */
+export async function resetContent() {
+  const payload = await getPayload({ config });
+
+  // Globals reference media; empty them first.
+  await payload.updateGlobal({ slug: "brands", data: { items: [] }, ...SKIP_REVALIDATE });
+  await payload.updateGlobal({ slug: "gallery", data: { items: [] }, ...SKIP_REVALIDATE });
+
+  const removed: Record<string, number> = {};
+  for (const collection of SEEDED_COLLECTIONS) {
+    const { docs, errors } = await payload.delete({
+      collection,
+      where: { id: { exists: true } },
+      ...SKIP_REVALIDATE,
+    });
+    removed[collection] = docs.length;
+    // A media doc whose file is already gone from disk can fail to unlink;
+    // fall back to removing the document directly from the database.
+    if (collection === "media" && errors.length > 0) {
+      await payload.db.deleteMany({ collection: "media", where: { id: { exists: true } } });
+      removed.media += errors.length;
+    }
+  }
+  payload.logger.info(`Reset content: ${JSON.stringify(removed)}`);
+  return removed;
+}
