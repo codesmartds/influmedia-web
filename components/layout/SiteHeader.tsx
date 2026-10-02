@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FiArrowRight, FiMenu, FiX } from "react-icons/fi";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { contactHref, isActive, navItems } from "./nav";
@@ -10,6 +10,15 @@ import { contactHref, isActive, navItems } from "./nav";
 export function SiteHeader() {
   const pathname = usePathname();
   const mobileMenu = useRef<HTMLDetailsElement>(null);
+  const [scrolled, setScrolled] = useState(false);
+
+  // Transparent at the top of the page; background appears once scrolled.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Close the mobile menu after navigating.
   useEffect(() => {
@@ -20,7 +29,9 @@ export function SiteHeader() {
     <header
       // Pinned during page transitions so only the content slides.
       style={{ viewTransitionName: "site-header" }}
-      className="sticky top-0 z-40 border-b border-white/5 bg-base-100/80 backdrop-blur-md"
+      className={`sticky top-0 z-40 border-b transition-[background-color,border-color,backdrop-filter] duration-300 ${
+        scrolled ? "border-white/5 bg-base-100/80 backdrop-blur-md" : "border-transparent bg-transparent"
+      }`}
     >
       <div className="mx-auto flex h-[4.5rem] max-w-[96rem] items-center justify-between gap-6 px-6 md:px-[4%]">
         <Link href="/" aria-label="Influmedia, ir al inicio">
