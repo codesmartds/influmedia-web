@@ -1,59 +1,55 @@
 import type { Metadata } from "next";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { CreatorApplicationForm } from "@/components/creators/CreatorApplicationForm";
-import { PageHeader } from "@/components/layout/PageHeader";
+import { FiArrowRight } from "react-icons/fi";
+import { ApplyButton } from "@/components/creators/ApplyButton";
+import { CreatorsDirectory } from "@/components/creators/CreatorsDirectory";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
   title: "Creadores | Influmedia",
-  description: "Aplica al roster de Influmedia y trabaja con las marcas líderes de Centroamérica y el Caribe.",
+  description: "Conoce a los creadores exclusivos de Influmedia: lifestyle, comedia, moda, entretenimiento, fitness, deporte, gaming, tech y automotriz.",
 };
 
-// Why a creator joins; drawn from the deck's talent pitch.
-const benefits = [
-  { title: "Marcas líderes", text: "Campañas con marcas de consumo, belleza y retail en toda la región." },
-  { title: "Nosotros negociamos", text: "Negociación, contratos y calendario sin intermediarios: tú te enfocas en crear." },
-  { title: "Exclusividad por categoría", text: "Convenios que protegen tu valor frente a la competencia de tu categoría." },
-  { title: "Datos para crecer", text: "Reportes de cada campaña para entender qué funciona con tu audiencia." },
-];
+const applyClass = "btn btn-primary h-auto rounded-lg border-0 px-8 py-4 uppercase";
 
+// The roster: browse creators by category and open each profile. Applying
+// to join happens in a modal so the page stays about the creators.
 export default async function CreatorsPage() {
   const payload = await getPayload({ config });
-  const { docs } = await payload.find({ collection: "categories", limit: 50, sort: "name", depth: 0 });
-  const categories = docs.map((c) => ({ id: c.id, name: c.name }));
+  const [talents, categories] = await Promise.all([
+    payload.find({ collection: "talents", where: { active: { equals: true } }, sort: "name", depth: 1, limit: 200 }),
+    payload.find({ collection: "categories", sort: "name", depth: 0, limit: 50 }),
+  ]);
+  const formCategories = categories.docs.map((c) => ({ id: c.id, name: c.name }));
 
   return (
     <PageTransition>
-      <PageHeader eyebrow="Creadores" title="Crea con las marcas que mueven la región.">
-        Únete al roster de Influmedia: más de 30 creadores exclusivos en lifestyle, comedia, moda, entretenimiento, fitness,
-        deporte, gaming, tech y automotriz.
-      </PageHeader>
+      <section className="mx-auto w-full max-w-[96rem] px-6 pb-10 pt-16 md:px-[4.7%] md:pt-24">
+        <Reveal className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <RevealItem as="p" className="text-sm font-bold uppercase text-secondary md:text-base">
+              Exclusive creators
+            </RevealItem>
+            <RevealItem as="h1" className="mt-4 max-w-[16ch] text-[clamp(2.6rem,5vw,5.2rem)] font-bold leading-[1.02]">
+              Talento que conecta e inspira.
+            </RevealItem>
+            <RevealItem as="p" className="mt-6 max-w-[56ch] text-lg leading-snug text-base-content/80 md:text-xl">
+              {talents.totalDocs} creadores exclusivos en {categories.totalDocs} categorías, representados y gestionados por
+              Influmedia.
+            </RevealItem>
+          </div>
+          <RevealItem className="shrink-0">
+            <ApplyButton categories={formCategories} className={applyClass}>
+              ¿Eres creador? Aplica al roster <FiArrowRight aria-hidden />
+            </ApplyButton>
+          </RevealItem>
+        </Reveal>
+      </section>
 
-      <section className="mx-auto w-full max-w-[96rem] px-6 pb-20 pt-8 md:px-[4.7%]">
-        <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:gap-16">
-          <Reveal as="ul" className="flex flex-col gap-4 self-start lg:sticky lg:top-28">
-            {benefits.map((b) => (
-              <RevealItem as="li" key={b.title} className="rounded-2xl border border-base-300 bg-base-200 p-6">
-                <h2 className="text-lg font-bold uppercase">{b.title}</h2>
-                <p className="mt-2 leading-snug text-base-content/75">{b.text}</p>
-              </RevealItem>
-            ))}
-          </Reveal>
-
-          <Reveal>
-            <RevealItem as="h2" className="text-2xl font-bold">
-              Aplica al roster
-            </RevealItem>
-            <RevealItem as="p" className="mt-2 text-base-content/70">
-              Revisamos cada perfil. Si encaja con lo que buscan nuestras marcas, te contactamos.
-            </RevealItem>
-            <RevealItem className="mt-8">
-              <CreatorApplicationForm categories={categories} />
-            </RevealItem>
-          </Reveal>
-        </div>
+      <section className="mx-auto w-full max-w-[96rem] px-6 pb-24 md:px-[4.7%]">
+        <CreatorsDirectory talents={talents.docs} categories={categories.docs} />
       </section>
     </PageTransition>
   );
