@@ -11,6 +11,9 @@ import { Categories } from "./collections/Categories";
 import { Posts } from "./collections/Posts";
 import { Subscribers } from "./collections/Subscribers";
 import { ContactSubmissions } from "./collections/ContactSubmissions";
+import { CreatorApplications } from "./collections/CreatorApplications";
+import { CaseStudies } from "./collections/CaseStudies";
+import { Testimonials } from "./collections/Testimonials";
 import { Brands } from "./globals/Brands";
 import { Gallery } from "./globals/Gallery";
 import { ContactInfo } from "./globals/ContactInfo";
@@ -33,7 +36,18 @@ export default buildConfig({
     },
   },
   editor: lexicalEditor(),
-  collections: [Users, Media, Talents, Categories, Posts, Subscribers, ContactSubmissions],
+  collections: [
+    Users,
+    Media,
+    Talents,
+    Categories,
+    CaseStudies,
+    Testimonials,
+    Posts,
+    Subscribers,
+    ContactSubmissions,
+    CreatorApplications,
+  ],
   globals: [Brands, Gallery, ContactInfo],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {

@@ -71,9 +71,12 @@ export interface Config {
     media: Media;
     talents: Talent;
     categories: Category;
+    'case-studies': CaseStudy;
+    testimonials: Testimonial;
     posts: Post;
     subscribers: Subscriber;
     'contact-submissions': ContactSubmission;
+    'creator-applications': CreatorApplication;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -89,9 +92,12 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     talents: TalentsSelect<false> | TalentsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'case-studies': CaseStudiesSelect<false> | CaseStudiesSelect<true>;
+    testimonials: TestimonialsSelect<false> | TestimonialsSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'creator-applications': CreatorApplicationsSelect<false> | CreatorApplicationsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -262,6 +268,97 @@ export interface Category {
   createdAt: string;
 }
 /**
+ * Campañas reales: marca, creadores, objetivo y resultados.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies".
+ */
+export interface CaseStudy {
+  id: string;
+  /**
+   * Ej. "Lanzamiento de Flamin' Hot en Guatemala".
+   */
+  title: string;
+  brandName: string;
+  brandLogo?: (string | null) | Media;
+  /**
+   * Qué buscaba la marca, en una o dos frases.
+   */
+  objective: string;
+  approach: string;
+  /**
+   * Cifras destacadas, ej. 2.4M · Alcance. Entre 1 y 4.
+   */
+  results?:
+    | {
+        /**
+         * Ej. 2.4M, +38%, 4.8x
+         */
+        name: string;
+        /**
+         * Ej. Alcance
+         */
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Se genera del título si se deja vacío.
+   */
+  slug: string;
+  cover: string | Media;
+  talents?: (string | Talent)[] | null;
+  category?: (string | null) | Category;
+  featured?: boolean | null;
+  published?: boolean | null;
+  publishedAt: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Voces de marcas y de creadores. Solo testimonios reales y con permiso.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials".
+ */
+export interface Testimonial {
+  id: string;
+  type: 'brand' | 'creator';
+  quote: string;
+  author: string;
+  /**
+   * Ej. Brand Manager
+   */
+  role?: string | null;
+  company?: string | null;
+  /**
+   * Si es un creador del roster, usa su foto y nombre de la ficha.
+   */
+  talent?: (string | null) | Talent;
+  photo?: (string | null) | Media;
+  /**
+   * Si está desactivado, no aparece en el sitio.
+   */
+  active?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
@@ -338,6 +435,27 @@ export interface ContactSubmission {
   createdAt: string;
 }
 /**
+ * Creadores que aplicaron al roster desde /creadores.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "creator-applications".
+ */
+export interface CreatorApplication {
+  id: string;
+  name: string;
+  email: string;
+  phone?: string | null;
+  country: string;
+  instagram?: string | null;
+  tiktok?: string | null;
+  category: string | Category;
+  audienceSize: 'under-10k' | '10k-50k' | '50k-100k' | '100k-500k' | 'over-500k';
+  message?: string | null;
+  status?: ('new' | 'reviewing' | 'accepted' | 'declined') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -378,6 +496,14 @@ export interface PayloadLockedDocument {
         value: string | Category;
       } | null)
     | ({
+        relationTo: 'case-studies';
+        value: string | CaseStudy;
+      } | null)
+    | ({
+        relationTo: 'testimonials';
+        value: string | Testimonial;
+      } | null)
+    | ({
         relationTo: 'posts';
         value: string | Post;
       } | null)
@@ -388,6 +514,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: string | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'creator-applications';
+        value: string | CreatorApplication;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -525,6 +655,50 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-studies_select".
+ */
+export interface CaseStudiesSelect<T extends boolean = true> {
+  title?: T;
+  brandName?: T;
+  brandLogo?: T;
+  objective?: T;
+  approach?: T;
+  results?:
+    | T
+    | {
+        name?: T;
+        label?: T;
+        id?: T;
+      };
+  content?: T;
+  slug?: T;
+  cover?: T;
+  talents?: T;
+  category?: T;
+  featured?: T;
+  published?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonials_select".
+ */
+export interface TestimonialsSelect<T extends boolean = true> {
+  type?: T;
+  quote?: T;
+  author?: T;
+  role?: T;
+  company?: T;
+  talent?: T;
+  photo?: T;
+  active?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts_select".
  */
 export interface PostsSelect<T extends boolean = true> {
@@ -563,6 +737,24 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   website?: T;
   budget?: T;
   need?: T;
+  message?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "creator-applications_select".
+ */
+export interface CreatorApplicationsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  country?: T;
+  instagram?: T;
+  tiktok?: T;
+  category?: T;
+  audienceSize?: T;
   message?: T;
   status?: T;
   updatedAt?: T;
