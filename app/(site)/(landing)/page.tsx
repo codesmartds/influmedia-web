@@ -52,10 +52,10 @@ export default async function Home() {
       <Roster talents={shuffle(talents.docs)} />
       <ForCreators />
       <Testimonials items={testimonials.docs} />
+      <NewsletterBar />
       <LatestPosts posts={posts.docs} />
       <DualCta />
       <ContactSection contact={contact} />
-      <NewsletterBar />
     </PageTransition>
   );
 }
