@@ -14,6 +14,9 @@ inputs = {
   gcp_region     = "us-central1"
   service_name   = "influmedia-web"
   media_bucket   = "influmedia-web-media"
-  # Subdominio de pruebas; root y www siguen apuntando a Railway por ahora.
-  domain_name = "dev.influmediaca.com"
+  # El dominio raíz no se mapea: GoDaddy lo redirige a www.
+  domain_names = [
+    "dev.influmediaca.com",
+    "www.influmediaca.com",
+  ]
 }

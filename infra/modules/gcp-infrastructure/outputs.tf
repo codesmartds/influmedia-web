@@ -13,12 +13,12 @@ output "media_bucket_url" {
   description = "Base pública de los archivos de Media."
 }
 
-output "custom_domain_url" {
-  value       = var.domain_name == "" ? null : "https://${var.domain_name}"
-  description = "La URL del dominio personalizado."
+output "custom_domain_urls" {
+  value       = [for d in var.domain_names : "https://${d}"]
+  description = "Las URLs de los dominios personalizados."
 }
 
 output "dns_records_to_create" {
-  value       = var.domain_name == "" ? null : google_cloud_run_domain_mapping.custom_domain[0].status[0].resource_records
-  description = "Registros DNS que deben crearse en el proveedor de dominio."
+  value       = { for d, m in google_cloud_run_domain_mapping.custom_domain : d => m.status[0].resource_records }
+  description = "Registros DNS que deben crearse en el proveedor de dominio, por dominio."
 }

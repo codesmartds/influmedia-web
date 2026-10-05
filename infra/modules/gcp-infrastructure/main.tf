@@ -107,6 +107,8 @@ resource "google_cloud_run_v2_service" "service" {
       client_version,
       template[0].containers[0].image,
       template[0].containers[0].env,
+      # Etiquetas que agrega deploy-cloudrun en cada despliegue.
+      template[0].labels,
     ]
   }
 }
@@ -118,10 +120,17 @@ resource "google_cloud_run_v2_service_iam_member" "public_access" {
   member   = "allUsers"
 }
 
+# El primer dominio se creó cuando el módulo aceptaba uno solo (count);
+# moved lo reubica en el mapa sin recrearlo ni perder su certificado.
+moved {
+  from = google_cloud_run_domain_mapping.custom_domain[0]
+  to   = google_cloud_run_domain_mapping.custom_domain["dev.influmediaca.com"]
+}
+
 resource "google_cloud_run_domain_mapping" "custom_domain" {
-  count    = var.domain_name == "" ? 0 : 1
+  for_each = toset(var.domain_names)
   location = var.gcp_region
-  name     = var.domain_name
+  name     = each.value
 
   metadata {
     namespace = var.gcp_project_id

@@ -19,8 +19,8 @@ variable "media_bucket" {
   description = "Bucket de Cloud Storage donde Payload guarda los archivos de Media (lectura pública)."
 }
 
-variable "domain_name" {
-  type        = string
-  default     = ""
-  description = "Dominio personalizado para el servicio (ej: influmedia.com). Vacío = sin domain mapping."
+variable "domain_names" {
+  type        = list(string)
+  default     = []
+  description = "Dominios personalizados para el servicio (ej: [\"www.influmedia.com\"]). Vacío = sin domain mapping."
 }
