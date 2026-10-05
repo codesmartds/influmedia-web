@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 import { withPayload } from "@payloadcms/next/withPayload";
 
 const nextConfig: NextConfig = {
+  // Self-contained server bundle for the Cloud Run container.
+  output: "standalone",
   // The site was a slide deck before becoming a landing site; old slide
   // routes point to the section that now holds their content.
   async redirects() {

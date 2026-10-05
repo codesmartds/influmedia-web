@@ -44,3 +44,8 @@ next-env.d.ts
 
 # payload local uploads
 /media
+
+# Terraform / Terragrunt
+.terragrunt-cache/
+.terraform/
+*.tfstate*
