@@ -49,3 +49,6 @@ next-env.d.ts
 .terragrunt-cache/
 .terraform/
 *.tfstate*
+
+# Production secrets (GitHub Actions values), never committed
+__.env.production
