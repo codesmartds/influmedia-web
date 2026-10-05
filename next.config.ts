@@ -22,8 +22,9 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    // Uploads served by Payload's local storage.
+    // Uploads: Payload's local storage in dev, Google Cloud Storage otherwise.
     localPatterns: [{ pathname: "/api/media/file/**", search: "" }],
+    remotePatterns: [{ protocol: "https", hostname: "storage.googleapis.com", pathname: "/influmedia-web-media/**" }],
   },
 };
 

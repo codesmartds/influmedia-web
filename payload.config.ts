@@ -4,6 +4,7 @@ import sharp from "sharp";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { mongooseAdapter } from "@payloadcms/db-mongodb";
 import { buildConfig } from "payload";
+import { gcsStorage } from "@payloadcms/storage-gcs";
 import { Users } from "./collections/Users";
 import { Media } from "./collections/Media";
 import { Talents } from "./collections/Talents";
@@ -59,4 +60,24 @@ export default buildConfig({
     url: process.env.DATABASE_URL || "",
   }),
   sharp,
+  plugins: [
+    // Media lives in Google Cloud Storage when GCS_BUCKET is set (Cloud Run
+    // and, optionally, local dev); otherwise it falls back to the local
+    // media/ folder. Credentials come from Application Default Credentials:
+    // the Cloud Run service account in production, `gcloud auth
+    // application-default login` locally. The bucket is publicly readable,
+    // so files are served straight from storage.googleapis.com.
+    gcsStorage({
+      enabled: Boolean(process.env.GCS_BUCKET),
+      bucket: process.env.GCS_BUCKET || "",
+      options: { projectId: process.env.GCS_PROJECT_ID },
+      collections: {
+        media: {
+          // Keeps each environment's files apart in the same bucket.
+          prefix: process.env.GCS_PREFIX || "production",
+          disablePayloadAccessControl: true,
+        },
+      },
+    }),
+  ],
 });
