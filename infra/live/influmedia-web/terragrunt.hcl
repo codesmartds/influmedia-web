@@ -14,6 +14,6 @@ inputs = {
   gcp_region     = "us-central1"
   service_name   = "influmedia-web"
   media_bucket   = "influmedia-web-media"
-  # Vacío hasta tener el dominio; al definirlo se crea el domain mapping.
-  domain_name = ""
+  # Subdominio de pruebas; root y www siguen apuntando a Railway por ahora.
+  domain_name = "dev.influmediaca.com"
 }
