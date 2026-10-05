@@ -107,9 +107,9 @@ jobs:
           env_vars: |-
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}
-            GCS_BUCKET=influmedia-web-media
-            GCS_PROJECT_ID=${{ env.PROJECT_ID }}
-            GCS_PREFIX=production
+            GCS_BUCKET=${{ vars.GCS_BUCKET }}
+            GCS_PROJECT_ID=${{ vars.GCS_PROJECT_ID }}
+            GCS_PREFIX=${{ vars.GCS_PREFIX }}
 
       - name: Show Service URL
         run: |-
