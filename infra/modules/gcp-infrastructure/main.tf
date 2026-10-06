@@ -10,6 +10,10 @@ resource "google_project_service" "apis" {
     "artifactregistry.googleapis.com",
     "storage.googleapis.com",
     "iam.googleapis.com",
+    # El conector de Cloud SQL las requiere en el proyecto del servicio,
+    # aunque la instancia viva en code-crypto-shared.
+    "sqladmin.googleapis.com",
+    "secretmanager.googleapis.com",
   ])
   service            = each.value
   disable_on_destroy = false
@@ -81,7 +85,8 @@ resource "google_cloud_run_v2_service" "service" {
 
     scaling {
       min_instance_count = 0
-      max_instance_count = 10
+      # sites-db es compartida (~25 conexiones): 3 instancias x pool de 4.
+      max_instance_count = 3
     }
 
     containers {
@@ -108,6 +113,69 @@ resource "google_cloud_run_v2_service" "service" {
       template[0].containers[0].image,
       template[0].containers[0].env,
       # Etiquetas que agrega deploy-cloudrun en cada despliegue.
+      template[0].labels,
+    ]
+  }
+}
+
+# --- Migraciones -------------------------------------------------------------
+# El workflow actualiza la imagen (etapa migrator del Dockerfile) y ejecuta
+# el Job antes de cada despliegue; si falla, el servicio no se actualiza.
+
+resource "google_cloud_run_v2_job" "migrate" {
+  depends_on = [google_project_service.apis]
+  name       = "${var.service_name}-migrate"
+  location   = var.gcp_region
+
+  template {
+    task_count = 1
+
+    template {
+      service_account = google_service_account.run.email
+      max_retries     = 0
+      timeout         = "600s"
+
+      volumes {
+        name = "cloudsql"
+        cloud_sql_instance {
+          instances = [var.sql_instance]
+        }
+      }
+
+      containers {
+        # La imagen real la asigna el workflow de GitHub Actions.
+        image = "us-docker.pkg.dev/cloudrun/container/job:latest"
+
+        env {
+          name = "DATABASE_URL"
+          value_source {
+            secret_key_ref {
+              secret  = var.database_url_secret
+              version = "latest"
+            }
+          }
+        }
+
+        volume_mounts {
+          name       = "cloudsql"
+          mount_path = "/cloudsql"
+        }
+
+        resources {
+          limits = {
+            cpu    = "1"
+            memory = "1Gi"
+          }
+        }
+      }
+    }
+  }
+
+  lifecycle {
+    ignore_changes = [
+      client,
+      client_version,
+      template[0].template[0].containers[0].image,
       template[0].labels,
     ]
   }

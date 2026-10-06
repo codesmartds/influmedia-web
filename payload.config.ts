@@ -57,7 +57,8 @@ export default buildConfig({
     outputFile: path.resolve(dirname, "payload-types.ts"),
   },
   db: postgresAdapter({
-    pool: { connectionString: process.env.DATABASE_URL || "" },
+    // sites-db is shared and allows ~25 connections: 4 per instance, 3 instances max.
+    pool: { connectionString: process.env.DATABASE_URL || "", max: 4 },
     migrationDir: path.resolve(dirname, "migrations"),
   }),
   sharp,

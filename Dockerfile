@@ -19,6 +19,11 @@ ENV GCS_PROJECT_ID=influmedia-web
 ENV GCS_PREFIX=production
 RUN npm run build
 
+# Runs pending Payload migrations; deployed as a Cloud Run Job before each release.
+# The standalone runner below lacks the Payload CLI and migrations/.
+FROM builder AS migrator
+CMD ["npx", "payload", "migrate"]
+
 FROM base AS runner
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
