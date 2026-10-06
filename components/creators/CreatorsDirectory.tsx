@@ -19,11 +19,11 @@ const shortUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/, "").replac
 // "Exclusive Creators" deck pages.
 export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; categories: Category[] }) {
   const reduce = useReducedMotion();
-  const [active, setActive] = useState<string | null>(null);
+  const [active, setActive] = useState<number | null>(null);
   const [selected, setSelected] = useState<Talent | null>(null);
   const dialog = useRef<HTMLDialogElement>(null);
 
-  const counts = new Map<string, number>();
+  const counts = new Map<number, number>();
   for (const t of talents) {
     const c = categoryOf(t);
     if (c) counts.set(c.id, (counts.get(c.id) ?? 0) + 1);
@@ -51,7 +51,7 @@ export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; 
         {/* Editorial list: hairline dividers, and the active row gets a bar
             and a soft wash in its category color. On mobile, a swipeable row. */}
         <ul className="flex gap-2 overflow-x-auto pb-2 [scrollbar-width:none] lg:flex-col lg:gap-0 lg:overflow-visible lg:border-t lg:border-white/10 lg:pb-0">
-          {[{ id: null as string | null, name: "Todos", color: "#8c5cff", count: talents.length }, ...categories.map((c) => ({ id: c.id, name: c.name, color: c.color, count: counts.get(c.id) ?? 0 }))]
+          {[{ id: null as number | null, name: "Todos", color: "#8c5cff", count: talents.length }, ...categories.map((c) => ({ id: c.id, name: c.name, color: c.color, count: counts.get(c.id) ?? 0 }))]
             .filter((c) => c.count > 0)
             .map((c) => {
               const isActive = active === c.id;

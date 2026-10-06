@@ -19,4 +19,8 @@ inputs = {
     "dev.influmediaca.com",
     "www.influmediaca.com",
   ]
+
+  # Base de datos en la instancia compartida sites-db (repo shared-resources).
+  sql_instance        = "code-crypto-shared:us-central1:sites-db"
+  database_url_secret = "projects/584903132770/secrets/sites-db-influmedia-web-database-url"
 }

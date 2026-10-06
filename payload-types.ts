@@ -106,7 +106,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: string;
+    defaultIDType: number;
   };
   fallbackLocale: null;
   globals: {
@@ -152,7 +152,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: string;
+  id: number;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -178,7 +178,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: string;
+  id: number;
   alt: string;
   prefix?: string | null;
   _objectKey?: string | null;
@@ -217,7 +217,7 @@ export interface Media {
  * via the `definition` "talents".
  */
 export interface Talent {
-  id: string;
+  id: number;
   name: string;
   content?: {
     root: {
@@ -238,8 +238,8 @@ export interface Talent {
    * Si está desactivado, no aparece en el listado del sitio.
    */
   active?: boolean | null;
-  thumbnail: string | Media;
-  category?: (string | null) | Category;
+  thumbnail: number | Media;
+  category?: (number | null) | Category;
   /**
    * URL completa del perfil, ej. https://instagram.com/usuario
    */
@@ -256,7 +256,7 @@ export interface Talent {
  * via the `definition` "categories".
  */
 export interface Category {
-  id: string;
+  id: number;
   name: string;
   description?: string | null;
   /**
@@ -264,7 +264,7 @@ export interface Category {
    */
   color: string;
   talents?: {
-    docs?: (string | Talent)[];
+    docs?: (number | Talent)[];
     hasNextPage?: boolean;
     totalDocs?: number;
   };
@@ -278,13 +278,13 @@ export interface Category {
  * via the `definition` "case-studies".
  */
 export interface CaseStudy {
-  id: string;
+  id: number;
   /**
    * Ej. "Lanzamiento de Flamin' Hot en Guatemala".
    */
   title: string;
   brandName: string;
-  brandLogo?: (string | null) | Media;
+  brandLogo?: (number | null) | Media;
   /**
    * Qué buscaba la marca, en una o dos frases.
    */
@@ -325,9 +325,9 @@ export interface CaseStudy {
    * Se genera del título si se deja vacío.
    */
   slug: string;
-  cover: string | Media;
-  talents?: (string | Talent)[] | null;
-  category?: (string | null) | Category;
+  cover: number | Media;
+  talents?: (number | Talent)[] | null;
+  category?: (number | null) | Category;
   featured?: boolean | null;
   published?: boolean | null;
   publishedAt: string;
@@ -341,7 +341,7 @@ export interface CaseStudy {
  * via the `definition` "testimonials".
  */
 export interface Testimonial {
-  id: string;
+  id: number;
   type: 'brand' | 'creator';
   quote: string;
   author: string;
@@ -353,8 +353,8 @@ export interface Testimonial {
   /**
    * Si es un creador del roster, usa su foto y nombre de la ficha.
    */
-  talent?: (string | null) | Talent;
-  photo?: (string | null) | Media;
+  talent?: (number | null) | Talent;
+  photo?: (number | null) | Media;
   /**
    * Si está desactivado, no aparece en el sitio.
    */
@@ -369,7 +369,7 @@ export interface Testimonial {
  * via the `definition` "team".
  */
 export interface Team {
-  id: string;
+  id: number;
   name: string;
   role: string;
   /**
@@ -380,7 +380,7 @@ export interface Team {
   /**
    * Sin foto se muestran las iniciales.
    */
-  photo?: (string | null) | Media;
+  photo?: (number | null) | Media;
   order?: number | null;
   active?: boolean | null;
   updatedAt: string;
@@ -391,7 +391,7 @@ export interface Team {
  * via the `definition` "posts".
  */
 export interface Post {
-  id: string;
+  id: number;
   title: string;
   /**
    * Aparece en la tarjeta del listado.
@@ -421,7 +421,7 @@ export interface Post {
    */
   published?: boolean | null;
   publishedAt: string;
-  cover: string | Media;
+  cover: number | Media;
   author?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -431,7 +431,7 @@ export interface Post {
  * via the `definition` "subscribers".
  */
 export interface Subscriber {
-  id: string;
+  id: number;
   email: string;
   firstName?: string | null;
   lastName?: string | null;
@@ -450,7 +450,7 @@ export interface Subscriber {
  * via the `definition` "contact-submissions".
  */
 export interface ContactSubmission {
-  id: string;
+  id: number;
   name: string;
   company: string;
   email: string;
@@ -469,14 +469,14 @@ export interface ContactSubmission {
  * via the `definition` "creator-applications".
  */
 export interface CreatorApplication {
-  id: string;
+  id: number;
   name: string;
   email: string;
   phone?: string | null;
   country: string;
   instagram?: string | null;
   tiktok?: string | null;
-  category: string | Category;
+  category: number | Category;
   audienceSize: 'under-10k' | '10k-50k' | '50k-100k' | '100k-500k' | 'over-500k';
   message?: string | null;
   status?: ('new' | 'reviewing' | 'accepted' | 'declined') | null;
@@ -488,7 +488,7 @@ export interface CreatorApplication {
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
-  id: string;
+  id: number;
   key: string;
   data:
     | {
@@ -505,56 +505,56 @@ export interface PayloadKv {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: string;
+  id: number;
   document?:
     | ({
         relationTo: 'users';
-        value: string | User;
+        value: number | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: string | Media;
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'talents';
-        value: string | Talent;
+        value: number | Talent;
       } | null)
     | ({
         relationTo: 'categories';
-        value: string | Category;
+        value: number | Category;
       } | null)
     | ({
         relationTo: 'case-studies';
-        value: string | CaseStudy;
+        value: number | CaseStudy;
       } | null)
     | ({
         relationTo: 'testimonials';
-        value: string | Testimonial;
+        value: number | Testimonial;
       } | null)
     | ({
         relationTo: 'team';
-        value: string | Team;
+        value: number | Team;
       } | null)
     | ({
         relationTo: 'posts';
-        value: string | Post;
+        value: number | Post;
       } | null)
     | ({
         relationTo: 'subscribers';
-        value: string | Subscriber;
+        value: number | Subscriber;
       } | null)
     | ({
         relationTo: 'contact-submissions';
-        value: string | ContactSubmission;
+        value: number | ContactSubmission;
       } | null)
     | ({
         relationTo: 'creator-applications';
-        value: string | CreatorApplication;
+        value: number | CreatorApplication;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -564,10 +564,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: string;
+  id: number;
   user: {
     relationTo: 'users';
-    value: string | User;
+    value: number | User;
   };
   key?: string | null;
   value?:
@@ -587,7 +587,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: string;
+  id: number;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -854,11 +854,11 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "brands".
  */
 export interface Brand {
-  id: string;
+  id: number;
   items?:
     | {
         name: string;
-        image: string | Media;
+        image: number | Media;
         /**
          * Para filtrar las marcas en /influencer-marketing.
          */
@@ -874,13 +874,13 @@ export interface Brand {
  * via the `definition` "gallery".
  */
 export interface Gallery {
-  id: string;
+  id: number;
   /**
    * El orden de la lista es el orden en el mosaico. Las destacadas ocupan un espacio grande.
    */
   items?:
     | {
-        image: string | Media;
+        image: number | Media;
         /**
          * Ej. Lanzamiento de temporada · 2026
          */
@@ -898,7 +898,7 @@ export interface Gallery {
  * via the `definition` "contact-info".
  */
 export interface ContactInfo {
-  id: string;
+  id: number;
   email?: string | null;
   /**
    * Número con código de país (+502 3033-8063) o enlace de WhatsApp (https://wa.me/50230338063).

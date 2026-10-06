@@ -20,7 +20,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 // category, and the client logo grid (with its own industry filter).
 export function Results({ cases, brands }: { cases: CaseStudy[]; brands: NonNullable<Brand["items"]> }) {
   const reduce = useReducedMotion();
-  const [active, setActive] = useState<string | null>(null);
+  const [active, setActive] = useState<number | null>(null);
   const categoryOf = (c: CaseStudy) => (c.category && typeof c.category === "object" ? (c.category as Category) : null);
   const categories = [...new Map(cases.flatMap((c) => (categoryOf(c) ? [[categoryOf(c)!.id, categoryOf(c)!]] : []))).values()];
   const visible = active ? cases.filter((c) => categoryOf(c)?.id === active) : cases;

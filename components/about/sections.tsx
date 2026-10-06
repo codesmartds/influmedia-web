@@ -217,7 +217,7 @@ const talentPoints = [
 export function TalentShowcase({ talents }: { talents: Talent[] }) {
   const withPhoto = talents.filter((t) => t.thumbnail && typeof t.thumbnail === "object" && (t.thumbnail as Media).url);
   // Category chips with how many creators each one has, largest first.
-  const counts = new Map<string, { category: Category; count: number }>();
+  const counts = new Map<number, { category: Category; count: number }>();
   for (const t of talents) {
     if (!t.category || typeof t.category !== "object") continue;
     const entry = counts.get(t.category.id) ?? { category: t.category, count: 0 };

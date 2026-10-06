@@ -382,7 +382,7 @@ export async function seed() {
   await payload.updateGlobal({ slug: "brands", data: { items: brandItems }, ...SKIP_REVALIDATE });
 
   // Categories, matched by name.
-  const categoryIds = new Map<CategoryName, string>();
+  const categoryIds = new Map<CategoryName, number>();
   for (const { name, color } of categories) {
     const found = await payload.find({ collection: "categories", where: { name: { equals: name } }, limit: 1 });
     const doc = found.docs[0]
@@ -440,7 +440,7 @@ export async function seed() {
       title: mock.title,
       slug: slugify(mock.title),
       brandName: mock.brand,
-      brandLogo: (brandsGlobal.items ?? []).find((b) => b.name === mock.brand)?.image as string | undefined,
+      brandLogo: (brandsGlobal.items ?? []).find((b) => b.name === mock.brand)?.image as number | undefined,
       objective: mock.objective,
       approach: mock.approach,
       results: mock.results,
