@@ -1,6 +1,6 @@
-# Heredar configuración de backend y proveedor del root terragrunt.hcl
+# Heredar configuración de backend y proveedor de root.hcl
 include "root" {
-  path = find_in_parent_folders()
+  path = find_in_parent_folders("root.hcl")
 }
 
 # Origen de los recursos de Terraform
