@@ -12,7 +12,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 # Build-time placeholders; real values come from Cloud Run env vars.
-ENV DATABASE_URL=mongodb://127.0.0.1:27017/build-placeholder
+ENV DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build-placeholder
 ENV PAYLOAD_SECRET=build_placeholder_secret
 ENV GCS_BUCKET=influmedia-web-media
 ENV GCS_PROJECT_ID=influmedia-web

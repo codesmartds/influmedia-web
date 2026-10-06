@@ -65,7 +65,7 @@ export async function applyAsCreator(_: ApplyState, formData: FormData): Promise
       country: values.country,
       instagram,
       tiktok,
-      category: values.category,
+      category: category!.docs[0].id,
       audienceSize: values.audienceSize as AudienceSize,
       message: values.message || null,
     },

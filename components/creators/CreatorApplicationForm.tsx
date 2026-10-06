@@ -18,7 +18,7 @@ const initial: ApplyState = {
 const controlClass =
   "w-full rounded-xl border-white/20 bg-base-200 focus:border-secondary aria-[invalid=true]:border-error";
 
-export function CreatorApplicationForm({ categories }: { categories: { id: string; name: string }[] }) {
+export function CreatorApplicationForm({ categories }: { categories: { id: number; name: string }[] }) {
   const [state, action, pending] = useActionState(applyAsCreator, initial);
 
   if (state.status === "success") {

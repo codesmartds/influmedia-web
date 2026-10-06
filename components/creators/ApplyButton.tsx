@@ -10,7 +10,7 @@ export function ApplyButton({
   className,
   children,
 }: {
-  categories: { id: string; name: string }[];
+  categories: { id: number; name: string }[];
   className?: string;
   children: ReactNode;
 }) {
