@@ -73,24 +73,38 @@ jobs:
         run: |-
           gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
 
-      - name: Build and Push Containers
+      - name: Build and Push Container
         run: |-
           IMAGE_TAG="${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:${{ github.sha }}"
-          # Mismo build, dos etapas: el sitio (runner) y la imagen del Job de migraciones.
-          docker build --target migrator -t "$IMAGE_TAG-migrator" .
           docker build -t "$IMAGE_TAG" .
-          docker push "$IMAGE_TAG-migrator"
           docker push "$IMAGE_TAG"
 
+  # Corre en paralelo con build. Si una migración falla, el deploy no se
+  # ejecuta y el sitio sigue igual.
   migrate:
     name: Run Migrations
-    needs: build
+    needs: terragrunt
     runs-on: ubuntu-latest
     permissions:
       contents: read
       id-token: write
+    env:
+      SQL_INSTANCE: code-crypto-shared:us-central1:sites-db
+      PROXY_VERSION: v2.14.0
 
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v5
+
+      - name: Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install Dependencies
+        run: npm ci --ignore-scripts
+
       - name: Google Auth
         uses: google-github-actions/auth@v3
         with:
@@ -99,15 +113,33 @@ jobs:
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v3
 
-      # Si una migración falla, el workflow se detiene antes del deploy y el sitio sigue igual.
-      - name: Execute Migrations Job
+      # Túnel a sites-db autenticado con la cuenta del deployer; no depende
+      # de que la IP pública esté abierta.
+      - name: Start Cloud SQL Auth Proxy
         run: |-
-          gcloud run jobs update ${{ env.SERVICE_NAME }}-migrate \
-            --region ${{ env.REGION }} \
-            --image "${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/${{ env.SERVICE_NAME }}:${{ github.sha }}-migrator"
-          gcloud run jobs execute ${{ env.SERVICE_NAME }}-migrate \
-            --region ${{ env.REGION }} \
-            --wait
+          curl -sSfo cloud-sql-proxy "https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/$PROXY_VERSION/cloud-sql-proxy.linux.amd64"
+          chmod +x cloud-sql-proxy
+          ./cloud-sql-proxy "$SQL_INSTANCE" --port 5432 --health-check --http-port 9090 > proxy.log 2>&1 &
+          for i in $(seq 1 30); do
+            curl -sf http://127.0.0.1:9090/startup >/dev/null && exit 0
+            sleep 1
+          done
+          cat proxy.log
+          exit 1
+
+      - name: Run Payload Migrations
+        env:
+          NODE_ENV: production
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+        run: |-
+          # El secreto apunta al socket de Cloud Run; aquí se conecta por el proxy local.
+          SOCKET_URL=$(gcloud secrets versions access latest \
+            --secret sites-db-influmedia-web-database-url --project code-crypto-shared)
+          echo "::add-mask::$SOCKET_URL"
+          export DATABASE_URL="${SOCKET_URL%%\?*}"
+          DATABASE_URL="${DATABASE_URL/@localhost\//@127.0.0.1:5432/}"
+          echo "::add-mask::$DATABASE_URL"
+          npx payload migrate
 
   deploy:
     name: Deploy to Cloud Run

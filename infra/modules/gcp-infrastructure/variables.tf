@@ -29,8 +29,3 @@ variable "sql_instance" {
   type        = string
   description = "Instancia de Cloud SQL compartida, como proyecto:región:instancia."
 }
-
-variable "database_url_secret" {
-  type        = string
-  description = "Secreto con el DATABASE_URL por socket, como projects/<número>/secrets/<nombre>."
-}
