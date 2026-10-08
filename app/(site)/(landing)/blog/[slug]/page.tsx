@@ -26,13 +26,15 @@ export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
   if (!post) notFound();
 
   const payload = await getPayload({ config });
-  const more = await payload.find({
-    collection: "posts",
-    where: { published: { equals: true }, id: { not_equals: post.id } },
-    sort: "-publishedAt",
-    limit: 3,
-    depth: 1,
-  });
+  // Related: same topic first, then the newest others, three in all.
+  const base = { published: { equals: true }, id: { not_equals: post.id } };
+  const sameTopic = post.topic
+    ? (await payload.find({ collection: "posts", where: { ...base, topic: { equals: post.topic } }, sort: "-publishedAt", limit: 3, depth: 1 })).docs
+    : [];
+  const rest = (
+    await payload.find({ collection: "posts", where: { ...base, id: { not_in: [post.id, ...sameTopic.map((p) => p.id)] } }, sort: "-publishedAt", limit: 3, depth: 1 })
+  ).docs;
+  const more = { docs: [...sameTopic, ...rest].slice(0, 3) };
 
   return (
     <PageTransition>

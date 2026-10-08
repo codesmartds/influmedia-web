@@ -78,6 +78,7 @@ export interface Config {
     subscribers: Subscriber;
     'contact-submissions': ContactSubmission;
     'creator-applications': CreatorApplication;
+    'gallery-moments': GalleryMoment;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +101,7 @@ export interface Config {
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'creator-applications': CreatorApplicationsSelect<false> | CreatorApplicationsSelect<true>;
+    'gallery-moments': GalleryMomentsSelect<false> | GalleryMomentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -111,12 +113,10 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     brands: Brand;
-    gallery: Gallery;
     'contact-info': ContactInfo;
   };
   globalsSelect: {
     brands: BrandsSelect<false> | BrandsSelect<true>;
-    gallery: GallerySelect<false> | GallerySelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
   };
   locale: null;
@@ -286,12 +286,16 @@ export interface CaseStudy {
   brandName: string;
   brandLogo?: (number | null) | Media;
   /**
+   * Una o dos frases para el slider del home. Si se deja vacío, se usa el objetivo.
+   */
+  excerpt?: string | null;
+  /**
    * Qué buscaba la marca, en una o dos frases.
    */
   objective: string;
   approach: string;
   /**
-   * Cifras destacadas, ej. 2.4M · Alcance. Entre 1 y 4.
+   * Cifras destacadas, ej. 2.4M · Alcance. Entre 1 y 3.
    */
   results?:
     | {
@@ -421,6 +425,10 @@ export interface Post {
    */
   published?: boolean | null;
   publishedAt: string;
+  /**
+   * Filtro del blog. Sin tema, el artículo solo aparece en Todos.
+   */
+  topic?: ('estrategia' | 'metricas' | 'formatos' | 'categorias' | 'creative-tech') | null;
   cover: number | Media;
   author?: string | null;
   updatedAt: string;
@@ -480,6 +488,44 @@ export interface CreatorApplication {
   audienceSize: 'under-10k' | '10k-50k' | '50k-100k' | '100k-500k' | 'over-500k';
   message?: string | null;
   status?: ('new' | 'reviewing' | 'accepted' | 'declined') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Fotos y videos de momentos de la agencia. Se ordenan por fecha, del más reciente al más antiguo.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-moments".
+ */
+export interface GalleryMoment {
+  id: number;
+  /**
+   * Ej. Lanzamiento de temporada con embajadores
+   */
+  title: string;
+  /**
+   * La foto, o la portada si el momento es un video.
+   */
+  image: number | Media;
+  /**
+   * MP4 o WebM. Se reproduce en la vista ampliada.
+   */
+  video?: (number | null) | Media;
+  /**
+   * Una o dos frases para la vista ampliada.
+   */
+  description?: string | null;
+  category: 'eventos' | 'activaciones' | 'produccion' | 'equipo' | 'reconocimientos';
+  date: string;
+  /**
+   * Ej. Ciudad de Guatemala
+   */
+  place?: string | null;
+  brand?: string | null;
+  /**
+   * El más reciente marcado abre /galeria.
+   */
+  featured?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -550,6 +596,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'creator-applications';
         value: number | CreatorApplication;
+      } | null)
+    | ({
+        relationTo: 'gallery-moments';
+        value: number | GalleryMoment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -695,6 +745,7 @@ export interface CaseStudiesSelect<T extends boolean = true> {
   title?: T;
   brandName?: T;
   brandLogo?: T;
+  excerpt?: T;
   objective?: T;
   approach?: T;
   results?:
@@ -757,6 +808,7 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   published?: T;
   publishedAt?: T;
+  topic?: T;
   cover?: T;
   author?: T;
   updatedAt?: T;
@@ -806,6 +858,23 @@ export interface CreatorApplicationsSelect<T extends boolean = true> {
   audienceSize?: T;
   message?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-moments_select".
+ */
+export interface GalleryMomentsSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  video?: T;
+  description?: T;
+  category?: T;
+  date?: T;
+  place?: T;
+  brand?: T;
+  featured?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -871,30 +940,6 @@ export interface Brand {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery".
- */
-export interface Gallery {
-  id: number;
-  /**
-   * El orden de la lista es el orden en el mosaico. Las destacadas ocupan un espacio grande.
-   */
-  items?:
-    | {
-        image: number | Media;
-        /**
-         * Ej. Lanzamiento de temporada · 2026
-         */
-        caption?: string | null;
-        brand?: string | null;
-        featured?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-info".
  */
 export interface ContactInfo {
@@ -942,24 +987,6 @@ export interface BrandsSelect<T extends boolean = true> {
         name?: T;
         image?: T;
         industry?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery_select".
- */
-export interface GallerySelect<T extends boolean = true> {
-  items?:
-    | T
-    | {
-        image?: T;
-        caption?: T;
-        brand?: T;
-        featured?: T;
         id?: T;
       };
   updatedAt?: T;

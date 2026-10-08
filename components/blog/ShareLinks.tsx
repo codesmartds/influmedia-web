@@ -1,16 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { FaLinkedinIn, FaWhatsapp } from "react-icons/fa";
-import { FiCheck, FiLink } from "react-icons/fi";
+import { useState, useSyncExternalStore } from "react";
 
-const btn =
-  "flex size-11 cursor-pointer items-center justify-center rounded-xl border border-base-300 text-lg transition-colors hover:border-secondary hover:text-secondary";
+const pill =
+  "cursor-pointer rounded-full border border-[#2a2233] px-3.5 py-[9px] font-mono text-[11px] tracking-[0.1em] text-[#a39bae] transition-colors hover:border-base-content hover:text-base-content";
+
+// The page URL, read from the browser after hydration ("" on the server).
+const noop = () => () => {};
+const useHref = () =>
+  useSyncExternalStore(
+    noop,
+    () => window.location.href,
+    () => "",
+  );
 
 export function ShareLinks({ title }: { title: string }) {
-  const [url, setUrl] = useState("");
+  const url = useHref();
   const [copied, setCopied] = useState(false);
-  useEffect(() => setUrl(window.location.href), []);
 
   const copy = async () => {
     await navigator.clipboard.writeText(url);
@@ -19,29 +25,16 @@ export function ShareLinks({ title }: { title: string }) {
   };
 
   return (
-    <div className="flex items-center gap-3">
-      <span className="text-[0.65rem] font-bold uppercase tracking-[0.18em] text-base-content/50">Compartir</span>
-      <button type="button" onClick={copy} aria-label={copied ? "Enlace copiado" : "Copiar enlace"} className={btn}>
-        {copied ? <FiCheck aria-hidden className="text-success" /> : <FiLink aria-hidden />}
+    <div className="flex flex-wrap gap-2">
+      <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer" className={pill}>
+        LINKEDIN
+      </a>
+      <a href={`https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`} target="_blank" rel="noopener noreferrer" className={pill}>
+        WHATSAPP
+      </a>
+      <button type="button" onClick={copy} className={pill}>
+        {copied ? "COPIADO ✓" : "COPIAR LINK"}
       </button>
-      <a
-        href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Compartir en LinkedIn"
-        className={btn}
-      >
-        <FaLinkedinIn aria-hidden />
-      </a>
-      <a
-        href={`https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Compartir por WhatsApp"
-        className={btn}
-      >
-        <FaWhatsapp aria-hidden />
-      </a>
       <span role="status" className="sr-only">
         {copied ? "Enlace copiado" : ""}
       </span>

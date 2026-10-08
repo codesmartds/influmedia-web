@@ -4,16 +4,14 @@ import config from "@payload-config";
 import { ContactSection } from "@/components/contact/ContactSection";
 import { HeroSlide } from "@/components/home/HeroSlide";
 import {
-  BrandProblem,
   CaseStudies,
   ClientMarquee,
-  DualCta,
-  ForCreators,
   LatestPosts,
+  InfluencerMarketing360,
   Method,
-  Roster,
   Stats,
-  Testimonials,
+  TalentNetwork,
+  WhatWeDo,
 } from "@/components/home/sections";
 import { NewsletterBar } from "@/components/newsletter/NewsletterBar";
 import { PageTransition } from "@/components/transitions/PageTransition";
@@ -32,29 +30,32 @@ function shuffle<T>(items: T[]): T[] {
 export default async function Home() {
   await connection(); // roster is shuffled per visit
   const payload = await getPayload({ config });
-  const [brands, talents, cases, testimonials, posts, contact] = await Promise.all([
+  const [brands, talents, cases, posts, contact] = await Promise.all([
     payload.findGlobal({ slug: "brands", depth: 1 }),
     payload.find({ collection: "talents", where: { active: { equals: true } }, depth: 1, limit: 100 }),
     payload.find({ collection: "case-studies", where: { featured: { equals: true }, published: { equals: true } }, limit: 3, depth: 1 }),
-    payload.find({ collection: "testimonials", where: { active: { equals: true } }, limit: 6, depth: 1 }),
-    payload.find({ collection: "posts", where: { published: { equals: true } }, sort: "-publishedAt", limit: 3, depth: 1 }),
+    payload.find({ collection: "posts", where: { published: { equals: true } }, sort: "-publishedAt", limit: 5, depth: 1 }),
     payload.findGlobal({ slug: "contact-info" }),
   ]);
 
+  // Hero lineup: every talent with a photo, shuffled; five show and the rest rotate in.
+  const heroTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url));
+
+  // Method demo panels: five more random talents with a photo.
+  const methodTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url)).slice(0, 5);
+
   return (
     <PageTransition>
-      <HeroSlide />
-      <ClientMarquee brands={brands.items ?? []} />
+      <HeroSlide talents={heroTalents} />
       <Stats />
-      <BrandProblem />
-      <Method />
+      <ClientMarquee brands={brands.items ?? []} />
+      <WhatWeDo />
+      <InfluencerMarketing360 />
+      <Method talents={methodTalents} />
       <CaseStudies cases={cases.docs} />
-      <Roster talents={shuffle(talents.docs)} />
-      <ForCreators />
-      <Testimonials items={testimonials.docs} />
-      <NewsletterBar />
+      <TalentNetwork talents={shuffle(talents.docs)} />
       <LatestPosts posts={posts.docs} />
-      <DualCta />
+      <NewsletterBar />
       <ContactSection contact={contact} />
     </PageTransition>
   );

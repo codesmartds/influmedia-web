@@ -13,33 +13,33 @@
   prefersdark: true;
   color-scheme: dark;
 
-  /* Brand violet: MENÚ / CONTACTO buttons, primary pills */
-  --color-primary: #6c3af0;
-  --color-primary-content: #ffffff;
-  /* Cyan: eyebrows, "EXPLORAR DECK", DATA pill */
-  --color-secondary: #55d6ff;
-  --color-secondary-content: #0f0b24;
-  /* Pink: PEOPLE pill, Postbuy accents */
-  --color-accent: #f4a6d0;
-  --color-accent-content: #0f0b24;
-  /* Deep purple surfaces (decorative blobs) */
-  --color-neutral: #2a1f5c;
-  --color-neutral-content: #ffffff;
+  /* Main CTAs: light pill on dark ("Contáctanos", "Leer artículo") */
+  --color-primary: #f2eef6;
+  --color-primary-content: #0b0810;
+  /* Brand lilac: eyebrows, highlighted words, active states, hover of CTAs */
+  --color-secondary: #b79bdb;
+  --color-secondary-content: #0b0810;
+  /* Deep violet: underlines and subtle accents */
+  --color-accent: #5e2d85;
+  --color-accent-content: #f2eef6;
+  /* Raised surfaces and dividers */
+  --color-neutral: #241d2c;
+  --color-neutral-content: #f2eef6;
 
-  /* Page background, cards, borders */
-  --color-base-100: #0f0b24;
-  --color-base-200: #161030;
-  --color-base-300: #2a2350;
-  --color-base-content: #ffffff;
+  /* Page background, alternate sections, borders */
+  --color-base-100: #0b0810;
+  --color-base-200: #100c16;
+  --color-base-300: #241d2c;
+  --color-base-content: #f2eef6;
 
   --color-info: #4aa8ff;
-  --color-success: #6ee0b0;
+  --color-success: #5fbfbf;
   --color-warning: #ffb86b;
-  --color-error: #ff5c7a;
+  --color-error: #d77fb4;
 
-  --radius-selector: 2rem;
-  --radius-field: 0.5rem;
-  --radius-box: 1rem;
+  --radius-selector: 2.5rem;
+  --radius-field: 2.5rem;
+  --radius-box: 0.5rem;
 
   /* Border width for inputs, selects and outlined buttons; without it
      DaisyUI draws them borderless. */
@@ -49,10 +49,12 @@
 }
 
 @theme {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-instrument-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-funnel-display), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   /* Muted body copy (subtitles, card descriptions) */
-  --color-muted: #b8b3cc;
+  --color-muted: #a39bae;
 
   /* Talent category accents (Exclusive Creators section) */
   --color-cat-lifestyle: #6c4ef0;
@@ -64,6 +66,15 @@
   --color-cat-gaming: #14b8b8;
   --color-cat-tech: #4f8ff7;
   --color-cat-automotive: #ef4f4f;
+}
+
+/* Headings use the display face; body copy stays on --font-sans. */
+@layer base {
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+  }
 }
 
 /* ---------- Page transitions (React <ViewTransition>) ---------- */
@@ -166,4 +177,21 @@
   to {
     transform: translateX(-50%);
   }
+}
+
+/* Office marker on the /nosotros map: rings that grow and fade. */
+@keyframes hqpulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.6);
+    opacity: 0;
+  }
+}
+
+/* Any open modal <dialog> (category picker, creator profile) freezes the page behind it. */
+html:has(dialog[open]) {
+  overflow: hidden;
 }

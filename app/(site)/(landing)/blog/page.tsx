@@ -1,33 +1,49 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPayload } from "payload";
+import { getPayload, type Where } from "payload";
 import config from "@payload-config";
-import { BlogSlide } from "@/components/blog/BlogSlide";
-import { POSTS_PER_PAGE } from "@/components/blog/format";
+import { BlogIndex } from "@/components/blog/BlogIndex";
+import { POSTS_PER_PAGE, topics, type TopicValue } from "@/components/blog/format";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
   title: "Blog | Influmedia",
+  description: "Estrategia, datos y creatividad para conectar marcas con personas reales.",
 };
 
+const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
+
 export default async function BlogPage({ searchParams }: PageProps<"/blog">) {
-  const { page: raw } = await searchParams;
-  const page = Number(Array.isArray(raw) ? raw[0] : (raw ?? "1"));
+  const params = await searchParams;
+  const page = Number(first(params.page) ?? "1");
   if (!Number.isInteger(page) || page < 1) notFound();
+  const rawTopic = first(params.tema);
+  const topic = (topics.find((t) => t.value === rawTopic)?.value ?? null) as TopicValue | null;
+  if (rawTopic && !topic) notFound();
 
   const payload = await getPayload({ config });
-  // The newest post is featured on page 1 and kept out of the paginated grid.
-  const latest = await payload.find({
-    collection: "posts",
-    where: { published: { equals: true } },
-    sort: "-publishedAt",
-    limit: 1,
-    depth: 1,
-  });
-  const featured = latest.docs[0] ?? null;
+  const published: Where = { published: { equals: true } };
+
+  // Counts per topic for the filter, from one light query.
+  const all = await payload.find({ collection: "posts", where: published, select: { topic: true }, limit: 1000, depth: 0, pagination: false });
+  const counts = new Map<string, number>();
+  for (const p of all.docs) if (p.topic) counts.set(p.topic, (counts.get(p.topic) ?? 0) + 1);
+  const filters = [
+    { id: null, name: "Todos", count: all.docs.length },
+    ...topics.map((t) => ({ id: t.value, name: t.label, count: counts.get(t.value) ?? 0 })).filter((f) => f.count > 0),
+  ];
+
+  // The newest post is featured on the unfiltered first page and kept out of the grid.
+  const featured =
+    !topic && page === 1
+      ? ((await payload.find({ collection: "posts", where: published, sort: "-publishedAt", limit: 1, depth: 1 })).docs[0] ?? null)
+      : null;
+  const latest = topic ? null : (await payload.find({ collection: "posts", where: published, sort: "-publishedAt", limit: 1, depth: 0 })).docs[0];
   const result = await payload.find({
     collection: "posts",
-    where: { published: { equals: true }, ...(featured && { id: { not_equals: featured.id } }) },
+    where: {
+      and: [published, ...(topic ? [{ topic: { equals: topic } }] : []), ...(latest ? [{ id: { not_equals: latest.id } }] : [])],
+    },
     sort: "-publishedAt",
     limit: POSTS_PER_PAGE,
     page,
@@ -38,7 +54,15 @@ export default async function BlogPage({ searchParams }: PageProps<"/blog">) {
 
   return (
     <PageTransition>
-      <BlogSlide featured={page === 1 ? featured : null} posts={result.docs} page={page} totalPages={result.totalPages} />
+      <BlogIndex
+        featured={featured}
+        posts={result.docs}
+        page={page}
+        totalPages={result.totalPages}
+        total={all.docs.length}
+        topic={topic}
+        filters={filters}
+      />
     </PageTransition>
   );
 }

@@ -10,6 +10,7 @@ import { Media } from "./collections/Media";
 import { Talents } from "./collections/Talents";
 import { Categories } from "./collections/Categories";
 import { Posts } from "./collections/Posts";
+import { GalleryMoments } from "./collections/GalleryMoments";
 import { Subscribers } from "./collections/Subscribers";
 import { ContactSubmissions } from "./collections/ContactSubmissions";
 import { CreatorApplications } from "./collections/CreatorApplications";
@@ -17,7 +18,6 @@ import { CaseStudies } from "./collections/CaseStudies";
 import { Testimonials } from "./collections/Testimonials";
 import { Team } from "./collections/Team";
 import { Brands } from "./globals/Brands";
-import { Gallery } from "./globals/Gallery";
 import { ContactInfo } from "./globals/ContactInfo";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -50,8 +50,9 @@ export default buildConfig({
     Subscribers,
     ContactSubmissions,
     CreatorApplications,
+    GalleryMoments,
   ],
-  globals: [Brands, Gallery, ContactInfo],
+  globals: [Brands, ContactInfo],
   secret: process.env.PAYLOAD_SECRET || "",
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),

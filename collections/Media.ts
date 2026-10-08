@@ -28,7 +28,8 @@ export const Media: CollectionConfig = {
       const sizes = doc?.sizes as { thumbnail?: { url?: string } } | undefined;
       return sizes?.thumbnail?.url || (doc?.url as string | undefined) || false;
     },
-    mimeTypes: ["image/*"],
+    // Videos are for gallery moments; Payload only resizes images.
+    mimeTypes: ["image/*", "video/mp4", "video/webm"],
   },
   fields: [
     {

@@ -1,48 +1,79 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { GalleryMosaic } from "@/components/gallery/GalleryMosaic";
-import { ContactCta } from "@/components/layout/ContactCta";
+import { loadMoments } from "@/components/gallery/actions";
+import { GalleryMoments } from "@/components/gallery/GalleryMoments";
+import { categoryLabels, type GalleryCategory } from "@/components/gallery/types";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
   title: "Galería | Influmedia",
-  description: "Experiencias y eventos Influmedia: creators, producto y formatos dentro de campañas reales.",
+  description: "Eventos, activaciones, producciones y equipo: el archivo visual de Influmedia en Centroamérica y el Caribe.",
 };
 
+const pad = (n: number) => String(n).padStart(2, "0");
+
+// Agency moments (events, activations, productions, team, awards) in photos
+// and videos. The first page renders on the server; the rest load on scroll.
 export default async function GalleryPage() {
   const payload = await getPayload({ config });
-  const gallery = await payload.findGlobal({ slug: "gallery", depth: 1 });
-  const items = gallery.items ?? [];
+  const categories = Object.keys(categoryLabels) as GalleryCategory[];
+  const [firstPage, featured, videos, ...perCategory] = await Promise.all([
+    loadMoments({ page: 1, category: null, kind: "all" }),
+    payload.find({ collection: "gallery-moments", where: { featured: { equals: true } }, sort: "-date", limit: 1, depth: 1 }),
+    payload.count({ collection: "gallery-moments", where: { video: { exists: true } } }),
+    ...categories.map((c) => payload.count({ collection: "gallery-moments", where: { category: { equals: c } } })),
+  ]);
+  const filters = [
+    { id: null, name: "Todos", count: firstPage.totalDocs },
+    ...categories.map((c, i) => ({ id: c, name: categoryLabels[c], count: perCategory[i].totalDocs })).filter((f) => f.count > 0),
+  ];
 
   return (
     <PageTransition>
-      <section className="mx-auto w-full max-w-[96rem] px-6 pb-10 pt-16 md:px-[4.7%] md:pt-24">
-        <Reveal className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <RevealItem as="p" className="text-sm font-bold uppercase text-secondary md:text-base">
-              Galería
-            </RevealItem>
-            <RevealItem as="h1" className="mt-4 max-w-[18ch] text-[clamp(2.6rem,5vw,5.2rem)] font-bold leading-[1.02]">
-              Así se ven las conversaciones que movemos.
-            </RevealItem>
-            <RevealItem as="p" className="mt-6 max-w-[52ch] text-lg leading-snug text-base-content/80 md:text-xl">
-              Experiencias, eventos y campañas Influmedia: creadores, producto y formatos en acción.
-            </RevealItem>
-          </div>
-          <RevealItem as="p" className="flex items-center gap-3 text-[0.7rem] font-bold uppercase tracking-[0.18em] text-base-content/50">
-            <span aria-hidden className="h-px w-8 bg-base-content/30" />
-            {String(items.length).padStart(2, "0")} piezas
+      <Reveal className="mx-auto grid w-full max-w-[96rem] items-end gap-[clamp(28px,4vw,56px)] px-5 pt-[clamp(3rem,7vw,6rem)] pb-[clamp(2.25rem,4vw,3.5rem)] md:px-[4%] lg:grid-cols-3">
+        <div className="flex min-w-0 flex-col gap-[26px] lg:col-span-2">
+          <RevealItem as="p" className="flex gap-2.5 font-mono text-xs tracking-[0.14em] text-[#8e86a0] uppercase">
+            <Link href="/" transitionTypes={["nav-back"]} className="transition-colors hover:text-base-content">
+              Inicio
+            </Link>
+            <span aria-hidden>/</span>
+            <span className="text-secondary">Galería</span>
+          </RevealItem>
+          <RevealItem as="h1" className="text-[clamp(2.1rem,5.4vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em] text-balance">
+            Los momentos detrás de <span className="text-secondary">cada conversación.</span>
+          </RevealItem>
+        </div>
+        <div className="flex flex-col gap-3.5 pb-2">
+          <RevealItem as="p" className="text-[17px] leading-relaxed text-[#c9c2d2]">
+            Eventos, activaciones, producciones y equipo: el archivo visual de lo que construimos con marcas y creadores en la región.
+          </RevealItem>
+          <RevealItem as="p" className="font-mono text-xs tracking-[0.14em] text-[#8e86a0] uppercase">
+            {pad(firstPage.totalDocs)} momentos{videos.totalDocs > 0 ? ` · ${pad(videos.totalDocs)} videos` : ""}
+          </RevealItem>
+        </div>
+      </Reveal>
+
+      <GalleryMoments featured={featured.docs[0] ?? null} firstPage={firstPage} filters={filters} hasVideos={videos.totalDocs > 0} />
+
+      <section className="border-t border-base-300 bg-base-200">
+        <Reveal className="mx-auto flex w-full max-w-[96rem] flex-wrap items-end justify-between gap-8 px-5 py-[clamp(4.5rem,9vw,7.5rem)] md:px-[4%]">
+          <RevealItem as="h2" className="max-w-[900px] text-[clamp(2rem,4.4vw,4.2rem)] leading-[0.88] font-semibold tracking-[-0.055em]">
+            ¿Quieres ver tu marca <span className="text-secondary">aquí?</span>
+          </RevealItem>
+          <RevealItem>
+            <Link
+              href="/contacto"
+              transitionTypes={["nav-forward"]}
+              className="inline-block rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-secondary"
+            >
+              Contáctanos
+            </Link>
           </RevealItem>
         </Reveal>
       </section>
-
-      <section className="mx-auto w-full max-w-[96rem] px-6 pb-12 md:px-[4.7%]">
-        <GalleryMosaic items={items} />
-      </section>
-
-      <ContactCta title="¿Quieres ver tu marca aquí?" />
     </PageTransition>
   );
 }
