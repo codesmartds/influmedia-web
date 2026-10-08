@@ -47,8 +47,8 @@ export default async function Home() {
   return (
     <PageTransition>
       <HeroSlide talents={heroTalents} />
-      <ClientMarquee brands={brands.items ?? []} />
       <Stats />
+      <ClientMarquee brands={brands.items ?? []} />
       <BrandProblem />
       <Method />
       <CaseStudies cases={cases.docs} />

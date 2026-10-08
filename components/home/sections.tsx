@@ -51,23 +51,33 @@ export { CtaLink, Heading };
 
 /* 2 · Client logos, scrolling */
 export function ClientMarquee({ brands }: { brands: NonNullable<Brand["items"]> }) {
-  const logos = brands.flatMap((b) => (media(b.image)?.url ? [{ name: b.name, url: media(b.image)!.url! }] : []));
+  const logos = brands.flatMap((b) => {
+    const m = media(b.image);
+    return m?.url ? [{ name: b.name, url: m.url, width: m.width ?? 160, height: m.height ?? 60 }] : [];
+  });
   if (logos.length === 0) return null;
   const row = (hidden: boolean) => (
-    <ul aria-hidden={hidden || undefined} className="flex shrink-0 items-center gap-4 pr-4">
+    <ul aria-hidden={hidden || undefined} className="flex shrink-0 items-center gap-11 pr-11">
       {logos.map((l) => (
-        <li key={l.name} className="relative h-16 w-36 shrink-0 rounded-xl bg-white">
-          <Image src={l.url} alt={hidden ? "" : l.name} fill sizes="144px" className="object-contain p-3" />
+        <li key={l.name} className="shrink-0">
+          {/* Logos come in mixed colors; render them all as flat white at the same height. */}
+          <Image
+            src={l.url}
+            alt={hidden ? "" : l.name}
+            width={l.width}
+            height={l.height}
+            sizes="160px"
+            className="h-7 w-auto max-w-40 object-contain opacity-70 brightness-0 invert"
+          />
         </li>
       ))}
     </ul>
   );
   return (
-    <section aria-label="Marcas que confían en nosotros" className="border-y border-white/5 py-8">
-      <p className={`${wrap} mb-5 text-center text-xs font-bold uppercase tracking-wider text-base-content/50`}>
-        Marcas que ya entraron a la conversación
-      </p>
-      <div className="flex overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_8%,#000_92%,transparent)]">
+    <section aria-label="Marcas que confían en nosotros" className="flex items-center gap-8 border-b border-base-300 py-9 pl-5 md:gap-12 md:pl-[4%]">
+      {/* The label stays put while the logos loop past it. */}
+      <p className="shrink-0 font-mono text-[0.7rem] tracking-[0.14em] text-[#8e86a0] uppercase">Confían en nosotros</p>
+      <div className="flex min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]">
         <div className="flex animate-[marquee_45s_linear_infinite] motion-reduce:animate-none hover:[animation-play-state:paused]">
           {row(false)}
           {row(true)}
@@ -79,21 +89,25 @@ export function ClientMarquee({ brands }: { brands: NonNullable<Brand["items"]> 
 
 /* 3 · Stats */
 const stats = [
-  { value: 800, suffix: "", label: "Campañas" },
-  { value: 100, suffix: "M", label: "Impresiones en la región" },
+  { value: 800, suffix: "+", label: "Campañas" },
+  { value: 100, suffix: "M+", label: "Impresiones" },
   { value: 8, suffix: "", label: "Países" },
-  { value: 500, suffix: "", label: "Creadores contratados" },
+  { value: 500, suffix: "+", label: "Creadores contratados" },
 ];
 export function Stats() {
   return (
-    <section className={`${wrap} py-16`}>
-      <Reveal as="ul" className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+    <section aria-label="Cifras">
+      <Reveal as="ul" className="grid grid-cols-2 border-y border-base-300 lg:grid-cols-4">
         {stats.map((s, i) => (
-          <RevealItem as="li" key={s.label} className="border-l-2 border-primary pl-5">
-            <span className="block text-[clamp(2.4rem,4vw,4rem)] font-bold leading-none tabular-nums">
-              <CountUp value={s.value} prefix="+" suffix={s.suffix} delay={0.1 * i} />
+          <RevealItem
+            as="li"
+            key={s.label}
+            className="flex flex-col gap-2.5 border-base-300 px-5 py-8 not-last:border-r max-lg:nth-2:border-r-0 max-lg:nth-[-n+2]:border-b md:px-[4%]"
+          >
+            <span className="font-mono text-[0.7rem] tracking-[0.14em] text-[#8e86a0] uppercase">{s.label}</span>
+            <span className="font-display text-[clamp(2rem,3.8vw,3.1rem)] leading-[0.9] font-medium tracking-[-0.05em] tabular-nums">
+              <CountUp value={s.value} suffix={s.suffix} delay={0.1 * i} />
             </span>
-            <span className="mt-2 block text-sm font-bold uppercase text-base-content/60">{s.label}</span>
           </RevealItem>
         ))}
       </Reveal>
