@@ -190,3 +190,8 @@
     opacity: 0;
   }
 }
+
+/* Any open modal <dialog> (category picker, creator profile) freezes the page behind it. */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
