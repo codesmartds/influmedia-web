@@ -70,6 +70,22 @@ html[data-theme="light"] .btn--style-primary {
   border-radius: 999px;
 }
 
+// "Create New" and other small header actions use Payload's pill style:
+// a soft brand tint instead of its neutral grey.
+.btn--style-pill {
+  --bg-color: rgba(183, 155, 219, 0.16);
+  --color: var(--influmedia-lilac);
+  --hover-bg: var(--influmedia-lilac);
+  --hover-color: #0b0810;
+  border-radius: 999px;
+}
+html[data-theme="light"] .btn--style-pill {
+  --bg-color: rgba(94, 45, 133, 0.1);
+  --color: var(--influmedia-violet);
+  --hover-bg: var(--influmedia-violet);
+  --hover-color: #fff;
+}
+
 // Links and focus rings in the brand color instead of Payload's blue.
 html[data-theme="light"] {
   --theme-success-500: var(--influmedia-violet);
