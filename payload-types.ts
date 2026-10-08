@@ -78,6 +78,7 @@ export interface Config {
     subscribers: Subscriber;
     'contact-submissions': ContactSubmission;
     'creator-applications': CreatorApplication;
+    'gallery-moments': GalleryMoment;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -100,6 +101,7 @@ export interface Config {
     subscribers: SubscribersSelect<false> | SubscribersSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'creator-applications': CreatorApplicationsSelect<false> | CreatorApplicationsSelect<true>;
+    'gallery-moments': GalleryMomentsSelect<false> | GalleryMomentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -111,12 +113,10 @@ export interface Config {
   fallbackLocale: null;
   globals: {
     brands: Brand;
-    gallery: Gallery;
     'contact-info': ContactInfo;
   };
   globalsSelect: {
     brands: BrandsSelect<false> | BrandsSelect<true>;
-    gallery: GallerySelect<false> | GallerySelect<true>;
     'contact-info': ContactInfoSelect<false> | ContactInfoSelect<true>;
   };
   locale: null;
@@ -492,6 +492,44 @@ export interface CreatorApplication {
   createdAt: string;
 }
 /**
+ * Fotos y videos de momentos de la agencia. Se ordenan por fecha, del más reciente al más antiguo.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-moments".
+ */
+export interface GalleryMoment {
+  id: number;
+  /**
+   * Ej. Lanzamiento de temporada con embajadores
+   */
+  title: string;
+  /**
+   * La foto, o la portada si el momento es un video.
+   */
+  image: number | Media;
+  /**
+   * MP4 o WebM. Se reproduce en la vista ampliada.
+   */
+  video?: (number | null) | Media;
+  /**
+   * Una o dos frases para la vista ampliada.
+   */
+  description?: string | null;
+  category: 'eventos' | 'activaciones' | 'produccion' | 'equipo' | 'reconocimientos';
+  date: string;
+  /**
+   * Ej. Ciudad de Guatemala
+   */
+  place?: string | null;
+  brand?: string | null;
+  /**
+   * El más reciente marcado abre /galeria.
+   */
+  featured?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
@@ -558,6 +596,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'creator-applications';
         value: number | CreatorApplication;
+      } | null)
+    | ({
+        relationTo: 'gallery-moments';
+        value: number | GalleryMoment;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -821,6 +863,23 @@ export interface CreatorApplicationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "gallery-moments_select".
+ */
+export interface GalleryMomentsSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  video?: T;
+  description?: T;
+  category?: T;
+  date?: T;
+  place?: T;
+  brand?: T;
+  featured?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv_select".
  */
 export interface PayloadKvSelect<T extends boolean = true> {
@@ -881,30 +940,6 @@ export interface Brand {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery".
- */
-export interface Gallery {
-  id: number;
-  /**
-   * El orden de la lista es el orden en el mosaico. Las destacadas ocupan un espacio grande.
-   */
-  items?:
-    | {
-        image: number | Media;
-        /**
-         * Ej. Lanzamiento de temporada · 2026
-         */
-        caption?: string | null;
-        brand?: string | null;
-        featured?: boolean | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "contact-info".
  */
 export interface ContactInfo {
@@ -952,24 +987,6 @@ export interface BrandsSelect<T extends boolean = true> {
         name?: T;
         image?: T;
         industry?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "gallery_select".
- */
-export interface GallerySelect<T extends boolean = true> {
-  items?:
-    | T
-    | {
-        image?: T;
-        caption?: T;
-        brand?: T;
-        featured?: T;
         id?: T;
       };
   updatedAt?: T;

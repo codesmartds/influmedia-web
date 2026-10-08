@@ -118,18 +118,18 @@ const talents: { name: string; category: CategoryName; photo: string; instagram?
   { name: "Fabiana Quiñones", category: "Automotriz", photo: "13_p70_Fabiana_Quinones.jpg", instagram: "quinonesfabi_", tiktok: "lagymirage.gt" },
 ];
 
-// "Trabajo en acción" gallery: eight talent photos, spread across
-// categories. Portraits are all 3:4, so eight fill exactly one row of the
-// slide; more would wrap and push the footer off screen. Reuses the talent uploads, so nothing is uploaded twice.
-const galleryTalents = [
-  "Sandy Méndez",
-  "El Primaso",
-  "MakeUp Chikys",
-  "Joshua Aldana",
-  "Katherine Portt",
-  "Javier del Cid",
-  "Gyss Sierra",
-  "Victoria Romanof",
+// Gallery moments (invented: replace with real agency photos and videos).
+// Reuses talent uploads as placeholder images, so nothing is uploaded twice.
+type GalleryCategory = "eventos" | "activaciones" | "produccion" | "equipo" | "reconocimientos";
+const galleryMoments: { photo: string; title: string; category: GalleryCategory; place: string; monthsAgo: number; description: string; featured?: boolean }[] = [
+  { photo: "Sandy Méndez", title: "SME Digital Panel: hazlo viral con propósito", category: "eventos", place: "Ciudad de Guatemala", monthsAgo: 1, description: "Panel con marcas, creadores y agencias sobre cómo convertir alcance en resultados de negocio.", featured: true },
+  { photo: "El Primaso", title: "Lanzamiento de temporada con embajadores", category: "activaciones", place: "Antigua Guatemala", monthsAgo: 2, description: "Creadores lifestyle abrieron la conversación en el evento de lanzamiento." },
+  { photo: "MakeUp Chikys", title: "Set de contenido para campaña skincare", category: "produccion", place: "Estudio Influmedia", monthsAgo: 3, description: "Detrás de cámaras de una producción de 30 días con creadoras de belleza." },
+  { photo: "Joshua Aldana", title: "Kickoff anual del equipo Influmedia", category: "equipo", place: "Oficinas Guatemala", monthsAgo: 4, description: "Planeación del año con los equipos de estrategia, talento y producción." },
+  { photo: "Gyss Sierra", title: "Gaming night con la comunidad regional", category: "eventos", place: "San Salvador", monthsAgo: 6, description: "Streamers y comunidades gamer de seis países jugando en vivo." },
+  { photo: "Katherine Portt", title: "Activación de marca en punto de venta", category: "activaciones", place: "Tegucigalpa", monthsAgo: 7, description: "Creadores llevando la conversación digital al punto de venta." },
+  { photo: "Victoria Romanof", title: "Reconocimiento a la mejor campaña de influencia", category: "reconocimientos", place: "Ciudad de Panamá", monthsAgo: 9, description: "El equipo recibiendo el reconocimiento junto a la marca y sus creadores." },
+  { photo: "Javier del Cid", title: "Sesión de fotos para el roster", category: "produccion", place: "Estudio Influmedia", monthsAgo: 12, description: "Producción editorial de la nueva imagen del roster." },
 ];
 
 // Minimal Lexical JSON builders for seeded post bodies.
@@ -387,7 +387,7 @@ export async function seed() {
   // clean ups
   
   await payload.updateGlobal({ slug: 'brands', data: { items: [] }, ...SKIP_REVALIDATE }); // clear first, so upsertPhoto doesn't find old logos
-  await payload.updateGlobal({ slug: 'gallery', data: { items: [] }, ...SKIP_REVALIDATE }); // clear first, so upsertPhoto doesn't find old photos  
+  await payload.delete({ collection: "gallery-moments", where: {}, ...SKIP_REVALIDATE }); // replaced as a whole below
   await payload.delete({ collection: "categories", where: {}, ...SKIP_REVALIDATE }); // clean up old mock categories
   await payload.delete({ collection: "talents", where: {}, ...SKIP_REVALIDATE });
 
@@ -432,21 +432,26 @@ export async function seed() {
     else await payload.create({ collection: "talents", data, ...SKIP_REVALIDATE });
   }
 
-  // Gallery global, replaced as a whole. Runs after talents so their photos exist.
-  const galleryItems = [];
-  await payload.updateGlobal({ slug: 'gallery', data: { items: [] }, ...SKIP_REVALIDATE }); // clear first, so upsertPhoto doesn't find old photos
-  for (const name of galleryTalents) {
-    const talent = talents.find((t) => t.name === name)!;
+  // Gallery moments, replaced as a whole. Runs after talents so their photos exist.
+  for (const moment of galleryMoments) {
+    const talent = talents.find((t) => t.name === moment.photo)!;
     const folder = categories.find((c) => c.name === talent.category)!.folder;
-    galleryItems.push({
-      image: await upsertPhoto(payload, path.join(TALENT_PHOTOS, folder, talent.photo), name),
-      caption: `${name} · ${talent.category}`,
-      brand: null,
-      // Every fourth photo takes the large slot so the mosaic has rhythm.
-      featured: galleryItems.length % 4 === 0,
+    const date = new Date();
+    date.setUTCMonth(date.getUTCMonth() - moment.monthsAgo, 1);
+    await payload.create({
+      collection: "gallery-moments",
+      ...SKIP_REVALIDATE,
+      data: {
+      image: await upsertPhoto(payload, path.join(TALENT_PHOTOS, folder, talent.photo), moment.photo),
+      title: moment.title,
+      category: moment.category,
+      place: moment.place,
+      date: date.toISOString(),
+      description: moment.description,
+      featured: Boolean(moment.featured),
+      },
     });
   }
-  await payload.updateGlobal({ slug: "gallery", data: { items: galleryItems }, ...SKIP_REVALIDATE });
 
   // Example case studies (matched by slug) and testimonials (by author).
   // Clean up copies from earlier runs that carried a "[Mock]" prefix.
@@ -524,7 +529,7 @@ export async function seed() {
   }
 
   payload.logger.info(
-    `Seeded contact info, ${brands.length} brands, ${galleryTalents.length} gallery photos, ${posts.length} posts, ${categories.length} categories and ${talents.length} talents`,
+    `Seeded contact info, ${brands.length} brands, ${galleryMoments.length} gallery moments, ${posts.length} posts, ${categories.length} categories and ${talents.length} talents`,
   );
 }
 
@@ -532,7 +537,7 @@ export async function seed() {
 // Content the seed owns, deleted children-first so nothing points at a
 // removed document. Users and form submissions (subscribers, contact
 // submissions, creator applications) are never touched.
-const SEEDED_COLLECTIONS = ["posts", "case-studies", "testimonials", "team", "talents", "categories", "media"] as const;
+const SEEDED_COLLECTIONS = ["posts", "case-studies", "testimonials", "team", "gallery-moments", "talents", "categories", "media"] as const;
 
 /**
  * Deletes all seeded content and every uploaded file. Used before reseeding
@@ -543,7 +548,6 @@ export async function resetContent() {
 
   // Globals reference media; empty them first.
   await payload.updateGlobal({ slug: "brands", data: { items: [] }, ...SKIP_REVALIDATE });
-  await payload.updateGlobal({ slug: "gallery", data: { items: [] }, ...SKIP_REVALIDATE });
 
   const removed: Record<string, number> = {};
   for (const collection of SEEDED_COLLECTIONS) {
