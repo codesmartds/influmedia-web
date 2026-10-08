@@ -168,7 +168,7 @@ export function Method() {
 export function CaseStudies({ cases }: { cases: CaseStudy[] }) {
   if (cases.length === 0) return null;
   return (
-    <section className={`${wrap} py-20 md:py-28`}>
+    <section id="casos" className={`${wrap} scroll-mt-24 py-20 md:py-28`}>
       <Reveal>
         <Heading eyebrow="Casos de éxito" title="Conversaciones que movieron resultados." />
         <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-6 lg:grid-cols-3">

@@ -41,9 +41,12 @@ export default async function Home() {
     payload.findGlobal({ slug: "contact-info" }),
   ]);
 
+  // Hero lineup: five random talents with a photo, until the final selection exists.
+  const heroTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url)).slice(0, 5);
+
   return (
     <PageTransition>
-      <HeroSlide />
+      <HeroSlide talents={heroTalents} />
       <ClientMarquee brands={brands.items ?? []} />
       <Stats />
       <BrandProblem />
