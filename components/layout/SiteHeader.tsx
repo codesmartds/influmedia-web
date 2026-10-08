@@ -27,10 +27,12 @@ export function SiteHeader() {
 
   return (
     <header
-      // Pinned during page transitions so only the content slides.
+      // Pinned during page transitions so only the content slides. Exactly 4.5rem
+      // tall (divider is an inset shadow, not a border) so the home hero, pulled
+      // up by the same amount, starts flush at the top.
       style={{ viewTransitionName: "site-header" }}
-      className={`sticky top-0 z-40 border-b transition-[background-color,border-color,backdrop-filter] duration-300 ${
-        scrolled ? "border-white/5 bg-base-100/80 backdrop-blur-md" : "border-transparent bg-transparent"
+      className={`sticky top-0 z-40 transition-[background-color,box-shadow,backdrop-filter] duration-300 ${
+        scrolled ? "bg-base-100/80 shadow-[inset_0_-1px_0_rgba(255,255,255,.05)] backdrop-blur-md" : "bg-transparent"
       }`}
     >
       <div className="mx-auto flex h-[4.5rem] max-w-[96rem] items-center justify-between gap-6 px-6 md:px-[4%]">
