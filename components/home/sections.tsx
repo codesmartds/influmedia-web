@@ -7,13 +7,35 @@ import { PostCard } from "@/components/blog/PostCard";
 import { CaseCard } from "@/components/cases/CaseCard";
 import { CountUp } from "@/components/slides/CountUp";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
-import { AudienceDashboard } from "@/components/dashboards/AudienceDashboard";
+import { MethodStages } from "@/components/home/MethodStages";
+import sceneDrink from "@/public/images/home/scene-drink.jpg";
 
 // Building blocks of the home page, in reading order: brands first
 // (proof → problem → method), then the talent side, then closing.
 
 const wrap = "mx-auto w-full max-w-[96rem] px-6 md:px-[4.7%]";
 const media = (m: unknown) => (m && typeof m === "object" ? (m as Media) : null);
+
+// Redesign type: mono eyebrow in lilac, display title.
+const titleClass = "text-[clamp(1.75rem,3.64vw,3.1rem)] leading-[0.94] font-semibold tracking-[-0.045em] text-balance";
+function Eyebrow({ children }: { children: ReactNode }) {
+  return (
+    <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
+      {children}
+    </RevealItem>
+  );
+}
+function TextLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      transitionTypes={["nav-forward"]}
+      className="border-b border-accent pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
+    >
+      {children}
+    </Link>
+  );
+}
 
 function Heading({ eyebrow, title, children }: { eyebrow: string; title: string; children?: ReactNode }) {
   return (
@@ -115,65 +137,138 @@ export function Stats() {
   );
 }
 
-/* 4 · The brand's problem */
-const pains = [
-  { title: "Seguidores que no son personas", text: "Detectamos audiencias infladas y actividad sospechosa antes de que inviertas." },
-  { title: "Campañas sin control", text: "Calendario, publicaciones y alertas monitoreadas en tiempo real." },
-  { title: "Resultados que no se leen", text: "Reportes en 48 horas con CPE, ROI e insights para decidir la próxima." },
-  { title: "Diez proveedores, diez facturas", text: "Negociamos con cada creador y consolidamos todo en un solo punto." },
-];
-export function BrandProblem() {
+/* 4 · What we do: integration, not ads */
+const integration = ["Escena real", "Producto en uso", "Audiencia medida"];
+export function WhatWeDo() {
   return (
     <section className={`${wrap} py-20 md:py-28`}>
-      <Reveal>
-        <Heading eyebrow="Para marcas" title="Menos fricción. Más control. Mejor lectura.">
-          El influencer marketing funciona cuando la idea, el talento y la medición se encuentran. Nosotros nos encargamos de
-          que pase.
-        </Heading>
-        <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {pains.map((p) => (
-            <RevealItem as="li" key={p.title} className="rounded-2xl border border-base-300 bg-base-200 p-6">
-              <h3 className="text-lg font-bold">{p.title}</h3>
-              <p className="mt-2 leading-snug text-base-content/70">{p.text}</p>
-            </RevealItem>
-          ))}
+      <Reveal className="grid items-center gap-[clamp(2rem,5vw,4.5rem)] lg:grid-cols-2">
+        <div className="flex flex-col gap-6">
+          <Eyebrow>Qué hacemos</Eyebrow>
+          <RevealItem as="h2" className={titleClass}>
+            No publicamos anuncios. Integramos productos.
+          </RevealItem>
+          <RevealItem as="p" className="max-w-[520px] text-[17px] leading-relaxed text-muted">
+            El corredor no habla de la bebida: la toma al cruzar la meta. Tu producto aparece dentro de una historia que el creador ya
+            cuenta, y la audiencia lo consume como contenido, no como publicidad.
+          </RevealItem>
+          <RevealItem as="ol" className="mt-2 grid grid-cols-3 gap-px border border-base-300 bg-base-300">
+            {integration.map((label, i) => (
+              <li key={label} className="flex flex-col gap-1.5 bg-base-100 p-[18px]">
+                <span className="font-mono text-[11px] text-[#7ba7d1]">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-display text-[17px] font-medium">{label}</span>
+              </li>
+            ))}
+          </RevealItem>
+        </div>
+        <RevealItem effect="scale" className="relative aspect-[4/3] overflow-hidden">
+          <Image
+            src={sceneDrink}
+            alt="Corredor bebiendo agua al cruzar la meta"
+            fill
+            placeholder="blur"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover object-[45%_40%] brightness-[.92] contrast-[1.05] saturate-[.85]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(11,8,16,.55),rgba(11,8,16,0)_45%)]" />
+          <span className="absolute bottom-4 left-4 bg-base-100/75 px-2.5 py-[7px] font-mono text-[11px] tracking-[0.12em]">
+            ESC. 04 · AGUA MINERAL · CARRERA 10K
+          </span>
         </RevealItem>
       </Reveal>
     </section>
   );
 }
 
-/* 5 · Method, with a live dashboard as the hook */
-const steps = [
-  { name: "Planning", text: "Análisis de perfiles, afinidad y proyección en 24–48 h." },
-  { name: "Onway", text: "Monitoreo en vivo, calendario y alertas." },
-  { name: "Postbuy", text: "Reporte con lectura e insights en 48 h." },
+/* 5 · Influencer marketing 360°: the five steps, drawn in sequence */
+const steps360 = [
+  { name: "Personas", text: "Entendemos a quién le habla la marca: su audiencia, su contexto y el momento.", tag: "Audiencia · Contexto" },
+  { name: "KPI’s", text: "Definimos objetivos medibles antes de elegir a cualquier creador.", tag: "Objetivo · Métrica" },
+  { name: "Influencers", text: "Seleccionamos talento por afinidad, autenticidad y audiencia real.", tag: "Afinidad · Autenticidad" },
+  { name: "Contenido", text: "Integramos el producto en historias que el creador ya cuenta.", tag: "Integración · Formato" },
+  { name: "Resultados", text: "Medimos, reportamos y convertimos los datos en la siguiente decisión.", tag: "Reporte · Insight" },
 ];
-export function Method() {
+export function InfluencerMarketing360() {
   return (
-    <section className={`${wrap} py-20 md:py-28`}>
-      <Reveal className="grid items-center gap-12 lg:grid-cols-2">
-        <div>
-          <Heading eyebrow="Cómo trabajamos" title="Una campaña, tres momentos." />
-          <RevealItem as="ol" effect="fade" stagger className="mt-8 flex flex-col gap-5">
-            {steps.map((s, i) => (
-              <RevealItem as="li" effect="left" key={s.name} className="flex gap-5">
-                <span className="text-2xl font-bold text-secondary">{String(i + 1).padStart(2, "0")}</span>
-                <span>
-                  <b className="block text-xl uppercase">{s.name}</b>
-                  <span className="text-base-content/70">{s.text}</span>
-                </span>
-              </RevealItem>
-            ))}
+    <section id="influencer-marketing" className={`${wrap} flex scroll-mt-24 flex-col gap-14 pt-6 pb-20 md:pb-28`}>
+      <Reveal className="flex flex-wrap items-end justify-between gap-6">
+        <div className="flex max-w-[760px] flex-col gap-[18px]">
+          <Eyebrow>Influencer marketing 360°</Eyebrow>
+          <RevealItem as="h2" className={titleClass}>
+            De la persona al resultado.
           </RevealItem>
-          <RevealItem className="mt-8">
-            <CtaLink href="/influencer-marketing#sistema">Conoce el proceso</CtaLink>
+          <RevealItem as="p" className="max-w-[520px] text-[17px] leading-relaxed text-muted">
+            Cinco pasos que ordenan cada campaña, del primer brief al reporte final.
           </RevealItem>
         </div>
-        <RevealItem effect="scale">
-          <AudienceDashboard />
+        <RevealItem>
+          <TextLink href="/influencer-marketing">Conoce el servicio</TextLink>
         </RevealItem>
       </Reveal>
+
+      {/* Each step draws its line and lights its node, one after another. */}
+      <Reveal as="ol" stagger={0.55} className="grid gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
+        {steps360.map((s, i) => (
+          <RevealItem as="li" key={s.name} effect="fade" stagger={0.08} className="flex flex-col gap-[18px] pr-6 pb-7">
+            <div className="relative mb-2.5 h-0.5 bg-[#2a2233]">
+              <RevealItem effect="draw" className="absolute inset-0 origin-left bg-secondary" />
+              <RevealItem
+                effect="scale"
+                className="absolute -top-1.5 left-0 box-border size-3.5 rounded-full border-2 border-secondary bg-secondary shadow-[0_0_14px_rgba(183,155,219,.7)]"
+              />
+            </div>
+            <RevealItem as="span" className="font-mono text-xs tracking-[0.12em] text-[#8e86a0]">
+              PASO {String(i + 1).padStart(2, "0")}
+            </RevealItem>
+            <RevealItem as="span" className="font-display text-[clamp(26px,2.52vw,35px)] leading-none font-medium tracking-[-0.04em]">
+              {s.name}
+            </RevealItem>
+            <RevealItem as="span" className="text-[15px] leading-relaxed text-muted">
+              {s.text}
+            </RevealItem>
+            <RevealItem as="span" className="mt-auto font-mono text-[11px] tracking-[0.12em] text-secondary uppercase">
+              {s.tag}
+            </RevealItem>
+          </RevealItem>
+        ))}
+      </Reveal>
+
+      <Reveal className="flex flex-wrap items-center justify-between gap-5 border-t border-base-300 pt-7">
+        <RevealItem as="p" className="font-display text-[clamp(22px,2.2vw,30px)] font-medium tracking-[-0.03em]">
+          Todo empieza con un objetivo claro.
+        </RevealItem>
+        <RevealItem>
+          <Link href="#contacto" className="btn btn-primary h-auto rounded-full border-0 px-[22px] py-3.5 text-sm font-semibold hover:bg-secondary">
+            Cuéntanos el tuyo
+          </Link>
+        </RevealItem>
+      </Reveal>
+    </section>
+  );
+}
+
+/* 6 · Method: Planning, Onway, Postbuy, each with an animated demo panel */
+export function Method({ talents }: { talents: Talent[] }) {
+  return (
+    <section id="metodo" className="scroll-mt-24 border-y border-base-300 bg-base-200">
+      <div className={`${wrap} flex flex-col gap-12 py-20 md:py-28`}>
+        <Reveal className="grid items-end gap-8 lg:grid-cols-2">
+          <div className="flex flex-col gap-[18px]">
+            <Eyebrow>Método</Eyebrow>
+            <RevealItem as="h2" className={titleClass}>
+              Una campaña, tres momentos.
+            </RevealItem>
+          </div>
+          <RevealItem as="p" className="max-w-[480px] text-[17px] leading-relaxed text-muted">
+            Proyectamos antes de activar, corregimos mientras corre y cerramos con un reporte que tu casa matriz puede leer.
+          </RevealItem>
+        </Reveal>
+        <Reveal>
+          <RevealItem effect="fade" className="flex flex-col gap-12">
+            <MethodStages talents={talents} />
+          </RevealItem>
+        </Reveal>
+      </div>
     </section>
   );
 }

@@ -4,16 +4,17 @@ import config from "@payload-config";
 import { ContactSection } from "@/components/contact/ContactSection";
 import { HeroSlide } from "@/components/home/HeroSlide";
 import {
-  BrandProblem,
   CaseStudies,
   ClientMarquee,
   DualCta,
   ForCreators,
   LatestPosts,
+  InfluencerMarketing360,
   Method,
   Roster,
   Stats,
   Testimonials,
+  WhatWeDo,
 } from "@/components/home/sections";
 import { NewsletterBar } from "@/components/newsletter/NewsletterBar";
 import { PageTransition } from "@/components/transitions/PageTransition";
@@ -44,13 +45,17 @@ export default async function Home() {
   // Hero lineup: five random talents with a photo, until the final selection exists.
   const heroTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url)).slice(0, 5);
 
+  // Method demo panels: five more random talents with a photo.
+  const methodTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url)).slice(0, 5);
+
   return (
     <PageTransition>
       <HeroSlide talents={heroTalents} />
       <Stats />
       <ClientMarquee brands={brands.items ?? []} />
-      <BrandProblem />
-      <Method />
+      <WhatWeDo />
+      <InfluencerMarketing360 />
+      <Method talents={methodTalents} />
       <CaseStudies cases={cases.docs} />
       <Roster talents={shuffle(talents.docs)} />
       <ForCreators />
