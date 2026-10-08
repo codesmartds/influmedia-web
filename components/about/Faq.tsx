@@ -28,7 +28,7 @@ export function Faq({ items, title = "Lo que suelen preguntarnos." }: { items: F
   return (
     <Reveal className="grid items-start gap-[clamp(2rem,5vw,4.5rem)] lg:grid-cols-3">
       <div className="flex flex-col gap-[22px]">
-        <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
+        <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">
           Preguntas frecuentes
         </RevealItem>
         <RevealItem as="h2" className="text-[clamp(1.75rem,3.64vw,3.1rem)] leading-[0.94] font-semibold tracking-[-0.045em] text-balance">
@@ -44,7 +44,7 @@ export function Faq({ items, title = "Lo que suelen preguntarnos." }: { items: F
               </span>
               <span
                 aria-hidden
-                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-base-content/20 text-xl text-secondary transition-transform group-open:rotate-45"
+                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-base-content/20 text-xl text-accent-cycle transition-transform group-open:rotate-45"
               >
                 +
               </span>

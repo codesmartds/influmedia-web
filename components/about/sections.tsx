@@ -27,10 +27,10 @@ export function AboutHero({ talents }: { talents: Talent[] }) {
               Inicio
             </Link>
             <span aria-hidden>/</span>
-            <span className="text-secondary">Nosotros</span>
+            <span className="text-accent-cycle">Nosotros</span>
           </RevealItem>
           <RevealItem as="h1" className="text-[clamp(1.95rem,4.74vw,4.5rem)] leading-[0.88] font-semibold tracking-[-0.055em] text-balance">
-            Somos tu partner para que tu campaña llegue a los <span className="text-secondary">medios correctos.</span>
+            Somos tu partner para que tu campaña llegue a los <span className="text-accent-cycle">medios correctos.</span>
           </RevealItem>
         </div>
         <RevealItem className="flex flex-col gap-1.5 pb-2 font-mono text-xs tracking-[0.14em] text-[#8e86a0] uppercase">
@@ -53,7 +53,7 @@ export function AboutHero({ talents }: { talents: Talent[] }) {
         ))}
         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(11,8,16,.92)_0%,rgba(11,8,16,0)_50%)]" />
         <p className="pointer-events-none absolute bottom-[clamp(20px,3vw,40px)] left-5 font-display text-[clamp(28px,4.48vw,69px)] leading-[0.85] font-semibold tracking-[-0.055em] md:left-[4%]">
-          Powered by <span className="text-secondary">people.</span>
+          Powered by <span className="text-accent-cycle">people.</span>
         </p>
       </div>
     </header>
@@ -71,7 +71,7 @@ function Operator({ sign }: { sign: string }) {
     <RevealItem
       as="span"
       effect="scale"
-      className="flex size-11 items-center justify-center rounded-full border border-[#2a2233] font-mono text-lg text-secondary lg:mt-[30px]"
+      className="flex size-11 items-center justify-center rounded-full border border-[#2a2233] font-mono text-lg text-accent-cycle lg:mt-[30px]"
     >
       <span aria-hidden>{sign}</span>
     </RevealItem>
@@ -106,8 +106,8 @@ export function Purpose() {
           <Operator key={`op${i}`} sign={i < 2 ? "+" : "="} />,
         ])}
         <RevealItem className="flex min-w-0 flex-col gap-3">
-          <span className="font-mono text-[11px] tracking-[0.14em] text-secondary uppercase">Resultado</span>
-          <span className="font-display text-[clamp(28px,2.8vw,42px)] leading-none font-semibold tracking-[-0.045em] text-secondary">Conversación</span>
+          <span className="font-mono text-[11px] tracking-[0.14em] text-accent-cycle uppercase">Resultado</span>
+          <span className="font-display text-[clamp(28px,2.8vw,42px)] leading-none font-semibold tracking-[-0.045em] text-accent-cycle">Conversación</span>
           <span className="text-[15px] leading-normal text-[#d6d0de]">Lead the conversation.</span>
         </RevealItem>
       </Reveal>
@@ -136,16 +136,16 @@ export function History() {
           {milestones.map((m) => (
             <RevealItem as="li" key={m.year} effect="fade" stagger={0.1} className="flex flex-col gap-5 pr-7 pb-2">
               <div className="relative mb-[18px] h-0.5 bg-[#2a2233]">
-                <RevealItem effect="draw" className="absolute inset-0 origin-left bg-secondary" />
-                <RevealItem effect="scale" className="absolute -top-1.5 left-0 box-border size-3.5 rounded-full border-2 border-secondary bg-secondary" />
+                <RevealItem effect="draw" className="absolute inset-0 origin-left bg-accent-cycle" />
+                <RevealItem effect="scale" className="absolute -top-1.5 left-0 box-border size-3.5 rounded-full border-2 border-tint bg-accent-cycle" />
               </div>
               <RevealItem
                 as="span"
-                className={`font-display text-[clamp(43px,5.4vw,84px)] leading-[0.8] font-semibold tracking-[-0.06em] ${m.accent ? "text-secondary" : ""}`}
+                className={`font-display text-[clamp(43px,5.4vw,84px)] leading-[0.8] font-semibold tracking-[-0.06em] ${m.accent ? "text-accent-cycle" : ""}`}
               >
                 {m.year}
               </RevealItem>
-              <RevealItem as="span" className="font-mono text-xs tracking-[0.14em] text-secondary uppercase">
+              <RevealItem as="span" className="font-mono text-xs tracking-[0.14em] text-accent-cycle uppercase">
                 {m.tag}
               </RevealItem>
               <RevealItem as="p" className="max-w-[340px] leading-relaxed text-[#c9c2d2]">
@@ -168,7 +168,7 @@ export function Presence() {
           <RegionMap
             intro={
               <>
-                <p className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">Presencia regional</p>
+                <p className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">Presencia regional</p>
                 <h2 className={titleClass}>Una sola operación para toda la región.</h2>
                 <p className="leading-relaxed text-muted">
                   Coordinamos talento, contenido y medición en múltiples mercados desde nuestra oficina en Ciudad de Guatemala.
@@ -219,7 +219,7 @@ export function TeamList({ members }: { members: Team[] }) {
                 ) : (
                   <span
                     aria-hidden
-                    className="flex size-14 items-center justify-center rounded-full border border-secondary/45 font-mono text-[13px] tracking-[0.06em] text-secondary"
+                    className="flex size-14 items-center justify-center rounded-full border border-tint/45 font-mono text-[13px] tracking-[0.06em] text-accent-cycle"
                   >
                     {initials(m.name)}
                   </span>
@@ -230,7 +230,7 @@ export function TeamList({ members }: { members: Team[] }) {
                       href={m.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-display text-[clamp(22px,2.4vw,32px)] leading-none font-medium tracking-[-0.03em] transition-colors hover:text-secondary"
+                      className="font-display text-[clamp(22px,2.4vw,32px)] leading-none font-medium tracking-[-0.03em] transition-colors hover:text-accent-cycle"
                     >
                       {m.name}
                     </a>
@@ -273,7 +273,7 @@ export function Principles() {
               key={p.title}
               className="grid grid-cols-[48px_minmax(0,1fr)] items-baseline gap-x-6 gap-y-2 border-b border-base-300 py-[34px] md:grid-cols-[72px_minmax(0,1.6fr)_minmax(0,1fr)]"
             >
-              <span className="font-mono text-[13px] text-[#7ba7d1]">{pad(i + 1)}</span>
+              <span className="font-mono text-[13px] text-accent-cycle">{pad(i + 1)}</span>
               <h3 className="text-[clamp(26px,3.04vw,46px)] leading-[0.95] font-semibold tracking-[-0.05em]">{p.title}</h3>
               <p className="leading-relaxed text-muted max-md:col-start-2">{p.text}</p>
             </RevealItem>
@@ -304,7 +304,7 @@ export function TalentShowcase({ talents }: { talents: Talent[] }) {
           <Link
             href="/creadores"
             transitionTypes={["nav-forward"]}
-            className="border-b border-accent pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
+            className="border-b border-tint/60 pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
           >
             Conoce el roster
           </Link>
@@ -331,7 +331,7 @@ export function AboutContact({ contact }: { contact: ContactInfo }) {
         <div className="flex flex-col gap-6">
           <Eyebrow>Contacto</Eyebrow>
           <RevealItem as="h2" className="text-[clamp(1.95rem,4.48vw,4.2rem)] leading-[0.88] font-semibold tracking-[-0.055em]">
-            ¿Tienes alguna <span className="text-secondary">duda?</span>
+            ¿Tienes alguna <span className="text-accent-cycle">duda?</span>
           </RevealItem>
           <RevealItem as="p" className="max-w-[440px] text-[17px] leading-relaxed text-muted">
             Escríbenos y te respondemos en menos de 48 horas hábiles.
@@ -340,7 +340,7 @@ export function AboutContact({ contact }: { contact: ContactInfo }) {
             <Link
               href="/contacto"
               transitionTypes={["nav-forward"]}
-              className="inline-block rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-secondary"
+              className="inline-block rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-accent-cycle"
             >
               Ir a contacto
             </Link>
@@ -361,7 +361,7 @@ export function AboutContact({ contact }: { contact: ContactInfo }) {
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="flex justify-between gap-4 py-[18px] transition-colors hover:text-secondary"
+                    className="flex justify-between gap-4 py-[18px] transition-colors hover:text-accent-cycle"
                   >
                     {body}
                   </a>

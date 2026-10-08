@@ -195,3 +195,72 @@
 html:has(dialog[open]) {
   overflow: hidden;
 }
+
+/* ---------- Brand accent cycle ----------
+   Accents rotate through the three brand tones (lilac, the readable tint of
+   the logo violet #5E2D85; steel blue #7BA7D1; pink #D98AB8), all ~8:1 on the
+   page background. Each holds 7 s, then the next sweeps the screen left to
+   right in 1.6 s with a hard edge (no in-between hues). The gradient is fixed
+   to the viewport, so one edge crosses every accent on screen at once.
+   Static lilac under reduced motion. */
+@property --acc-edge {
+  syntax: "<percentage>";
+  inherits: true;
+  initial-value: 0%;
+}
+@property --acc-cur {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #b79bdb;
+}
+@property --acc-next {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #7ba7d1;
+}
+/* The same cycle as one smooth color: it crossfades during each sweep.
+   For things a hard edge would look odd on (borders, glows, soft fills). */
+@property --acc-tint {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #b79bdb;
+}
+:root {
+  --acc-paint: linear-gradient(90deg, var(--acc-next) 0 var(--acc-edge), var(--acc-cur) var(--acc-edge));
+  animation: acc-cycle 25.8s linear infinite;
+}
+@keyframes acc-cycle {
+  0% { --acc-cur: #b79bdb; --acc-next: #7ba7d1; --acc-edge: 0%; --acc-tint: #b79bdb; }
+  27.13% { --acc-cur: #b79bdb; --acc-next: #7ba7d1; --acc-edge: 0%; --acc-tint: #b79bdb; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+  33.32% { --acc-cur: #b79bdb; --acc-next: #7ba7d1; --acc-edge: 100%; --acc-tint: #7ba7d1; }
+  33.34% { --acc-cur: #7ba7d1; --acc-next: #d98ab8; --acc-edge: 0%; --acc-tint: #7ba7d1; }
+  60.46% { --acc-cur: #7ba7d1; --acc-next: #d98ab8; --acc-edge: 0%; --acc-tint: #7ba7d1; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+  66.65% { --acc-cur: #7ba7d1; --acc-next: #d98ab8; --acc-edge: 100%; --acc-tint: #d98ab8; }
+  66.67% { --acc-cur: #d98ab8; --acc-next: #b79bdb; --acc-edge: 0%; --acc-tint: #d98ab8; }
+  93.79% { --acc-cur: #d98ab8; --acc-next: #b79bdb; --acc-edge: 0%; --acc-tint: #d98ab8; animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1); }
+  99.99% { --acc-cur: #d98ab8; --acc-next: #b79bdb; --acc-edge: 100%; --acc-tint: #b79bdb; }
+  100% { --acc-cur: #b79bdb; --acc-next: #7ba7d1; --acc-edge: 0%; --acc-tint: #b79bdb; }
+}
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    animation: none;
+  }
+}
+
+/* `tint` as a Tailwind color (border-tint, bg-tint/20, shadow…). */
+@theme inline {
+  --color-tint: var(--acc-tint);
+}
+
+/* Accent text: the glyphs show the cycling paint. Only `color` goes
+   transparent, so a hover color still wins over it. */
+@utility text-accent-cycle {
+  color: transparent;
+  background: var(--acc-paint) fixed;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+/* Accent fills: dots, lines, progress bars, CTA hovers. */
+@utility bg-accent-cycle {
+  background: var(--acc-paint) fixed;
+}

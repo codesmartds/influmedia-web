@@ -23,7 +23,7 @@ export function SiteFooter({ contact }: { contact: ContactInfo }) {
           <div className="flex min-w-0 flex-col gap-4 sm:col-span-2">
             <BrandLogo variant="white" className="w-44" sizes="176px" />
             <p className="font-display text-[clamp(26px,2.52vw,34px)] leading-none font-medium tracking-[-0.04em]">
-              Lead the <span className="text-secondary">conversation.</span>
+              Lead the <span className="text-accent-cycle">conversation.</span>
             </p>
             <p className="max-w-[40ch] text-[15px] leading-relaxed text-[#a39bae]">
               Estrategia, creatividad y tecnología para conectar marcas con personas reales.

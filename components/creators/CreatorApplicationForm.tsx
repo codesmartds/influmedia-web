@@ -16,7 +16,7 @@ const initial: ApplyState = {
 
 // Underlined fields on the section background; the line turns red when the server flags them.
 const controlClass =
-  "w-full min-w-0 border-0 border-b border-[#3a3145] bg-transparent py-2.5 text-[17px] text-base-content outline-none transition-colors placeholder:text-[#6f6880] focus:border-secondary aria-[invalid=true]:border-error";
+  "w-full min-w-0 border-0 border-b border-[#3a3145] bg-transparent py-2.5 text-[17px] text-base-content outline-none transition-colors placeholder:text-[#6f6880] focus:border-tint aria-[invalid=true]:border-error";
 
 export function CreatorApplicationForm({ categories }: { categories: { id: number; name: string }[] }) {
   const [state, action, pending] = useActionState(applyAsCreator, initial);
@@ -115,7 +115,7 @@ export function CreatorApplicationForm({ categories }: { categories: { id: numbe
       <button
         type="submit"
         disabled={pending}
-        className="mt-2 cursor-pointer justify-self-start rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-secondary disabled:opacity-60 sm:col-span-2"
+        className="mt-2 cursor-pointer justify-self-start rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-accent-cycle disabled:opacity-60 sm:col-span-2"
       >
         {pending ? "Enviando…" : "Aplicar al roster"}
       </button>

@@ -43,7 +43,7 @@ function Featured({ post }: { post: Post }) {
         </span>
       </Link>
       <Reveal className="flex flex-col justify-between gap-8 bg-base-200 px-5 py-[clamp(2rem,5vw,4rem)] md:px-[4%]">
-        <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
+        <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">
           Destacado{topic ? ` · ${topic}` : ""}
         </RevealItem>
         <div className="flex flex-col gap-5">
@@ -62,7 +62,7 @@ function Featured({ post }: { post: Post }) {
           <Link
             href={`/blog/${post.slug}`}
             transitionTypes={["nav-forward"]}
-            className="rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-secondary"
+            className="rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-accent-cycle"
           >
             Leer artículo
           </Link>
@@ -101,10 +101,10 @@ export function BlogIndex({
               Inicio
             </Link>
             <span aria-hidden>/</span>
-            <span className="text-secondary">Blog</span>
+            <span className="text-accent-cycle">Blog</span>
           </RevealItem>
           <RevealItem as="h1" className="text-[clamp(2.1rem,5.4vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em] text-balance">
-            Ideas para liderar <span className="text-secondary">la conversación.</span>
+            Ideas para liderar <span className="text-accent-cycle">la conversación.</span>
           </RevealItem>
         </div>
         <div className="flex flex-col gap-3.5 pb-2">
@@ -179,13 +179,13 @@ export function BlogIndex({
       <section className="border-t border-base-300">
         <Reveal className={`${wrap} flex flex-wrap items-end justify-between gap-8 py-[clamp(4.5rem,9vw,7.5rem)]`}>
           <RevealItem as="h2" className="max-w-[900px] text-[clamp(2rem,4.4vw,4.2rem)] leading-[0.88] font-semibold tracking-[-0.055em] text-balance">
-            ¿Listo para llevar estas ideas <span className="text-secondary">a tu marca?</span>
+            ¿Listo para llevar estas ideas <span className="text-accent-cycle">a tu marca?</span>
           </RevealItem>
           <RevealItem>
             <Link
               href="/contacto"
               transitionTypes={["nav-forward"]}
-              className="inline-block rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-secondary"
+              className="inline-block rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-accent-cycle"
             >
               Contáctanos
             </Link>

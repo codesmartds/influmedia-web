@@ -56,7 +56,7 @@ export function FilterPicker<T extends string | number>({
       >
         <span className="font-mono text-[11px] tracking-[0.12em] text-[#8e86a0] uppercase max-sm:hidden">{label}</span>
         <span className="font-medium">{active.name}</span>
-        <span className="font-mono text-[11px] text-secondary">{pad(active.count)}</span>
+        <span className="font-mono text-[11px] text-accent-cycle">{pad(active.count)}</span>
         <span aria-hidden className="text-[#8e86a0]">
           ▾
         </span>
@@ -71,7 +71,7 @@ export function FilterPicker<T extends string | number>({
         {open && (
           <div className="mx-auto flex min-h-full w-full max-w-[96rem] flex-col gap-8 px-5 py-8 md:px-[4%] md:py-12">
             <div className="flex items-center justify-between gap-4">
-              <h2 id="category-title" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
+              <h2 id="category-title" className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">
                 {title}
               </h2>
               <form method="dialog">
@@ -107,7 +107,7 @@ export function FilterPicker<T extends string | number>({
                       >
                         {f.name}
                       </span>
-                      <span className={`font-mono text-sm tracking-[0.06em] ${on ? "text-secondary" : "text-[#4a4255]"}`}>{pad(f.count)}</span>
+                      <span className={`font-mono text-sm tracking-[0.06em] ${on ? "text-accent-cycle" : "text-[#4a4255]"}`}>{pad(f.count)}</span>
                     </button>
                   </motion.li>
                 );

@@ -90,7 +90,7 @@ function Profile({
         <AnimatePresence mode="wait" initial={false}>
           <motion.div key={talent.id} className="flex flex-col gap-8" {...textMotion} transition={{ duration: 0.4, ease: EASE }}>
             <div className="flex flex-col gap-4">
-              {category && <span className="font-mono text-xs tracking-[0.14em] text-secondary uppercase">{category.name}</span>}
+              {category && <span className="font-mono text-xs tracking-[0.14em] text-accent-cycle uppercase">{category.name}</span>}
               <h2 id="profile-title" className="text-[clamp(31px,4.2vw,62px)] leading-[0.88] font-semibold tracking-[-0.055em]">
                 {talent.name}
               </h2>
@@ -103,7 +103,7 @@ function Profile({
                       href={l.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="grid grid-cols-[1fr_auto_auto] items-baseline gap-4 py-4 transition-colors hover:text-secondary"
+                      className="grid grid-cols-[1fr_auto_auto] items-baseline gap-4 py-4 transition-colors hover:text-accent-cycle"
                     >
                       <span className="font-mono text-[11px] tracking-[0.12em] text-[#8e86a0] uppercase">{l.label}</span>
                       <span>{handleOf(l.url)}</span>
@@ -120,7 +120,7 @@ function Profile({
           <Link
             href="/contacto"
             transitionTypes={["nav-forward"]}
-            className="rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-secondary"
+            className="rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-accent-cycle"
           >
             Incluir en mi campaña
           </Link>
@@ -234,7 +234,7 @@ export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; 
                     <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(11,8,16,.9)_0%,rgba(11,8,16,0)_45%)]" />
                     <span className="absolute top-3 left-3 font-mono text-[10.5px] tracking-[0.1em] text-[#d6d0de]">{pad(i + 1)}</span>
                     <span className="absolute right-3.5 bottom-3.5 left-3.5 flex flex-col gap-1.5">
-                      {category && <span className="font-mono text-[10px] tracking-[0.12em] text-secondary uppercase">{category.name}</span>}
+                      {category && <span className="font-mono text-[10px] tracking-[0.12em] text-accent-cycle uppercase">{category.name}</span>}
                       <span className="font-display text-[clamp(20px,1.8vw,26px)] leading-none font-semibold tracking-[-0.035em]">{t.name}</span>
                     </span>
                   </button>

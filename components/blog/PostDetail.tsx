@@ -18,9 +18,9 @@ const bodyClass = [
   "[&_h2]:mt-14 [&_h2]:scroll-mt-36 [&_h2]:font-display [&_h2]:text-[clamp(30px,3vw,42px)] [&_h2]:leading-none [&_h2]:font-semibold [&_h2]:tracking-[-0.045em] [&_h2]:text-base-content",
   "[&_h3]:mt-10 [&_h3]:font-display [&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:tracking-[-0.03em] [&_h3]:text-base-content",
   "[&_ul]:flex [&_ul]:flex-col [&_ul]:border-t [&_ul]:border-base-300",
-  "[&_ul>li]:relative [&_ul>li]:list-none [&_ul>li]:border-b [&_ul>li]:border-base-300 [&_ul>li]:py-4 [&_ul>li]:pl-7 [&_ul>li]:before:absolute [&_ul>li]:before:top-[1.55em] [&_ul>li]:before:left-0 [&_ul>li]:before:size-1.5 [&_ul>li]:before:rounded-full [&_ul>li]:before:bg-secondary",
-  "[&_ol]:list-decimal [&_ol]:pl-6 [&_ol>li]:mt-2 [&_ol>li]:marker:font-mono [&_ol>li]:marker:text-secondary",
-  "[&_blockquote]:my-12 [&_blockquote]:border-l-2 [&_blockquote]:border-secondary [&_blockquote]:py-2 [&_blockquote]:pl-7 [&_blockquote]:font-display [&_blockquote]:text-[clamp(26px,2.6vw,36px)] [&_blockquote]:leading-[1.15] [&_blockquote]:font-medium [&_blockquote]:tracking-[-0.035em] [&_blockquote]:text-base-content",
+  "[&_ul>li]:relative [&_ul>li]:list-none [&_ul>li]:border-b [&_ul>li]:border-base-300 [&_ul>li]:py-4 [&_ul>li]:pl-7 [&_ul>li]:before:absolute [&_ul>li]:before:top-[1.55em] [&_ul>li]:before:left-0 [&_ul>li]:before:size-1.5 [&_ul>li]:before:rounded-full [&_ul>li]:before:bg-tint",
+  "[&_ol]:list-decimal [&_ol]:pl-6 [&_ol>li]:mt-2 [&_ol>li]:marker:font-mono [&_ol>li]:marker:text-tint",
+  "[&_blockquote]:my-12 [&_blockquote]:border-l-2 [&_blockquote]:border-tint [&_blockquote]:py-2 [&_blockquote]:pl-7 [&_blockquote]:font-display [&_blockquote]:text-[clamp(26px,2.6vw,36px)] [&_blockquote]:leading-[1.15] [&_blockquote]:font-medium [&_blockquote]:tracking-[-0.035em] [&_blockquote]:text-base-content",
   "[&_a]:text-secondary [&_a]:underline [&_a]:underline-offset-4 [&_strong]:text-base-content",
 ].join(" ");
 
@@ -65,7 +65,7 @@ export function PostDetail({ post, more }: { post: Post; more: Post[] }) {
             {topic && (
               <>
                 <span aria-hidden>/</span>
-                <Link href={`/blog?tema=${post.topic}`} transitionTypes={["nav-back"]} className="text-secondary">
+                <Link href={`/blog?tema=${post.topic}`} transitionTypes={["nav-back"]} className="text-accent-cycle">
                   {topic}
                 </Link>
               </>
@@ -119,7 +119,7 @@ export function PostDetail({ post, more }: { post: Post; more: Post[] }) {
             {post.author && (
               <div className="mt-8 flex items-center gap-5 border border-base-300 bg-base-200 p-7">
                 <div className="flex flex-col gap-2">
-                  <span className="font-mono text-[10.5px] tracking-[0.12em] text-secondary">ESCRITO POR</span>
+                  <span className="font-mono text-[10.5px] tracking-[0.12em] text-accent-cycle">ESCRITO POR</span>
                   <Byline author={post.author} size="lg" />
                 </div>
               </div>
@@ -134,14 +134,14 @@ export function PostDetail({ post, more }: { post: Post; more: Post[] }) {
             <div className="flex flex-wrap items-end justify-between gap-4">
               <RevealItem as="h2" className="text-[clamp(2.2rem,4.4vw,4rem)] leading-[0.92] font-semibold tracking-[-0.05em]">
                 <span id="more-posts">
-                  Sigue <span className="text-secondary">leyendo.</span>
+                  Sigue <span className="text-accent-cycle">leyendo.</span>
                 </span>
               </RevealItem>
               <RevealItem>
                 <Link
                   href="/blog"
                   transitionTypes={["nav-back"]}
-                  className="border-b border-accent pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
+                  className="border-b border-tint/60 pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
                 >
                   Todos los artículos
                 </Link>

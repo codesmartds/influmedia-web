@@ -12,7 +12,7 @@ export function ReadingProgress({ children, className }: { children: ReactNode; 
   const scaleX = useSpring(scrollYProgress, { stiffness: 200, damping: 30, restDelta: 0.001 });
   return (
     <>
-      <motion.div aria-hidden style={{ scaleX }} className="fixed inset-x-0 top-[4.5rem] z-30 h-0.5 origin-left bg-secondary" />
+      <motion.div aria-hidden style={{ scaleX }} className="fixed inset-x-0 top-[4.5rem] z-30 h-0.5 origin-left bg-accent-cycle" />
       <div ref={body} className={className}>
         {children}
       </div>

@@ -34,7 +34,7 @@ function goTo(el: HTMLElement | null, k: number, count: number) {
 function Fill({ progress }: { progress: number }) {
   return (
     <div className="h-0.5 bg-[#2a2233]">
-      <div className="h-full bg-secondary" style={{ width: `${(progress * 100).toFixed(1)}%` }} />
+      <div className="h-full bg-accent-cycle" style={{ width: `${(progress * 100).toFixed(1)}%` }} />
     </div>
   );
 }
@@ -64,7 +64,7 @@ export function ServicesStory({ eyebrow, title, services }: { eyebrow: ReactNode
               const on = k === index;
               return (
                 <div key={s.title} className="grid grid-cols-[56px_minmax(0,1fr)] gap-5 border-b border-base-300 py-[clamp(8px,2vh,20px)]">
-                  <span className={`pt-[clamp(4px,1vh,12px)] font-mono text-[13px] transition-colors duration-300 ${on ? "text-secondary" : "text-[#5f576b] max-lg:text-secondary"}`}>
+                  <span className={`pt-[clamp(4px,1vh,12px)] font-mono text-[13px] transition-colors duration-300 ${on ? "text-accent-cycle" : "text-[#5f576b] max-lg:text-accent-cycle"}`}>
                     {pad(k + 1)}
                   </span>
                   <div className="flex flex-col gap-3">
@@ -79,7 +79,7 @@ export function ServicesStory({ eyebrow, title, services }: { eyebrow: ReactNode
                       <p className="text-[clamp(14px,2.2vh,16px)] leading-normal text-[#c9c2d2]">{s.text}</p>
                       <ul className="flex flex-wrap gap-2">
                         {s.items.map((it) => (
-                          <li key={it} className="rounded-full border border-secondary/40 px-3 py-[clamp(5px,1vh,8px)] text-[clamp(12px,1.9vh,14px)] text-[#e6e0ee]">
+                          <li key={it} className="rounded-full border border-tint/40 px-3 py-[clamp(5px,1vh,8px)] text-[clamp(12px,1.9vh,14px)] text-[#e6e0ee]">
                             {it}
                           </li>
                         ))}
@@ -107,7 +107,7 @@ export function ServicesStory({ eyebrow, title, services }: { eyebrow: ReactNode
           <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(11,8,16,.9)_0%,rgba(11,8,16,0)_45%)]" />
           <div className="absolute right-7 bottom-[26px] left-7 flex items-end justify-between gap-4">
             <span className="font-display text-[clamp(26px,2.52vw,34px)] leading-none font-semibold tracking-[-0.045em]">{current.title}</span>
-            <span className="font-mono text-[11px] tracking-[0.14em] text-secondary">
+            <span className="font-mono text-[11px] tracking-[0.14em] text-accent-cycle">
               {pad(index + 1)} / {pad(services.length)}
             </span>
           </div>
@@ -134,7 +134,7 @@ export function ProcessStory({ eyebrow, steps }: { eyebrow: ReactNode; steps: St
             <li key={s.title} className="flex flex-col gap-3 border-b border-[#2c2436] py-7">
               <span className="flex items-center gap-3 font-mono text-xs tracking-[0.14em] text-[#8e86a0]">
                 PASO {pad(k + 1)} / {pad(steps.length)}
-                <span className="rounded-full border border-secondary/45 px-2.5 py-1 text-secondary">{s.phase}</span>
+                <span className="rounded-full border border-tint/45 px-2.5 py-1 text-accent-cycle">{s.phase}</span>
               </span>
               <h3 className="text-[clamp(28px,8vw,44px)] leading-[0.9] font-semibold tracking-[-0.05em]">{s.title}</h3>
               <p className="leading-relaxed text-[#c9c2d2]">{s.text}</p>
@@ -158,7 +158,7 @@ export function ProcessStory({ eyebrow, steps }: { eyebrow: ReactNode; steps: St
                   className="flex cursor-pointer items-center gap-[9px] text-[15px] transition-colors duration-400"
                   style={{ color: k === index ? "#f2eef6" : k < index ? "#a39bae" : "#4a4255" }}
                 >
-                  <span className="size-2 rounded-full transition-colors duration-400" style={{ background: k <= index ? "#b79bdb" : "#2a2233" }} />
+                  <span className="size-2 rounded-full transition-colors duration-400" style={{ background: k <= index ? "var(--acc-tint)" : "#2a2233" }} />
                   {s.title}
                 </button>
               ))}
@@ -172,7 +172,7 @@ export function ProcessStory({ eyebrow, steps }: { eyebrow: ReactNode; steps: St
               <span className="text-[#8e86a0]">
                 PASO {pad(index + 1)} / {pad(steps.length)}
               </span>
-              <span className="rounded-full border border-secondary/45 px-2.5 py-[5px] text-secondary">{step.phase}</span>
+              <span className="rounded-full border border-tint/45 px-2.5 py-[5px] text-accent-cycle">{step.phase}</span>
             </div>
             <h3 className="text-[clamp(26px,min(6vw,9vh),91px)] leading-[0.85] font-semibold tracking-[-0.06em]">{step.title}</h3>
             <p className="max-w-[520px] text-[clamp(15px,2.4vh,18px)] leading-normal text-[#c9c2d2]">{step.text}</p>

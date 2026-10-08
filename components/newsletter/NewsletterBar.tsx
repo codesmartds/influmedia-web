@@ -16,10 +16,10 @@ export function NewsletterBar() {
       <div className="relative grid items-end gap-[clamp(2rem,5vw,4rem)] overflow-hidden rounded-[28px] border border-[#2a2233] bg-[#140f1b] p-[clamp(1.75rem,5vw,4rem)] lg:grid-cols-2">
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(420px_260px_at_100%_0%,rgba(94,45,133,.32),transparent_70%),radial-gradient(300px_200px_at_0%_100%,rgba(123,167,209,.08),transparent_70%)]"
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(420px_260px_at_100%_0%,color-mix(in_srgb,var(--acc-tint)_18%,transparent),transparent_70%),radial-gradient(300px_200px_at_0%_100%,rgba(123,167,209,.08),transparent_70%)]"
         />
         <div className="relative flex flex-col gap-[22px]">
-          <p className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">Newsletter</p>
+          <p className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">Newsletter</p>
           <h2 id="newsletter-title" className="text-[clamp(1.75rem,3.92vw,3.5rem)] leading-[0.9] font-semibold tracking-[-0.05em] text-balance">
             ¡Sigamos creando juntos!
           </h2>
@@ -29,7 +29,7 @@ export function NewsletterBar() {
         </div>
 
         {state.status === "success" ? (
-          <p role="status" className="relative flex items-center gap-2 font-medium text-secondary">
+          <p role="status" className="relative flex items-center gap-2 font-medium text-accent-cycle">
             <FiCheckCircle aria-hidden className="text-xl" />
             {state.message}
           </p>
@@ -54,7 +54,7 @@ export function NewsletterBar() {
               <button
                 type="submit"
                 disabled={pending}
-                className="cursor-pointer rounded-full bg-base-content px-6 py-[13px] text-sm font-semibold whitespace-nowrap text-base-100 transition-colors hover:bg-secondary disabled:opacity-60"
+                className="cursor-pointer rounded-full bg-base-content px-6 py-[13px] text-sm font-semibold whitespace-nowrap text-base-100 transition-colors hover:bg-accent-cycle disabled:opacity-60"
               >
                 {pending ? "…" : "Suscribirme"}
               </button>

@@ -25,11 +25,11 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
     <section id="contacto" className="scroll-mt-24 border-t border-base-300 bg-base-200">
       <Reveal className="mx-auto grid w-full max-w-[96rem] items-start gap-[clamp(2rem,5vw,4.5rem)] px-5 py-[clamp(4.5rem,9vw,7.5rem)] md:px-[4%] lg:grid-cols-2">
         <div className="flex flex-col gap-6">
-          <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
+          <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">
             Contacto
           </RevealItem>
           <RevealItem as={headingLevel} className="text-[clamp(1.95rem,4.2vw,4rem)] leading-[0.9] font-semibold tracking-[-0.055em] text-balance">
-            Nos encantaría conocer tu <span className="text-secondary">proyecto.</span>
+            Nos encantaría conocer tu <span className="text-accent-cycle">proyecto.</span>
           </RevealItem>
           <RevealItem as="p" className="max-w-[440px] text-[17px] leading-relaxed text-muted">
             Cuéntanos el objetivo y te enviamos una propuesta con talento, alcance proyectado y presupuesto.
@@ -50,7 +50,7 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
                       href={href}
                       target={external ? "_blank" : undefined}
                       rel={external ? "noopener noreferrer" : undefined}
-                      className="flex justify-between gap-4 py-4 transition-colors hover:text-secondary"
+                      className="flex justify-between gap-4 py-4 transition-colors hover:text-accent-cycle"
                     >
                       {body}
                     </a>
@@ -60,7 +60,7 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
                   {label === "Oficina" && directions.length > 0 && (
                     <div className="flex justify-end gap-4 pb-4 text-sm">
                       {directions.map((d) => (
-                        <a key={d.name} href={d.href} target="_blank" rel="noopener noreferrer" className="text-[#a39bae] transition-colors hover:text-secondary">
+                        <a key={d.name} href={d.href} target="_blank" rel="noopener noreferrer" className="text-[#a39bae] transition-colors hover:text-accent-cycle">
                           {d.name} ↗
                         </a>
                       ))}
@@ -72,7 +72,7 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
           </RevealItem>
 
           <RevealItem>
-            <Link href="/creadores#aplica" transitionTypes={["nav-forward"]} className="text-[15px] text-secondary transition-colors hover:text-base-content">
+            <Link href="/creadores#aplica" transitionTypes={["nav-forward"]} className="text-[15px] text-accent-cycle transition-colors hover:text-base-content">
               ¿Eres creador? Aplica a la red →
             </Link>
           </RevealItem>

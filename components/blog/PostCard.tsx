@@ -16,7 +16,7 @@ export function Byline({ author, size = "sm" }: { author: string; size?: "sm" | 
   const ring = size === "lg" ? "size-12 text-[13px]" : "size-7 text-[10px]";
   return (
     <span className="flex items-center gap-2.5">
-      <span aria-hidden className={`flex shrink-0 items-center justify-center rounded-full border border-secondary/45 font-mono text-secondary ${ring}`}>
+      <span aria-hidden className={`flex shrink-0 items-center justify-center rounded-full border border-tint/45 font-mono text-accent-cycle ${ring}`}>
         {initials(author)}
       </span>
       <span className={size === "lg" ? "font-display text-base font-semibold tracking-[-0.02em]" : "text-sm text-[#d6d0de]"}>{author}</span>
@@ -52,7 +52,7 @@ export function PostCard({ post, n }: { post: Post; n?: number }) {
         {n !== undefined && <span className="absolute top-3.5 left-4 font-mono text-[10.5px] tracking-[0.1em] text-[#d6d0de]">{String(n).padStart(2, "0")}</span>}
       </span>
       <span className="flex flex-col gap-3 pr-[clamp(8px,2vw,24px)]">
-        <PostMeta post={post} className="text-secondary" />
+        <PostMeta post={post} className="text-accent-cycle" />
         <span className="font-display text-[clamp(24px,2.1vw,30px)] leading-[1.02] font-semibold tracking-[-0.04em] text-balance">{post.title}</span>
         <span className="text-[15px] leading-normal text-muted">{post.excerpt}</span>
         {post.author && (

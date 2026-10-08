@@ -40,10 +40,10 @@ export default async function GalleryPage() {
               Inicio
             </Link>
             <span aria-hidden>/</span>
-            <span className="text-secondary">Galería</span>
+            <span className="text-accent-cycle">Galería</span>
           </RevealItem>
           <RevealItem as="h1" className="text-[clamp(2.1rem,5.4vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em] text-balance">
-            Los momentos detrás de <span className="text-secondary">cada conversación.</span>
+            Los momentos detrás de <span className="text-accent-cycle">cada conversación.</span>
           </RevealItem>
         </div>
         <div className="flex flex-col gap-3.5 pb-2">
@@ -61,13 +61,13 @@ export default async function GalleryPage() {
       <section className="border-t border-base-300 bg-base-200">
         <Reveal className="mx-auto flex w-full max-w-[96rem] flex-wrap items-end justify-between gap-8 px-5 py-[clamp(4.5rem,9vw,7.5rem)] md:px-[4%]">
           <RevealItem as="h2" className="max-w-[900px] text-[clamp(2rem,4.4vw,4.2rem)] leading-[0.88] font-semibold tracking-[-0.055em]">
-            ¿Quieres ver tu marca <span className="text-secondary">aquí?</span>
+            ¿Quieres ver tu marca <span className="text-accent-cycle">aquí?</span>
           </RevealItem>
           <RevealItem>
             <Link
               href="/contacto"
               transitionTypes={["nav-forward"]}
-              className="inline-block rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-secondary"
+              className="inline-block rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-accent-cycle"
             >
               Contáctanos
             </Link>

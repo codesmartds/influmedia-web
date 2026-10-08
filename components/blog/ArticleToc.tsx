@@ -60,10 +60,10 @@ export function ArticleToc({ items }: { items: TocItem[] }) {
                 onClick={(e) => go(e, s.id)}
                 aria-current={on ? "location" : undefined}
                 className={`-ml-px flex gap-2 border-l py-1.5 pl-4 transition-colors duration-300 ${
-                  on ? "border-secondary text-base-content" : "border-transparent text-[#a39bae] hover:text-base-content"
+                  on ? "border-tint text-base-content" : "border-transparent text-[#a39bae] hover:text-base-content"
                 }`}
               >
-                <span className={`font-mono text-[11px] leading-[1.9] ${on ? "text-secondary" : "text-[#6f6880]"}`}>{String(i + 1).padStart(2, "0")}</span>
+                <span className={`font-mono text-[11px] leading-[1.9] ${on ? "text-accent-cycle" : "text-[#6f6880]"}`}>{String(i + 1).padStart(2, "0")}</span>
                 {s.title}
               </a>
             </li>

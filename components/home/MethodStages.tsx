@@ -29,7 +29,7 @@ const stages = [
   },
 ];
 
-const LILAC = "#b79bdb";
+const LILAC = "var(--acc-tint)";
 const TEAL = "#5fbfbf";
 const PINK = "#d77fb4";
 
@@ -68,7 +68,7 @@ function Frame({ children }: { children: ReactNode }) {
   return (
     <div className="relative aspect-[16/11] min-h-[420px] overflow-hidden rounded-[20px] border border-base-content/10 font-mono text-base-content"
       // Inline: Tailwind drops an arbitrary background that mixes a gradient and a color.
-      style={{ background: "radial-gradient(600px 300px at 0% 0%,rgba(94,45,133,.35),transparent 70%),#120d19" }}
+      style={{ background: "radial-gradient(600px 300px at 0% 0%,color-mix(in srgb, var(--acc-tint) 18%, transparent),transparent 70%),#120d19" }}
     >
       {children}
     </div>
@@ -136,7 +136,7 @@ function PlanningPanel({ talent }: { talent?: Talent }) {
                   {k}
                 </span>
                 <span
-                  className="ml-auto min-w-0 truncate text-[11px] tracking-[0.08em] text-secondary transition-opacity duration-400"
+                  className="ml-auto min-w-0 truncate text-[11px] tracking-[0.08em] text-accent-cycle transition-opacity duration-400"
                   style={{ opacity: state ? 1 : 0 }}
                 >
                   {v}
@@ -195,7 +195,7 @@ function OnwayPanel({ talents }: { talents: Talent[] }) {
           boxShadow: on
             ? isAlert
               ? `0 0 0 ${(4 + 4 * Math.abs(Math.sin(t * 5))).toFixed(1)}px rgba(215,127,180,.25)`
-              : "0 0 12px rgba(183,155,219,.6)"
+              : "0 0 12px color-mix(in srgb, var(--acc-tint) 60%, transparent)"
             : "none",
         }}
       />
@@ -231,7 +231,7 @@ function OnwayPanel({ talents }: { talents: Talent[] }) {
           })}
           {/* Playhead sweeping the week */}
           <div
-            className="absolute inset-y-0 w-[1.5px] bg-secondary shadow-[0_0_14px_rgba(183,155,219,.8)]"
+            className="absolute inset-y-0 w-[1.5px] bg-accent-cycle shadow-[0_0_14px_color-mix(in_srgb,var(--acc-tint)_80%,transparent)]"
             style={{ left: `calc(118px + (100% - 118px) * ${progress.toFixed(4)})` }}
           />
         </div>
@@ -292,10 +292,10 @@ function PostbuyPanel() {
           className="flex flex-col gap-2 rounded-xl border border-[rgba(155,111,214,.3)] bg-[rgba(155,111,214,.12)] px-4 py-3.5"
           style={appear((tt - 2.2) / 0.4)}
         >
-          <span className="text-[9.5px] tracking-[0.12em] text-secondary">INSIGHT DE CAMPAÑA</span>
+          <span className="text-[9.5px] tracking-[0.12em] text-accent-cycle">INSIGHT DE CAMPAÑA</span>
           <span className="min-h-[46px] font-display text-[17px] leading-[1.35]">
             {insight.slice(0, typed)}
-            <span className="text-secondary" style={{ opacity: Math.sin(t * 8) > 0 ? 1 : 0 }}>
+            <span className="text-accent-cycle" style={{ opacity: Math.sin(t * 8) > 0 ? 1 : 0 }}>
               ▍
             </span>
           </span>
@@ -328,8 +328,8 @@ export function MethodStages({ talents }: { talents: Talent[] }) {
             onClick={() => setActive(i)}
             className="relative flex cursor-pointer flex-col gap-2 py-6 pr-6 text-left"
           >
-            {i === active && <span className="absolute -top-px right-6 left-0 h-0.5 bg-secondary" />}
-            <span className="font-mono text-xs text-[#7ba7d1] uppercase">
+            {i === active && <span className="absolute -top-px right-6 left-0 h-0.5 bg-accent-cycle" />}
+            <span className="font-mono text-xs text-accent-cycle uppercase">
               {String(i + 1).padStart(2, "0")} · {s.time}
             </span>
             <span

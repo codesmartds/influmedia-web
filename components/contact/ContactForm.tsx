@@ -14,7 +14,7 @@ const initial: ContactState = {
 
 // Underlined fields on the section background; the line turns red when the server flags them.
 const controlClass =
-  "min-w-0 border-0 border-b border-[#3a3145] bg-transparent py-2.5 text-[17px] text-base-content outline-none transition-colors placeholder:text-[#6f6880] focus:border-secondary aria-[invalid=true]:border-error";
+  "min-w-0 border-0 border-b border-[#3a3145] bg-transparent py-2.5 text-[17px] text-base-content outline-none transition-colors placeholder:text-[#6f6880] focus:border-tint aria-[invalid=true]:border-error";
 const labelClass = "text-[13px] text-[#a39bae]";
 
 export function ContactForm({ needs }: { needs: string[] }) {
@@ -105,7 +105,7 @@ export function ContactForm({ needs }: { needs: string[] }) {
           {needs.map((need) => (
             <label key={need} className="cursor-pointer">
               <input type="radio" name="need" value={need} required defaultChecked={state.values.need === need} className="peer sr-only" />
-              <span className="block rounded-full border border-base-content/20 px-3.5 py-[9px] text-sm text-[#a39bae] transition-colors peer-checked:border-secondary peer-checked:bg-secondary/20 peer-checked:text-base-content peer-focus-visible:outline-2 peer-focus-visible:outline-secondary hover:border-base-content/50">
+              <span className="block rounded-full border border-base-content/20 px-3.5 py-[9px] text-sm text-[#a39bae] transition-colors peer-checked:border-tint peer-checked:bg-tint/20 peer-checked:text-base-content peer-focus-visible:outline-2 peer-focus-visible:outline-tint hover:border-base-content/50">
                 {need}
               </span>
             </label>
@@ -133,7 +133,7 @@ export function ContactForm({ needs }: { needs: string[] }) {
         <button
           type="submit"
           disabled={pending}
-          className="cursor-pointer rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-secondary disabled:opacity-60"
+          className="cursor-pointer rounded-full bg-base-content px-[26px] py-4 text-[15px] font-semibold text-base-100 transition-colors hover:bg-accent-cycle disabled:opacity-60"
         >
           {pending ? "Enviando…" : "Enviar"}
         </button>

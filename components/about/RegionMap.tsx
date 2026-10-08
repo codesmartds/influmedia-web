@@ -27,14 +27,14 @@ export function RegionCountries({ onHover, hovered }: { onHover: (i: number) => 
           onMouseEnter={() => onHover(i)}
           className="grid grid-cols-[40px_minmax(0,1fr)_auto] items-baseline gap-3.5 border-b border-base-300 py-[11px]"
         >
-          <span className="font-mono text-[11px] text-[#7ba7d1]">{c.code}</span>
+          <span className="font-mono text-[11px] text-accent-cycle">{c.code}</span>
           <span
             className="font-display text-lg font-medium tracking-[-0.02em] transition-colors duration-300"
             style={{ color: hovered === i ? "#f2eef6" : hovered === -1 ? "#d6d0de" : "#5f576b" }}
           >
             {c.name}
           </span>
-          {c.hq && <span className="font-mono text-[10.5px] tracking-[0.12em] text-secondary">OFICINA</span>}
+          {c.hq && <span className="font-mono text-[10.5px] tracking-[0.12em] text-accent-cycle">OFICINA</span>}
         </li>
       ))}
     </ul>
@@ -47,11 +47,11 @@ function Pulse() {
       {[0, 1.2].map((delay) => (
         <span
           key={delay}
-          className="absolute top-1/2 left-1/2 size-[34px] rounded-full border-[1.5px] border-secondary motion-safe:animate-[hqpulse_2.4s_ease-out_infinite]"
+          className="absolute top-1/2 left-1/2 size-[34px] rounded-full border-[1.5px] border-tint motion-safe:animate-[hqpulse_2.4s_ease-out_infinite]"
           style={{ animationDelay: `${delay}s` }}
         />
       ))}
-      <span className="absolute -top-1.5 -left-1.5 size-3 rounded-full bg-base-content shadow-[0_0_18px_rgba(183,155,219,.9)]" />
+      <span className="absolute -top-1.5 -left-1.5 size-3 rounded-full bg-base-content shadow-[0_0_18px_color-mix(in_srgb,var(--acc-tint)_90%,transparent)]" />
     </span>
   );
 }
@@ -75,7 +75,7 @@ export function RegionMapView({ hovered }: { hovered: number }) {
               top: c.y,
               color: on ? "#0b0810" : "#f2eef6",
               background: on ? "#f2eef6" : "rgba(11,8,16,.72)",
-              borderColor: on ? "#f2eef6" : "rgba(183,155,219,.5)",
+              borderColor: on ? "#f2eef6" : "color-mix(in srgb, var(--acc-tint) 50%, transparent)",
             }}
           >
             {c.code}

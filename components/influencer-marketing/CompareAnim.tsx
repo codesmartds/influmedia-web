@@ -95,11 +95,11 @@ export function CompareAnim({ talents }: { talents: Talent[] }) {
         className="absolute inset-0 flex flex-col text-[11px]"
         style={{
           // Inline: Tailwind drops an arbitrary background that mixes a gradient and a color.
-          background: "radial-gradient(500px 260px at 100% 0%,rgba(94,45,133,.35),transparent 70%),#120d19",
+          background: "radial-gradient(500px 260px at 100% 0%,color-mix(in srgb, var(--acc-tint) 18%, transparent),transparent 70%),#120d19",
           clipPath: `inset(0 ${((1 - p) * 100).toFixed(2)}% 0 0)`,
         }}
       >
-        <div className="flex justify-between gap-2.5 border-b border-base-content/[.08] px-4 py-3 text-[10.5px] tracking-[0.1em] whitespace-nowrap text-secondary">
+        <div className="flex justify-between gap-2.5 border-b border-base-content/[.08] px-4 py-3 text-[10.5px] tracking-[0.1em] whitespace-nowrap text-accent-cycle">
           <span>LECTURA DE PERFIL · {rows.length} CREADORES</span>
           <span className="text-[#5fbfbf]">{recommended} RECOMENDADOS</span>
         </div>
@@ -134,12 +134,12 @@ export function CompareAnim({ talents }: { talents: Talent[] }) {
 
       {/* Scan line */}
       <div
-        className="absolute inset-y-0 -ml-px w-0.5 bg-secondary shadow-[0_0_24px_4px_rgba(183,155,219,.55)] transition-opacity duration-300"
+        className="absolute inset-y-0 -ml-px w-0.5 bg-accent-cycle shadow-[0_0_24px_4px_color-mix(in_srgb,var(--acc-tint)_55%,transparent)] transition-opacity duration-300"
         style={{ left: `${(p * 100).toFixed(2)}%`, opacity: p > 0.01 && p < 0.99 ? 1 : 0 }}
       />
       <span
         className="absolute right-3.5 bottom-3.5 rounded-lg border border-base-content/15 bg-base-100/70 px-[11px] py-[7px] text-[10.5px] tracking-[0.12em]"
-        style={{ color: p > 0.5 ? "#b79bdb" : "#a39bae" }}
+        style={{ color: p > 0.5 ? "var(--acc-tint)" : "#a39bae" }}
       >
         {p > 0.5 ? "CON INFLUMEDIA" : "ANTES"}
       </span>

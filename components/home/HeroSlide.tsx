@@ -120,7 +120,7 @@ export function HeroSlide({ talents }: { talents: Talent[] }) {
       <div className="pointer-events-none mt-auto grid items-end gap-10 px-5 pb-12 md:px-[4%] lg:grid-cols-3">
         <div className="flex min-w-0 flex-col gap-5 lg:col-span-2">
           <motion.p
-            className="font-mono text-xs tracking-[0.16em] text-secondary uppercase"
+            className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase"
             initial={from({ opacity: 0, y: 16 })}
             animate={{ opacity: 1, y: 0 }}
             transition={rise(TEXT_AT)}
@@ -131,7 +131,7 @@ export function HeroSlide({ talents }: { talents: Talent[] }) {
             {[
               <>Personas que</>,
               <>
-                mueven <span className="text-secondary">marcas.</span>
+                mueven <span className="text-accent-cycle">marcas.</span>
               </>,
             ].map((content, i) => (
               // Each line rises out of a clipped row.
@@ -167,7 +167,7 @@ export function HeroSlide({ talents }: { talents: Talent[] }) {
             <Link
               href="/contacto"
               transitionTypes={["nav-forward"]}
-              className="btn btn-primary h-auto rounded-full border-0 px-6 py-3.5 text-sm font-semibold hover:bg-secondary"
+              className="btn btn-primary h-auto rounded-full border-0 px-6 py-3.5 text-sm font-semibold hover:bg-accent-cycle"
             >
               Planifica tu campaña
             </Link>

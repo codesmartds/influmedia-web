@@ -89,7 +89,7 @@ export function SiteHeader() {
                 </li>
               ))}
             </ul>
-            <Link href={contactHref} className="btn btn-primary mt-2 w-full rounded-full border-0 font-semibold hover:bg-secondary">
+            <Link href={contactHref} className="btn btn-primary mt-2 w-full rounded-full border-0 font-semibold hover:bg-accent-cycle">
               Contacto
             </Link>
           </nav>

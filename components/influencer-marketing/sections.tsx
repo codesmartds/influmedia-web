@@ -41,17 +41,17 @@ export function ImHero() {
             Inicio
           </Link>
           <span aria-hidden>/</span>
-          <span className="text-secondary">Influencer marketing</span>
+          <span className="text-accent-cycle">Influencer marketing</span>
         </RevealItem>
         <RevealItem as="h1" className="text-[clamp(1.95rem,4.74vw,4.5rem)] leading-[0.88] font-semibold tracking-[-0.055em] text-balance">
-          Campañas con creadores que se planean, se controlan y <span className="text-secondary">se miden.</span>
+          Campañas con creadores que se planean, se controlan y <span className="text-accent-cycle">se miden.</span>
         </RevealItem>
         <RevealItem as="p" className="max-w-[560px] text-lg leading-relaxed text-[#c9c2d2]">
           Estrategia, talento exclusivo y tecnología para que tu inversión en influencers mueva conversación y resultados en
           Centroamérica y el Caribe.
         </RevealItem>
         <RevealItem className="flex flex-wrap gap-2.5">
-          <a href="#contacto" className="rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-secondary">
+          <a href="#contacto" className="rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-accent-cycle">
             Cotiza tu campaña
           </a>
           <a href="#resultados" className="rounded-full border border-base-content/40 px-6 py-[15px] text-sm font-medium transition-colors hover:bg-base-content/10">
@@ -87,7 +87,7 @@ export function Challenges() {
         <RevealItem as="ol" effect="fade" stagger className="flex flex-col border-t border-base-300">
           {challenges.map((c, i) => (
             <RevealItem as="li" key={c.title} className="grid grid-cols-[56px_minmax(0,1fr)] gap-5 border-b border-base-300 py-7">
-              <span className="pt-2 font-mono text-[13px] text-[#7ba7d1]">{String(i + 1).padStart(2, "0")}</span>
+              <span className="pt-2 font-mono text-[13px] text-accent-cycle">{String(i + 1).padStart(2, "0")}</span>
               <div className="flex flex-col gap-2">
                 <h3 className="text-[clamp(24px,2.4vw,32px)] font-medium tracking-[-0.03em]">{c.title}</h3>
                 <p className="text-[15px] leading-relaxed text-muted">{c.text}</p>
@@ -117,7 +117,7 @@ export function BeforeAfter({ talents }: { talents: Talent[] }) {
           <RevealItem as="ul" className="flex flex-col border-t border-[#2c2436]">
             {rows.map((r) => (
               <li key={r.tag} className="flex flex-col gap-1.5 border-b border-[#2c2436] py-[18px]">
-                <span className={`font-mono text-[11px] tracking-[0.14em] uppercase ${r.on ? "text-secondary" : "text-[#8e86a0]"}`}>{r.tag}</span>
+                <span className={`font-mono text-[11px] tracking-[0.14em] uppercase ${r.on ? "text-accent-cycle" : "text-[#8e86a0]"}`}>{r.tag}</span>
                 <span className="font-display text-xl font-medium tracking-[-0.02em]">{r.title}</span>
                 <span className="text-[15px] leading-normal text-muted">{r.text}</span>
               </li>
@@ -153,8 +153,8 @@ export function Approach() {
       <Reveal as="ul" stagger={0.12} className="grid border-t border-base-300 md:grid-cols-3">
         {pillars.map((p) => (
           <RevealItem as="li" key={p.title} className="flex flex-col gap-3.5 pt-8 pr-7 pb-2">
-            <span className="font-mono text-xs text-[#7ba7d1] uppercase">{p.tag}</span>
-            <h3 className={`text-[clamp(30px,3.5vw,52px)] leading-[0.9] font-semibold tracking-[-0.05em] ${p.accent ? "text-secondary" : ""}`}>{p.title}</h3>
+            <span className="font-mono text-xs text-accent-cycle uppercase">{p.tag}</span>
+            <h3 className={`text-[clamp(30px,3.5vw,52px)] leading-[0.9] font-semibold tracking-[-0.05em] ${p.accent ? "text-accent-cycle" : ""}`}>{p.title}</h3>
             <p className="text-[15px] leading-relaxed text-muted">{p.text}</p>
           </RevealItem>
         ))}
@@ -174,7 +174,7 @@ export function Services({ talents }: { talents: Talent[] }) {
   return (
     <ServicesStory
       services={services}
-      eyebrow={<p className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">Servicios 360°</p>}
+      eyebrow={<p className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">Servicios 360°</p>}
       title={
         <h2 className="text-[clamp(26px,min(3.64vw,5.25vh),50px)] leading-[0.94] font-semibold tracking-[-0.045em] text-balance">
           Todo lo que tu campaña necesita, en un solo equipo.
@@ -193,7 +193,7 @@ export function Process({ talents }: { talents: Talent[] }) {
     { title: "Contenido", phase: "Onway", text: "Integramos el producto en historias que el creador ya cuenta, y acompañamos cada publicación en tiempo real.", deliverables: ["Concepto creativo y briefs", "Calendario y aprobaciones", "Monitoreo y alertas"], image: sceneDrink },
     { title: "Resultados", phase: "Postbuy", text: "Cerramos con lectura de negocio: qué pasó, por qué pasó y qué hacer en la siguiente campaña.", deliverables: ["Reporte en 48 horas", "CPE, ROI, EM y VMG", "Recomendaciones accionables"], image: photoAt(talents, 6) },
   ];
-  return <ProcessStory steps={steps} eyebrow={<p className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">Proceso</p>} />;
+  return <ProcessStory steps={steps} eyebrow={<p className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">Proceso</p>} />;
 }
 
 /* 7 · Why Influmedia */
@@ -209,7 +209,7 @@ export function WhyUs() {
       <Reveal className="flex max-w-[900px] flex-col gap-[22px]">
         <Eyebrow>Por qué Influmedia</Eyebrow>
         <RevealItem as="h2" className={titleClass}>
-          Menos fricción. Más control. <span className="text-secondary">Mejor lectura.</span>
+          Menos fricción. Más control. <span className="text-accent-cycle">Mejor lectura.</span>
         </RevealItem>
       </Reveal>
       <Reveal as="ul" stagger={0.1} className="grid border-t border-l border-base-300 md:grid-cols-2">
@@ -217,7 +217,7 @@ export function WhyUs() {
           <RevealItem as="li" key={r.title} className="flex flex-col gap-[22px] border-r border-b border-base-300 px-[clamp(20px,3vw,40px)] py-9">
             <div className="flex items-baseline justify-between">
               <h3 className="text-[clamp(27px,2.86vw,40px)] font-semibold tracking-[-0.045em]">{r.title}</h3>
-              <span className="font-mono text-xs text-[#7ba7d1]">{pad(i + 1)}</span>
+              <span className="font-mono text-xs text-accent-cycle">{pad(i + 1)}</span>
             </div>
             <ul className="flex flex-col text-base text-[#c9c2d2]">
               {r.points.map((p) => (
@@ -271,7 +271,7 @@ export function ExclusiveTalent({ talents }: { talents: Talent[] }) {
             <Link
               href="/creadores"
               transitionTypes={["nav-forward"]}
-              className="border-b border-accent pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
+              className="border-b border-tint/60 pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
             >
               Conoce el roster
             </Link>
@@ -280,7 +280,7 @@ export function ExclusiveTalent({ talents }: { talents: Talent[] }) {
         <RevealItem as="ol" effect="fade" stagger className="flex flex-col border-t border-base-300">
           {talentPoints.map((t, i) => (
             <RevealItem as="li" key={t} className="grid grid-cols-[56px_minmax(0,1fr)] gap-5 border-b border-base-300 py-[22px]">
-              <span className="font-mono text-[13px] text-[#7ba7d1]">{pad(i + 1)}</span>
+              <span className="font-mono text-[13px] text-accent-cycle">{pad(i + 1)}</span>
               <span className="text-[17px] leading-normal text-[#d6d0de]">{t}</span>
             </RevealItem>
           ))}

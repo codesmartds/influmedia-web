@@ -39,10 +39,10 @@ export default async function CreatorsPage() {
               Inicio
             </Link>
             <span aria-hidden>/</span>
-            <span className="text-secondary">Creadores</span>
+            <span className="text-accent-cycle">Creadores</span>
           </RevealItem>
           <RevealItem as="h1" className="text-[clamp(2.1rem,5.4vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em]">
-            Talento que conecta <span className="text-secondary">e inspira.</span>
+            Talento que conecta <span className="text-accent-cycle">e inspira.</span>
           </RevealItem>
         </div>
         <div className="flex flex-col gap-5 pb-2">
@@ -53,7 +53,7 @@ export default async function CreatorsPage() {
             <Link
               href="/contacto"
               transitionTypes={["nav-forward"]}
-              className="rounded-full bg-base-content px-[22px] py-3.5 text-sm font-semibold text-base-100 transition-colors hover:bg-secondary"
+              className="rounded-full bg-base-content px-[22px] py-3.5 text-sm font-semibold text-base-100 transition-colors hover:bg-accent-cycle"
             >
               Arma tu campaña
             </Link>
@@ -71,7 +71,7 @@ export default async function CreatorsPage() {
           <div className="flex flex-col gap-6">
             <Eyebrow>¿Eres creador?</Eyebrow>
             <RevealItem as="h2" className="text-[clamp(1.95rem,4.48vw,4.2rem)] leading-[0.88] font-semibold tracking-[-0.055em]">
-              Aplica al <span className="text-secondary">roster.</span>
+              Aplica al <span className="text-accent-cycle">roster.</span>
             </RevealItem>
             <RevealItem as="p" className="max-w-[440px] text-[17px] leading-relaxed text-muted">
               Revisamos cada perfil. Si encaja con lo que buscan nuestras marcas, te contactamos.
@@ -79,7 +79,7 @@ export default async function CreatorsPage() {
             <RevealItem as="ol" className="mt-2 flex flex-col border-t border-[#2a2233]">
               {perks.map((p, i) => (
                 <li key={p} className="grid grid-cols-[56px_minmax(0,1fr)] gap-4 border-b border-[#2a2233] py-4">
-                  <span className="font-mono text-xs text-[#7ba7d1]">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="font-mono text-xs text-accent-cycle">{String(i + 1).padStart(2, "0")}</span>
                   <span className="text-[#d6d0de]">{p}</span>
                 </li>
               ))}

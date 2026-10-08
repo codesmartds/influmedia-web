@@ -102,7 +102,7 @@ function Viewer({
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4, ease: EASE }}
           >
-            <Meta m={m} className="text-secondary" />
+            <Meta m={m} className="text-accent-cycle" />
             <h2 id="moment-title" className="text-[clamp(26px,3.4vw,48px)] leading-none font-semibold tracking-[-0.045em]">
               {m.title}
             </h2>
@@ -261,7 +261,7 @@ export function GalleryMoments({
             )}
           </button>
           <div className="flex flex-col justify-between gap-8 bg-base-200 px-5 py-[clamp(2rem,5vw,4rem)] md:px-[4%]">
-            <p className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">Momento destacado · {categoryLabels[featured.category]}</p>
+            <p className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">Momento destacado · {categoryLabels[featured.category]}</p>
             <div className="flex flex-col gap-[18px]">
               <span className="font-mono text-xs tracking-[0.14em] text-[#8e86a0] uppercase">
                 {[featured.place, formatMonth(featured.date)].filter(Boolean).join(" · ")}
@@ -272,7 +272,7 @@ export function GalleryMoments({
             <button
               type="button"
               onClick={showFeatured}
-              className="cursor-pointer self-start rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-secondary"
+              className="cursor-pointer self-start rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-accent-cycle"
             >
               Ver el momento
             </button>
@@ -364,7 +364,7 @@ export function GalleryMoments({
                         )}
                       </span>
                       <span className="absolute right-4 bottom-4 left-4 flex flex-col gap-[7px]">
-                        <Meta m={m} withPlace={false} className="text-secondary" />
+                        <Meta m={m} withPlace={false} className="text-accent-cycle" />
                         <span className="font-display text-[clamp(19px,1.7vw,26px)] leading-[1.02] font-semibold tracking-[-0.035em] text-balance">{m.title}</span>
                       </span>
                     </button>

@@ -21,7 +21,7 @@ const media = (m: unknown) => (m && typeof m === "object" ? (m as Media) : null)
 export const titleClass = "text-[clamp(1.75rem,3.64vw,3.1rem)] leading-[0.94] font-semibold tracking-[-0.045em] text-balance";
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
+    <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">
       {children}
     </RevealItem>
   );
@@ -31,7 +31,7 @@ function TextLink({ href, children }: { href: string; children: ReactNode }) {
     <Link
       href={href}
       transitionTypes={["nav-forward"]}
-      className="border-b border-accent pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
+      className="border-b border-tint/60 pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
     >
       {children}
     </Link>
@@ -41,7 +41,7 @@ function TextLink({ href, children }: { href: string; children: ReactNode }) {
 function Heading({ eyebrow, title, children }: { eyebrow: string; title: string; children?: ReactNode }) {
   return (
     <>
-      <RevealItem as="p" className="text-sm font-bold uppercase text-secondary md:text-base">
+      <RevealItem as="p" className="text-sm font-bold uppercase text-accent-cycle md:text-base">
         {eyebrow}
       </RevealItem>
       <RevealItem as="h2" className="mt-3 max-w-[24ch] text-[clamp(2rem,3.4vw,3.6rem)] font-bold leading-tight">
@@ -62,7 +62,7 @@ function CtaLink({ href, children, variant = "primary" }: { href: string; childr
       href={href}
       transitionTypes={["nav-forward"]}
       className={`btn h-auto rounded-lg px-7 py-3.5 uppercase ${
-        variant === "primary" ? "btn-primary border-0" : "btn-outline border-white/30 hover:border-secondary hover:bg-transparent hover:text-secondary"
+        variant === "primary" ? "btn-primary border-0" : "btn-outline border-white/30 hover:border-tint hover:bg-transparent hover:text-accent-cycle"
       }`}
     >
       {children} <FiArrowRight aria-hidden />
@@ -156,7 +156,7 @@ export function WhatWeDo() {
           <RevealItem as="ol" className="mt-2 grid grid-cols-3 gap-px border border-base-300 bg-base-300">
             {integration.map((label, i) => (
               <li key={label} className="flex flex-col gap-1.5 bg-base-100 p-[18px]">
-                <span className="font-mono text-[11px] text-[#7ba7d1]">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-mono text-[11px] text-accent-cycle">{String(i + 1).padStart(2, "0")}</span>
                 <span className="font-display text-[17px] font-medium">{label}</span>
               </li>
             ))}
@@ -212,10 +212,10 @@ export function InfluencerMarketing360() {
         {steps360.map((s, i) => (
           <RevealItem as="li" key={s.name} effect="fade" stagger={0.08} className="flex flex-col gap-[18px] pr-6 pb-7">
             <div className="relative mb-2.5 h-0.5 bg-[#2a2233]">
-              <RevealItem effect="draw" className="absolute inset-0 origin-left bg-secondary" />
+              <RevealItem effect="draw" className="absolute inset-0 origin-left bg-accent-cycle" />
               <RevealItem
                 effect="scale"
-                className="absolute -top-1.5 left-0 box-border size-3.5 rounded-full border-2 border-secondary bg-secondary shadow-[0_0_14px_rgba(183,155,219,.7)]"
+                className="absolute -top-1.5 left-0 box-border size-3.5 rounded-full border-2 border-tint bg-accent-cycle shadow-[0_0_14px_color-mix(in_srgb,var(--acc-tint)_70%,transparent)]"
               />
             </div>
             <RevealItem as="span" className="font-mono text-xs tracking-[0.12em] text-[#8e86a0]">
@@ -227,7 +227,7 @@ export function InfluencerMarketing360() {
             <RevealItem as="span" className="text-[15px] leading-relaxed text-muted">
               {s.text}
             </RevealItem>
-            <RevealItem as="span" className="mt-auto font-mono text-[11px] tracking-[0.12em] text-secondary uppercase">
+            <RevealItem as="span" className="mt-auto font-mono text-[11px] tracking-[0.12em] text-accent-cycle uppercase">
               {s.tag}
             </RevealItem>
           </RevealItem>
@@ -239,7 +239,7 @@ export function InfluencerMarketing360() {
           Todo empieza con un objetivo claro.
         </RevealItem>
         <RevealItem>
-          <Link href="#contacto" className="btn btn-primary h-auto rounded-full border-0 px-[22px] py-3.5 text-sm font-semibold hover:bg-secondary">
+          <Link href="#contacto" className="btn btn-primary h-auto rounded-full border-0 px-[22px] py-3.5 text-sm font-semibold hover:bg-accent-cycle">
             Cuéntanos el tuyo
           </Link>
         </RevealItem>
@@ -332,7 +332,7 @@ export function TalentNetwork({ talents }: { talents: Talent[] }) {
                 key={k.title}
                 className="grid grid-cols-[56px_minmax(0,1fr)] items-center gap-5 border-b border-base-300 py-[30px] transition-[background-color,padding] duration-300 hover:bg-[#151020] hover:px-5"
               >
-                <span className="font-mono text-[13px] text-[#7ba7d1]">{String(i + 1).padStart(2, "0")}</span>
+                <span className="font-mono text-[13px] text-accent-cycle">{String(i + 1).padStart(2, "0")}</span>
                 <div className="flex flex-col gap-1.5">
                   <h3 className="text-[clamp(24px,2.4vw,32px)] font-medium tracking-[-0.03em]">{k.title}</h3>
                   <p className="text-[15px] leading-relaxed text-muted">{k.text}</p>
@@ -342,7 +342,7 @@ export function TalentNetwork({ talents }: { talents: Talent[] }) {
           </RevealItem>
           {/* The point of the section: talent is the means, the objective is the end. */}
           <RevealItem as="p" className="mt-8 font-display text-[clamp(20px,2vw,26px)] leading-snug font-medium tracking-[-0.03em]">
-            Interno o independiente, el talento es el medio. <span className="text-secondary">El resultado es el fin.</span>
+            Interno o independiente, el talento es el medio. <span className="text-accent-cycle">El resultado es el fin.</span>
           </RevealItem>
         </div>
       </Reveal>

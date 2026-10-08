@@ -31,7 +31,7 @@ export function PostList({ posts }: { posts: PostRow[] }) {
               onFocus={() => setHover(k)}
               className="group grid grid-cols-[40px_minmax(0,1fr)] items-center gap-6 border-b border-base-300 py-7 transition-[padding] duration-500 ease-[cubic-bezier(.2,.7,.2,1)] hover:pl-[18px] sm:grid-cols-[56px_minmax(0,1fr)_auto]"
             >
-              <span className="font-mono text-[13px] text-secondary">{String(k + 1).padStart(2, "0")}</span>
+              <span className="font-mono text-[13px] text-accent-cycle">{String(k + 1).padStart(2, "0")}</span>
               <div className="flex min-w-0 flex-col gap-3">
                 <span className="font-mono text-[11px] tracking-[0.12em] text-[#8e86a0] uppercase">{p.date}</span>
                 <span
@@ -47,8 +47,8 @@ export function PostList({ posts }: { posts: PostRow[] }) {
                   aria-hidden
                   className="flex size-[46px] items-center justify-center rounded-full border text-lg text-base-content transition-colors duration-300"
                   style={{
-                    background: hover === k ? "rgba(183,155,219,.3)" : "transparent",
-                    borderColor: hover === k ? "rgba(183,155,219,.7)" : "rgba(242,238,246,.18)",
+                    background: hover === k ? "color-mix(in srgb, var(--acc-tint) 30%, transparent)" : "transparent",
+                    borderColor: hover === k ? "color-mix(in srgb, var(--acc-tint) 70%, transparent)" : "rgba(242,238,246,.18)",
                   }}
                 >
                   →

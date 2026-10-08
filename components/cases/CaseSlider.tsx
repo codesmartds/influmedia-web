@@ -67,7 +67,7 @@ export function CaseSlider({ cases, allHref = "/influencer-marketing#casos" }: {
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(11,8,16,.92)_0%,rgba(11,8,16,.5)_48%,rgba(11,8,16,.08)_82%),linear-gradient(0deg,rgba(11,8,16,.96)_0%,rgba(11,8,16,0)_48%),linear-gradient(180deg,rgba(11,8,16,.75)_0%,rgba(11,8,16,0)_22%)]" />
 
       <div className="relative flex flex-wrap items-center justify-between gap-5 px-5 py-10 md:px-[4%]">
-        <p className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">Casos — resultados, no publicaciones</p>
+        <p className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">Casos — resultados, no publicaciones</p>
         {total > 1 && (
           <div className="flex items-center gap-4">
             <span className="font-mono text-xs text-[#d6d0de]">
@@ -107,7 +107,7 @@ export function CaseSlider({ cases, allHref = "/influencer-marketing#casos" }: {
       <div aria-live="polite" className="relative flex flex-wrap items-end justify-between gap-10 px-5 pb-[clamp(3rem,6vw,4.5rem)] md:px-[4%]">
         <div key={item.id} className="flex max-w-[860px] min-w-0 flex-[1_1_560px] animate-[fadeIn_.6s_ease-out] flex-col gap-[22px]">
           <span className="flex items-center gap-2.5 font-mono text-xs tracking-[0.14em] text-[#e6e0ee] uppercase">
-            <span className="size-2 rounded-full bg-secondary" />
+            <span className="size-2 rounded-full bg-accent-cycle" />
             {tag}
           </span>
           <h2 className="text-[clamp(1.75rem,4.1vw,4rem)] leading-[0.9] font-semibold tracking-[-0.05em] text-balance">{item.title}</h2>
