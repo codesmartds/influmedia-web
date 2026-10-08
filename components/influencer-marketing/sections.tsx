@@ -11,7 +11,9 @@ import {
   TbTargetArrow,
   TbUsersGroup,
 } from "react-icons/tb";
-import { Heading } from "@/components/home/sections";
+import Image from "next/image";
+import { Eyebrow, Heading, titleClass } from "@/components/home/sections";
+import sceneDrink from "@/public/images/home/scene-drink.jpg";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
 // Sections of /influencer-marketing, the sales page for brands. Order
@@ -20,31 +22,82 @@ import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
 const wrap = "mx-auto w-full max-w-[96rem] scroll-mt-36 px-6 md:px-[4.7%]";
 
-/* 1 · Hero */
+/* 1 · Hero: full-bleed scene, pulled up under the transparent header */
 export function ImHero() {
   return (
-    <section className={`${wrap} pb-10 pt-16 md:pt-24`}>
-      <Reveal>
-        <RevealItem as="p" className="text-sm font-bold uppercase text-secondary md:text-base">
-          Influencer marketing para marcas
+    <section className="relative isolate -mt-[4.5rem] flex min-h-[min(860px,100dvh)] flex-col overflow-hidden pt-[4.5rem]">
+      <Image
+        src={sceneDrink}
+        alt=""
+        fill
+        priority
+        placeholder="blur"
+        sizes="100vw"
+        className="-z-10 object-cover object-[60%_35%] brightness-[.62] saturate-[.8]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(11,8,16,.94)_0%,rgba(11,8,16,.7)_40%,rgba(11,8,16,.15)_75%),linear-gradient(0deg,rgba(11,8,16,1)_0%,rgba(11,8,16,0)_35%),linear-gradient(180deg,rgba(11,8,16,.8)_0%,rgba(11,8,16,0)_18%)]"
+      />
+      <Reveal className="mt-auto flex max-w-[1100px] flex-col gap-[26px] px-5 pb-16 md:px-[4%]">
+        <RevealItem as="p" className="flex gap-2.5 font-mono text-xs tracking-[0.14em] text-[#8e86a0] uppercase">
+          <Link href="/" transitionTypes={["nav-back"]} className="transition-colors hover:text-base-content">
+            Inicio
+          </Link>
+          <span aria-hidden>/</span>
+          <span className="text-secondary">Influencer marketing</span>
         </RevealItem>
-        <RevealItem as="h1" className="mt-4 max-w-[18ch] text-[clamp(2.6rem,5vw,5.2rem)] font-bold leading-[1.02]">
-          Campañas con creadores que se planean, se controlan y se miden.
+        <RevealItem as="h1" className="text-[clamp(1.95rem,4.74vw,4.5rem)] leading-[0.88] font-semibold tracking-[-0.055em] text-balance">
+          Campañas con creadores que se planean, se controlan y <span className="text-secondary">se miden.</span>
         </RevealItem>
-        <RevealItem as="p" className="mt-6 max-w-[54ch] text-lg leading-snug text-base-content/80 md:text-xl">
+        <RevealItem as="p" className="max-w-[560px] text-lg leading-relaxed text-[#c9c2d2]">
           Estrategia, talento exclusivo y tecnología para que tu inversión en influencers mueva conversación y resultados en
           Centroamérica y el Caribe.
         </RevealItem>
-        <RevealItem className="mt-10 flex flex-wrap gap-4">
-          <a href="#contacto" className="btn btn-primary h-auto rounded-lg border-0 px-8 py-4 uppercase">
-            Cotiza tu campaña <FiArrowRight aria-hidden />
+        <RevealItem className="flex flex-wrap gap-2.5">
+          <a href="#contacto" className="rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-secondary">
+            Cotiza tu campaña
           </a>
-          <a
-            href="#resultados"
-            className="btn btn-outline h-auto rounded-lg border-white/30 px-8 py-4 uppercase hover:border-secondary hover:bg-transparent hover:text-secondary"
-          >
+          <a href="#resultados" className="rounded-full border border-base-content/40 px-6 py-[15px] text-sm font-medium transition-colors hover:bg-base-content/10">
             Ver casos
           </a>
+        </RevealItem>
+      </Reveal>
+    </section>
+  );
+}
+
+/* 2 · Why influencer marketing: the four challenges it has to solve */
+const challenges = [
+  { title: "Autenticidad", text: "Conectar al creador con el producto para lograr una comunicación natural y creíble." },
+  { title: "Seguidores falsos", text: "Los bots y las audiencias no reales reducen el valor del esfuerzo publicitario." },
+  { title: "Afinidad", text: "La relación entre perfil, audiencia y marca determina qué tan natural se siente el contenido." },
+  { title: "Métricas", text: "Analizar y extraer estadísticas permite evaluar la campaña y generar insights accionables." },
+];
+export function Challenges() {
+  return (
+    <section id="retos" className={`${wrap} py-[clamp(4.5rem,9vw,7.5rem)]`}>
+      <Reveal className="grid gap-[clamp(2rem,5vw,4.5rem)] lg:grid-cols-2">
+        <div className="flex flex-col gap-[22px]">
+          <Eyebrow>¿Por qué influencer marketing?</Eyebrow>
+          <RevealItem as="h2" className={titleClass}>
+            El reto no es “tener influencers”.
+          </RevealItem>
+          <RevealItem as="p" className="max-w-[460px] text-[17px] leading-relaxed text-muted">
+            El reto es elegir, validar, medir y mantener credibilidad. Cuando eso se resuelve, el creador se vuelve un canal tan
+            confiable como cualquier otro medio.
+          </RevealItem>
+        </div>
+        <RevealItem as="ol" effect="fade" stagger className="flex flex-col border-t border-base-300">
+          {challenges.map((c, i) => (
+            <RevealItem as="li" key={c.title} className="grid grid-cols-[56px_minmax(0,1fr)] gap-5 border-b border-base-300 py-7">
+              <span className="pt-2 font-mono text-[13px] text-[#7ba7d1]">{String(i + 1).padStart(2, "0")}</span>
+              <div className="flex flex-col gap-2">
+                <h3 className="text-[clamp(24px,2.4vw,32px)] font-medium tracking-[-0.03em]">{c.title}</h3>
+                <p className="text-[15px] leading-relaxed text-muted">{c.text}</p>
+              </div>
+            </RevealItem>
+          ))}
         </RevealItem>
       </Reveal>
     </section>

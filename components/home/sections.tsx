@@ -18,8 +18,8 @@ const wrap = "mx-auto w-full max-w-[96rem] px-6 md:px-[4.7%]";
 const media = (m: unknown) => (m && typeof m === "object" ? (m as Media) : null);
 
 // Redesign type: mono eyebrow in lilac, display title.
-const titleClass = "text-[clamp(1.75rem,3.64vw,3.1rem)] leading-[0.94] font-semibold tracking-[-0.045em] text-balance";
-function Eyebrow({ children }: { children: ReactNode }) {
+export const titleClass = "text-[clamp(1.75rem,3.64vw,3.1rem)] leading-[0.94] font-semibold tracking-[-0.045em] text-balance";
+export function Eyebrow({ children }: { children: ReactNode }) {
   return (
     <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
       {children}

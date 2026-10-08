@@ -8,7 +8,7 @@ import { ContactSection } from "@/components/contact/ContactSection";
 import { Roster } from "@/components/home/sections";
 import { Results } from "@/components/influencer-marketing/Results";
 import { SectionNav } from "@/components/influencer-marketing/SectionNav";
-import { Differentiators, HowWeStart, ImHero, Services } from "@/components/influencer-marketing/sections";
+import { Challenges, Differentiators, HowWeStart, ImHero, Services } from "@/components/influencer-marketing/sections";
 import { SystemSlide } from "@/components/system/SystemSlide";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
@@ -44,6 +44,7 @@ export default async function InfluencerMarketingPage() {
     <PageTransition>
       <ImHero />
       <SectionNav />
+      <Challenges />
       <div id="por-que" className="mx-auto w-full max-w-[96rem] scroll-mt-36 py-20 md:py-28">
         <ApproachSlide />
       </div>
