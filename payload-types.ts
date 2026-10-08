@@ -425,6 +425,10 @@ export interface Post {
    */
   published?: boolean | null;
   publishedAt: string;
+  /**
+   * Filtro del blog. Sin tema, el artículo solo aparece en Todos.
+   */
+  topic?: ('estrategia' | 'metricas' | 'formatos' | 'categorias' | 'creative-tech') | null;
   cover: number | Media;
   author?: string | null;
   updatedAt: string;
@@ -762,6 +766,7 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   published?: T;
   publishedAt?: T;
+  topic?: T;
   cover?: T;
   author?: T;
   updatedAt?: T;

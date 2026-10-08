@@ -18,3 +18,18 @@ export function readingMinutes(content: unknown): number {
   walk((content as { root?: LexicalNode })?.root);
   return Math.max(1, Math.round(words.length / 200));
 }
+
+// Blog topics, in filter order. Values match the posts collection's `topic` select.
+export const topics = [
+  { value: "estrategia", label: "Estrategia" },
+  { value: "metricas", label: "Métricas" },
+  { value: "formatos", label: "Formatos" },
+  { value: "categorias", label: "Categorías" },
+  { value: "creative-tech", label: "Creative Tech" },
+] as const;
+export type TopicValue = (typeof topics)[number]["value"];
+export const topicLabel = (value?: string | null) => topics.find((t) => t.value === value)?.label;
+
+/** "6 oct 2026" style date for tracked mono labels. */
+export const formatShortDate = (iso: string) =>
+  new Date(iso).toLocaleDateString("es", { day: "2-digit", month: "short", year: "numeric", timeZone: "UTC" }).replace(".", "");

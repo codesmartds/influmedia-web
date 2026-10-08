@@ -146,6 +146,22 @@ const doc = (...children: object[]) => ({ root: block("root", children) });
 
 // Test posts (placeholder copy, not client content). Covers reuse talent
 // photos; dates are spaced a week apart so the listing has a clear order.
+// Blog topic per example post (the blog filter).
+const postTopics: Record<string, NonNullable<Post["topic"]>> = {
+  "Por qué el follower count ya no alcanza": "metricas",
+  "Cinco señales de una audiencia inflada": "metricas",
+  "Reels vs. carruseles: qué funcionó en 2026": "formatos",
+  "Cómo proyectamos el ROI antes de activar": "estrategia",
+  "El calendario también es estrategia": "estrategia",
+  "Comedia: la categoría que más conversa": "categorias",
+  "Del dato al insight: anatomía de un buen reporte": "metricas",
+  "Fitness y marcas: alianzas que duran": "categorias",
+  "Gaming: audiencias que no se compran": "categorias",
+  "Creative tech: la IA como herramienta creativa": "creative-tech",
+  "Exclusividad por categoría, explicada": "estrategia",
+  "Lo que aprendimos de 800 campañas": "estrategia",
+};
+
 const posts: { title: string; excerpt: string; cover: string; body: object[] }[] = [
   {
     title: "Por qué el follower count ya no alcanza",
@@ -496,6 +512,7 @@ export async function seed() {
       title: post.title,
       slug,
       excerpt: post.excerpt,
+      topic: postTopics[post.title],
       content: doc(...post.body) as Post["content"],
       cover: await upsertPhoto(payload, path.join(TALENT_PHOTOS, folder, talent.photo), talent.name),
       published: true,

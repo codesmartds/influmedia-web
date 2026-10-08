@@ -5,6 +5,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import type { Category, Media, Talent } from "@/payload-types";
+import { FilterPicker, type Filter } from "@/components/layout/FilterPicker";
 
 // Roster browser for /creadores: a sticky bar with a category filter (a button
 // that opens every category full screen), the creator grid, and a profile
@@ -17,100 +18,6 @@ const categoryOf = (t: Talent) => (t.category && typeof t.category === "object" 
 const pad = (n: number) => String(n).padStart(2, "0");
 /** "https://www.instagram.com/user/" or "https://tiktok.com/@user" → "@user". */
 const handleOf = (url: string) => "@" + (url.replace(/\/+$/, "").split("/").pop() ?? "").replace(/^@/, "");
-
-type Filter = { id: number | null; name: string; count: number };
-
-/* Category filter: one button, every category full screen */
-function CategoryPicker({ filters, active, onPick }: { filters: Filter[]; active: Filter; onPick: (id: number | null) => void }) {
-  const dialog = useRef<HTMLDialogElement>(null);
-  const reduce = useReducedMotion();
-  const [open, setOpen] = useState(false);
-
-  const show = () => {
-    dialog.current?.showModal();
-    setOpen(true);
-  };
-  const pick = (id: number | null) => {
-    onPick(id);
-    dialog.current?.close();
-    // Back to the top of the list, wherever the page was.
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    document.getElementById("roster")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
-  };
-
-  return (
-    <>
-      <button
-        type="button"
-        aria-haspopup="dialog"
-        onClick={show}
-        className="flex cursor-pointer items-center gap-3 rounded-full border border-base-content/25 py-2.5 pr-4 pl-5 text-[15px] transition-colors hover:border-base-content/60"
-      >
-        <span className="font-mono text-[11px] tracking-[0.12em] text-[#8e86a0] uppercase max-sm:hidden">Categoría</span>
-        <span className="font-medium">{active.name}</span>
-        <span className="font-mono text-[11px] text-secondary">{pad(active.count)}</span>
-        <span aria-hidden className="text-[#8e86a0]">
-          ▾
-        </span>
-      </button>
-
-      <dialog
-        ref={dialog}
-        onClose={() => setOpen(false)}
-        aria-labelledby="category-title"
-        className="m-0 h-dvh max-h-none w-screen max-w-none overflow-y-auto overscroll-contain bg-transparent p-0 text-base-content backdrop:bg-[rgba(8,6,12,.94)] backdrop:backdrop-blur-xl"
-      >
-        {open && (
-          <div className="mx-auto flex min-h-full w-full max-w-[96rem] flex-col gap-8 px-5 py-8 md:px-[4%] md:py-12">
-            <div className="flex items-center justify-between gap-4">
-              <h2 id="category-title" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
-                Filtrar por categoría
-              </h2>
-              <form method="dialog">
-                <button
-                  aria-label="Cerrar"
-                  className="flex size-11 cursor-pointer items-center justify-center rounded-full border border-base-content/20 text-lg transition-colors hover:bg-base-content/10"
-                >
-                  ×
-                </button>
-              </form>
-            </div>
-            <ul className="flex flex-col border-t border-base-300">
-              {filters.map((f, i) => {
-                const on = f.id === active.id;
-                return (
-                  <motion.li
-                    key={f.id ?? "all"}
-                    className="border-b border-base-300"
-                    initial={reduce ? false : { opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, ease: EASE, delay: 0.03 * i }}
-                  >
-                    <button
-                      type="button"
-                      aria-pressed={on}
-                      onClick={() => pick(f.id)}
-                      className="group flex w-full cursor-pointer items-baseline justify-between gap-6 py-[clamp(12px,2vh,20px)] text-left"
-                    >
-                      <span
-                        className={`font-display text-[clamp(28px,4.4vw,60px)] leading-none font-semibold tracking-[-0.05em] transition-colors ${
-                          on ? "text-base-content" : "text-[#5f576b] group-hover:text-base-content"
-                        }`}
-                      >
-                        {f.name}
-                      </span>
-                      <span className={`font-mono text-sm tracking-[0.06em] ${on ? "text-secondary" : "text-[#4a4255]"}`}>{pad(f.count)}</span>
-                    </button>
-                  </motion.li>
-                );
-              })}
-            </ul>
-          </div>
-        )}
-      </dialog>
-    </>
-  );
-}
 
 /* Profile dialog: photo and details slide in the direction of travel */
 function Profile({
@@ -253,7 +160,7 @@ export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; 
     const c = categoryOf(t);
     if (c) counts.set(c.id, (counts.get(c.id) ?? 0) + 1);
   }
-  const filters: Filter[] = [
+  const filters: Filter<number>[] = [
     { id: null, name: "Todos", count: talents.length },
     ...categories.map((c) => ({ id: c.id, name: c.name, count: counts.get(c.id) ?? 0 })).filter((f) => f.count > 0),
   ];
@@ -290,7 +197,7 @@ export function CreatorsDirectory({ talents, categories }: { talents: Talent[]; 
           <p className="font-mono text-[11px] tracking-[0.14em] text-[#8e86a0] uppercase">
             {active ? activeFilter.name : "Roster completo"} · {pad(visible.length)} creadores
           </p>
-          <CategoryPicker filters={filters} active={activeFilter} onPick={setActive} />
+          <FilterPicker filters={filters} active={activeFilter} onPick={setActive} scrollTo="roster" />
         </div>
       </div>
 
