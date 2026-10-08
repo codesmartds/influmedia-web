@@ -3,7 +3,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import type { Brand, CaseStudy, Media, Post, Talent, Testimonial } from "@/payload-types";
-import { PostCard } from "@/components/blog/PostCard";
+import { formatPostDate, readingMinutes } from "@/components/blog/format";
+import { PostList, type PostRow } from "@/components/home/PostList";
 import { CaseSlider } from "@/components/cases/CaseSlider";
 import { CountUp } from "@/components/slides/CountUp";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
@@ -468,25 +469,30 @@ export function Testimonials({ items }: { items: Testimonial[] }) {
 /* 10 · Latest posts */
 export function LatestPosts({ posts }: { posts: Post[] }) {
   if (posts.length === 0) return null;
+  const rows: PostRow[] = posts.map((p) => ({
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    date: formatPostDate(p.publishedAt),
+    read: `${readingMinutes(p.content)} min`,
+    cover: media(p.cover)?.url,
+  }));
   return (
-    <section className={`${wrap} py-20 md:py-28`}>
-      <Reveal>
+    <section id="blog" className="scroll-mt-24 border-t border-base-300">
+      <Reveal className={`${wrap} flex flex-col gap-10 py-20 md:py-28`}>
         <div className="flex flex-wrap items-end justify-between gap-6">
-          <div>
-            <Heading eyebrow="Blog" title="Lo que estamos conversando." />
+          <div className="flex max-w-[760px] flex-col gap-[18px]">
+            <Eyebrow>Blog</Eyebrow>
+            <RevealItem as="h2" className={titleClass}>
+              Casos y eventos, contados desde adentro.
+            </RevealItem>
           </div>
           <RevealItem>
-            <CtaLink href="/blog" variant="ghost">
-              Ir al blog
-            </CtaLink>
+            <TextLink href="/blog">Todos los artículos</TextLink>
           </RevealItem>
         </div>
-        <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-5 md:grid-cols-3">
-          {posts.map((p) => (
-            <RevealItem as="li" key={p.id}>
-              <PostCard post={p} />
-            </RevealItem>
-          ))}
+        <RevealItem effect="fade">
+          <PostList posts={rows} />
         </RevealItem>
       </Reveal>
     </section>
