@@ -1,26 +1,22 @@
-import Link from "next/link";
-import type { IconType } from "react-icons";
-import { FiArrowRight } from "react-icons/fi";
-import {
-  TbBulb,
-  TbChartBar,
-  TbCoin,
-  TbFileInvoice,
-  TbShieldCheck,
-  TbSquareChevronRight,
-  TbTargetArrow,
-  TbUsersGroup,
-} from "react-icons/tb";
 import Image from "next/image";
-import { Eyebrow, Heading, titleClass } from "@/components/home/sections";
-import sceneDrink from "@/public/images/home/scene-drink.jpg";
+import Link from "next/link";
+import type { Media, Talent } from "@/payload-types";
+import { Eyebrow, titleClass } from "@/components/home/sections";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
+import sceneDrink from "@/public/images/home/scene-drink.jpg";
+import { CompareAnim } from "./CompareAnim";
+import { ProcessStory, ServicesStory, type Service, type Step, type StoryImage } from "./ScrollStory";
 
-// Sections of /influencer-marketing, the sales page for brands. Order
-// follows the buyer's questions: why this channel → what you buy → how it
-// runs → why us → proof → who → how to start → objections → contact.
+// Sections of /influencer-marketing, the sales page for brands, in reading
+// order: hero → challenges → before/after → approach → services → process →
+// why us → exclusive talent → figures and cases → contact.
 
-const wrap = "mx-auto w-full max-w-[96rem] scroll-mt-36 px-6 md:px-[4.7%]";
+const wrap = "mx-auto w-full max-w-[96rem] scroll-mt-24 px-5 md:px-[4%]";
+const media = (m: unknown) => (m && typeof m === "object" ? (m as Media) : null);
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/** Photo `i` of the talent pool, falling back to the scene photo. */
+const photoAt = (talents: Talent[], i: number): StoryImage => media(talents[i]?.thumbnail)?.url ?? sceneDrink;
 
 /* 1 · Hero: full-bleed scene, pulled up under the transparent header */
 export function ImHero() {
@@ -104,122 +100,190 @@ export function Challenges() {
   );
 }
 
-/* 4 · Services, each with concrete deliverables (proposed; to validate). */
-const services: { title: string; text: string; Icon: IconType; deliverables: string[] }[] = [
-  {
-    title: "Estrategia",
-    text: "Partimos de objetivos de negocio claros.",
-    Icon: TbTargetArrow,
-    deliverables: ["Diagnóstico y objetivos", "Selección de creadores por afinidad", "Proyección de alcance y ROI"],
-  },
-  {
-    title: "Contenido",
-    text: "Ideas que la audiencia quiere ver, no anuncios disfrazados.",
-    Icon: TbSquareChevronRight,
-    deliverables: ["Concepto creativo y briefs", "Producción con creadores", "Formatos: reels, carruseles, stories y lives"],
-  },
-  {
-    title: "Comunidad",
-    text: "Conversaciones que siguen después de la publicación.",
-    Icon: TbUsersGroup,
-    deliverables: ["Calendario y coordinación de creadores", "Monitoreo en tiempo real", "Gestión de comentarios y alertas"],
-  },
-  {
-    title: "Innovación",
-    text: "Nuevas formas de contar historias de marca.",
-    Icon: TbBulb,
-    deliverables: ["Activaciones y eventos", "Creative tech e IA", "Listening e insights para la próxima campaña"],
-  },
-];
-
-export function Services() {
+/* 3 · Before vs with Influmedia */
+export function BeforeAfter({ talents }: { talents: Talent[] }) {
+  const rows = [
+    { tag: "Antes", title: "Selección de influencers en una hoja.", text: "Poca lectura de afinidad, audiencia, autenticidad o comportamiento.", on: false },
+    { tag: "Con Influmedia", title: "Selección + lectura del perfil.", text: "Afinidad, composición de audiencia, autenticidad y señales de riesgo.", on: true },
+  ];
   return (
-    <section id="servicios" className={`${wrap} py-20 md:py-28`}>
-      <Reveal>
-        <Heading eyebrow="Servicios" title="Todo lo que tu campaña necesita, en un solo equipo." />
-        <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-5 md:grid-cols-2">
-          {services.map(({ title, text, Icon, deliverables }) => (
-            <RevealItem as="li" key={title} className="flex flex-col rounded-2xl border border-base-300 bg-base-200 p-7 md:p-8">
-              <span className="flex size-12 items-center justify-center rounded-xl bg-primary/20 text-2xl text-secondary">
-                <Icon aria-hidden />
-              </span>
-              <h3 className="mt-5 text-2xl font-bold uppercase">{title}</h3>
-              <p className="mt-2 text-base-content/75">{text}</p>
-              <ul className="mt-5 flex flex-col gap-2 border-t border-base-300 pt-5">
-                {deliverables.map((d) => (
-                  <li key={d} className="flex items-start gap-3 text-base-content/85">
-                    <span aria-hidden className="mt-2 size-1.5 shrink-0 rounded-full bg-secondary" />
-                    {d}
-                  </li>
-                ))}
-              </ul>
-            </RevealItem>
-          ))}
+    <section id="antes" className="scroll-mt-24 border-y border-base-300 bg-base-200">
+      <Reveal className={`${wrap} grid items-center gap-[clamp(2rem,5vw,4rem)] py-[clamp(4.5rem,9vw,7.5rem)] lg:grid-cols-2`}>
+        <div className="flex flex-col gap-6">
+          <Eyebrow>De selección manual a decisión informada</Eyebrow>
+          <RevealItem as="h2" className={titleClass}>
+            No basta con un listado y un screenshot.
+          </RevealItem>
+          <RevealItem as="ul" className="flex flex-col border-t border-[#2c2436]">
+            {rows.map((r) => (
+              <li key={r.tag} className="flex flex-col gap-1.5 border-b border-[#2c2436] py-[18px]">
+                <span className={`font-mono text-[11px] tracking-[0.14em] uppercase ${r.on ? "text-secondary" : "text-[#8e86a0]"}`}>{r.tag}</span>
+                <span className="font-display text-xl font-medium tracking-[-0.02em]">{r.title}</span>
+                <span className="text-[15px] leading-normal text-muted">{r.text}</span>
+              </li>
+            ))}
+          </RevealItem>
+        </div>
+        <RevealItem effect="scale" className="min-w-0">
+          <CompareAnim talents={talents} />
         </RevealItem>
       </Reveal>
     </section>
   );
 }
 
-/* 6 · Differentiators: the deck's eight reasons, grouped into four. */
-const pillars: { title: string; Icon: IconType; points: string[] }[] = [
-  { title: "Control", Icon: TbChartBar, points: ["Equipo especializado en influencer marketing", "100% de cumplimiento de lo contratado"] },
-  { title: "Seguridad", Icon: TbShieldCheck, points: ["Prevención de fraude y audiencias infladas", "Exclusividad de creadores por categoría"] },
-  { title: "Rentabilidad", Icon: TbCoin, points: ["Proyección de ROI antes de activar", "Mejores tarifas por volumen"] },
-  { title: "Simplicidad", Icon: TbFileInvoice, points: ["Facturación consolidada en un solo punto", "Reportes con insights listos para decidir"] },
+/* 4 · Approach: creative fit, audience fit, measurement */
+const pillars = [
+  { tag: "Idea", title: "Creative fit", text: "Una idea que el creador puede contar con su propia voz." },
+  { tag: "Talento", title: "Audience fit", text: "La audiencia del creador es la audiencia de la marca." },
+  { tag: "Datos", title: "Measurement", text: "Cada decisión se valida antes, durante y después.", accent: true },
 ];
-
-export function Differentiators() {
+export function Approach() {
   return (
-    <section id="diferenciadores" className={`${wrap} py-20 md:py-28`}>
-      <Reveal>
-        <Heading eyebrow="Por qué Influmedia" title="Menos fricción. Más control. Mejor lectura." />
-        <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-          {pillars.map(({ title, Icon, points }) => (
-            <RevealItem as="li" key={title} className="rounded-2xl border border-base-300 bg-base-200 p-7">
-              <Icon aria-hidden className="text-3xl text-secondary" />
-              <h3 className="mt-4 text-xl font-bold uppercase">{title}</h3>
-              <ul className="mt-3 flex flex-col gap-2">
-                {points.map((p) => (
-                  <li key={p} className="leading-snug text-base-content/75">
-                    {p}
-                  </li>
-                ))}
-              </ul>
-            </RevealItem>
-          ))}
+    <section id="enfoque" className={`${wrap} flex flex-col gap-14 py-[clamp(4.5rem,9vw,7.5rem)]`}>
+      <Reveal className="flex max-w-[900px] flex-col gap-[22px]">
+        <Eyebrow>Nuestro enfoque</Eyebrow>
+        <RevealItem as="h2" className={titleClass}>
+          El influencer marketing va más allá de las Relaciones Públicas.
         </RevealItem>
+        <RevealItem as="p" className="max-w-[560px] text-[17px] leading-relaxed text-muted">
+          Funciona mejor cuando una idea relevante se encuentra con una selección estratégica de talento y una medición rigurosa.
+        </RevealItem>
+      </Reveal>
+      <Reveal as="ul" stagger={0.12} className="grid border-t border-base-300 md:grid-cols-3">
+        {pillars.map((p) => (
+          <RevealItem as="li" key={p.title} className="flex flex-col gap-3.5 pt-8 pr-7 pb-2">
+            <span className="font-mono text-xs text-[#7ba7d1] uppercase">{p.tag}</span>
+            <h3 className={`text-[clamp(30px,3.5vw,52px)] leading-[0.9] font-semibold tracking-[-0.05em] ${p.accent ? "text-secondary" : ""}`}>{p.title}</h3>
+            <p className="text-[15px] leading-relaxed text-muted">{p.text}</p>
+          </RevealItem>
+        ))}
       </Reveal>
     </section>
   );
 }
 
-/* 9 · How we start: the steps after the first message. No packages. */
-const startSteps = [
-  { title: "Nos cuentas tu objetivo", text: "Completa el formulario o escríbenos: marca, mercado, fechas y lo que buscas lograr." },
-  { title: "Te enviamos una propuesta", text: "Estrategia, creadores recomendados con su análisis de perfil y proyección de resultados." },
-  { title: "Activamos y monitoreamos", text: "Coordinamos a los creadores y seguimos la campaña en tiempo real." },
-  { title: "Leemos los resultados", text: "Reporte en 48 horas con métricas de negocio e insights para la próxima." },
-];
-
-export function HowWeStart() {
+/* 5 · Services 360°, advanced by scroll */
+export function Services({ talents }: { talents: Talent[] }) {
+  const services: Service[] = [
+    { title: "Estrategia", text: "Partimos de objetivos de negocio claros.", items: ["Diagnóstico y objetivos", "Selección de creadores por afinidad", "Proyección de alcance y ROI"], image: photoAt(talents, 0) },
+    { title: "Contenido", text: "Ideas que la audiencia quiere ver, no anuncios disfrazados.", items: ["Concepto creativo y briefs", "Producción con creadores", "Formatos: reels, carruseles, stories y lives"], image: sceneDrink },
+    { title: "Comunidad", text: "Conversaciones que siguen después de la publicación.", items: ["Calendario y coordinación de creadores", "Monitoreo en tiempo real", "Gestión de comentarios y alertas"], image: photoAt(talents, 1) },
+    { title: "Innovación", text: "Nuevas formas de contar historias de marca.", items: ["Activaciones y eventos", "Creative tech e IA", "Listening e insights para la próxima campaña"], image: photoAt(talents, 2) },
+  ];
   return (
-    <section id="como-empezamos" className={`${wrap} py-20 md:py-28`}>
-      <Reveal>
-        <Heading eyebrow="Cómo empezamos" title="De tu primer mensaje a la campaña en marcha." />
-        <RevealItem as="ol" effect="fade" stagger className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-          {startSteps.map((step, i) => (
-            <RevealItem as="li" key={step.title} className="relative rounded-2xl border border-base-300 bg-base-200 p-7">
-              <span className="text-4xl font-bold text-primary">{String(i + 1).padStart(2, "0")}</span>
-              <h3 className="mt-4 text-lg font-bold">{step.title}</h3>
-              <p className="mt-2 leading-snug text-base-content/70">{step.text}</p>
+    <ServicesStory
+      services={services}
+      eyebrow={<p className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">Servicios 360°</p>}
+      title={
+        <h2 className="text-[clamp(26px,min(3.64vw,5.25vh),50px)] leading-[0.94] font-semibold tracking-[-0.045em] text-balance">
+          Todo lo que tu campaña necesita, en un solo equipo.
+        </h2>
+      }
+    />
+  );
+}
+
+/* 6 · Process: five steps, advanced by scroll */
+export function Process({ talents }: { talents: Talent[] }) {
+  const steps: Step[] = [
+    { title: "Personas", phase: "Planning", text: "Entendemos a quién le habla la marca: su audiencia, su contexto y el momento en que la conversación tiene sentido.", deliverables: ["Mapa de audiencia", "Insights de contexto", "Territorios de conversación"], image: photoAt(talents, 3) },
+    { title: "KPI’s", phase: "Planning", text: "Definimos objetivos medibles antes de elegir a cualquier creador, para que cada decisión tenga con qué compararse.", deliverables: ["KPIs por objetivo de negocio", "Benchmark de categoría", "Proyección de alcance y ROI"], image: photoAt(talents, 4) },
+    { title: "Influencers", phase: "Planning", text: "Seleccionamos talento por afinidad, autenticidad y audiencia real, no por número de seguidores.", deliverables: ["Shortlist con lectura de perfil", "Análisis de autenticidad", "Propuesta y negociación de tarifas"], image: photoAt(talents, 5) },
+    { title: "Contenido", phase: "Onway", text: "Integramos el producto en historias que el creador ya cuenta, y acompañamos cada publicación en tiempo real.", deliverables: ["Concepto creativo y briefs", "Calendario y aprobaciones", "Monitoreo y alertas"], image: sceneDrink },
+    { title: "Resultados", phase: "Postbuy", text: "Cerramos con lectura de negocio: qué pasó, por qué pasó y qué hacer en la siguiente campaña.", deliverables: ["Reporte en 48 horas", "CPE, ROI, EM y VMG", "Recomendaciones accionables"], image: photoAt(talents, 6) },
+  ];
+  return <ProcessStory steps={steps} eyebrow={<p className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">Proceso</p>} />;
+}
+
+/* 7 · Why Influmedia */
+const reasons = [
+  { title: "Control", points: ["Equipo especializado en influencer marketing", "100% de cumplimiento de lo contratado"] },
+  { title: "Seguridad", points: ["Prevención de fraude y audiencias infladas", "Exclusividad de creadores por categoría"] },
+  { title: "Rentabilidad", points: ["Proyección de ROI antes de activar", "Mejores tarifas por volumen"] },
+  { title: "Simplicidad", points: ["Facturación consolidada en un solo punto", "Reportes con insights listos para decidir"] },
+];
+export function WhyUs() {
+  return (
+    <section id="porque" className={`${wrap} flex flex-col gap-12 py-[clamp(4.5rem,9vw,7.5rem)]`}>
+      <Reveal className="flex max-w-[900px] flex-col gap-[22px]">
+        <Eyebrow>Por qué Influmedia</Eyebrow>
+        <RevealItem as="h2" className={titleClass}>
+          Menos fricción. Más control. <span className="text-secondary">Mejor lectura.</span>
+        </RevealItem>
+      </Reveal>
+      <Reveal as="ul" stagger={0.1} className="grid border-t border-l border-base-300 md:grid-cols-2">
+        {reasons.map((r, i) => (
+          <RevealItem as="li" key={r.title} className="flex flex-col gap-[22px] border-r border-b border-base-300 px-[clamp(20px,3vw,40px)] py-9">
+            <div className="flex items-baseline justify-between">
+              <h3 className="text-[clamp(27px,2.86vw,40px)] font-semibold tracking-[-0.045em]">{r.title}</h3>
+              <span className="font-mono text-xs text-[#7ba7d1]">{pad(i + 1)}</span>
+            </div>
+            <ul className="flex flex-col text-base text-[#c9c2d2]">
+              {r.points.map((p) => (
+                <li key={p} className="border-t border-base-300 py-3">
+                  {p}
+                </li>
+              ))}
+            </ul>
+          </RevealItem>
+        ))}
+      </Reveal>
+    </section>
+  );
+}
+
+/* 8 · Exclusive talent: decorative photo marquee, then what representing talent means */
+const talentPoints = [
+  "Gestión directa de creadores: negociación, contratos y calendario sin intermediarios.",
+  "Convenios de exclusividad por categoría y marca.",
+  "Roster activo en lifestyle, comedia, moda, entretenimiento, fitness, deporte, gaming, tech y automotriz.",
+];
+export function ExclusiveTalent({ talents }: { talents: Talent[] }) {
+  const photos = talents.flatMap((t) => (media(t.thumbnail)?.url ? [{ id: t.id, url: media(t.thumbnail)!.url! }] : []));
+  const strip = (hidden: boolean) => (
+    <ul aria-hidden={hidden || undefined} className="flex h-full shrink-0 gap-[3px] pr-[3px]">
+      {photos.map((p) => (
+        <li key={p.id} className="relative h-full w-[clamp(160px,16.6vw,320px)] shrink-0 overflow-hidden bg-[#140f1a]">
+          <Image src={p.url} alt="" fill sizes="(max-width: 1024px) 160px, 17vw" className="object-cover object-[50%_18%] brightness-[.55]" />
+        </li>
+      ))}
+    </ul>
+  );
+  return (
+    <section id="talento" className="flex scroll-mt-24 flex-col border-t border-base-300">
+      {photos.length > 0 && (
+        // Decorative: loops forever like the brand marquee; no hover, no captions.
+        <div aria-hidden className="flex h-[clamp(260px,34vw,460px)] overflow-hidden">
+          <div className="flex h-full animate-[marquee_240s_linear_infinite] motion-reduce:animate-none">
+            {strip(false)}
+            {strip(true)}
+          </div>
+        </div>
+      )}
+      <Reveal className={`${wrap} grid gap-[clamp(2rem,5vw,4.5rem)] py-[clamp(3rem,6vw,5rem)] lg:grid-cols-2`}>
+        <div className="flex flex-col gap-[22px]">
+          <Eyebrow>#WeAreInflumedia · Talentos exclusivos</Eyebrow>
+          <RevealItem as="h2" className={titleClass}>
+            Además de crear campañas, representamos talento.
+          </RevealItem>
+          <RevealItem>
+            <Link
+              href="/creadores"
+              transitionTypes={["nav-forward"]}
+              className="border-b border-accent pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
+            >
+              Conoce el roster
+            </Link>
+          </RevealItem>
+        </div>
+        <RevealItem as="ol" effect="fade" stagger className="flex flex-col border-t border-base-300">
+          {talentPoints.map((t, i) => (
+            <RevealItem as="li" key={t} className="grid grid-cols-[56px_minmax(0,1fr)] gap-5 border-b border-base-300 py-[22px]">
+              <span className="font-mono text-[13px] text-[#7ba7d1]">{pad(i + 1)}</span>
+              <span className="text-[17px] leading-normal text-[#d6d0de]">{t}</span>
             </RevealItem>
           ))}
-        </RevealItem>
-        <RevealItem className="mt-10">
-          <Link href="#contacto" className="btn btn-primary h-auto rounded-lg border-0 px-8 py-4 uppercase">
-            Empezar ahora <FiArrowRight aria-hidden />
-          </Link>
         </RevealItem>
       </Reveal>
     </section>

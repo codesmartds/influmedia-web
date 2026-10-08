@@ -17,7 +17,8 @@ const tints = ["155,111,214", "123,167,209", "215,127,180"];
 const media = (m: unknown) => (m && typeof m === "object" ? (m as Media) : null);
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export function CaseSlider({ cases }: { cases: CaseStudy[] }) {
+/** `allHref`: where "Ver todos los casos" goes; null hides it (e.g. on the page that lists them). */
+export function CaseSlider({ cases, allHref = "/influencer-marketing#casos" }: { cases: CaseStudy[]; allHref?: string | null }) {
   const [current, setCurrent] = useState(0);
   const paused = useRef(false);
   const reduce = useReducedMotion();
@@ -111,15 +112,17 @@ export function CaseSlider({ cases }: { cases: CaseStudy[] }) {
           </span>
           <h2 className="text-[clamp(1.75rem,4.1vw,4rem)] leading-[0.9] font-semibold tracking-[-0.05em] text-balance">{item.title}</h2>
           <p className="max-w-[580px] text-lg leading-relaxed text-[#c9c2d2]">{item.excerpt || item.objective}</p>
-          <div className="mt-1.5 flex flex-wrap gap-2.5">
-            <Link
-              href="/influencer-marketing#resultados"
-              transitionTypes={["nav-forward"]}
-              className="rounded-full border border-base-content/40 bg-[rgba(20,15,28,.35)] px-6 py-[15px] text-sm font-medium backdrop-blur-md transition-colors hover:bg-base-content/10"
-            >
-              Ver todos los casos
-            </Link>
-          </div>
+          {allHref && (
+            <div className="mt-1.5 flex flex-wrap gap-2.5">
+              <Link
+                href={allHref}
+                transitionTypes={["nav-forward"]}
+                className="rounded-full border border-base-content/40 bg-[rgba(20,15,28,.35)] px-6 py-[15px] text-sm font-medium backdrop-blur-md transition-colors hover:bg-base-content/10"
+              >
+                Ver todos los casos
+              </Link>
+            </div>
+          )}
         </div>
         {(item.results ?? []).length > 0 && (
           <dl key={`r${item.id}`} className="flex min-w-[260px] flex-[0_1_380px] animate-[fadeIn_.6s_ease-out] flex-col gap-2.5">

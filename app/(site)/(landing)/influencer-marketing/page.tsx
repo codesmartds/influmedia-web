@@ -2,14 +2,19 @@ import type { Metadata } from "next";
 import { connection } from "next/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
-import { brandFaqs, Faq } from "@/components/about/Faq";
-import { ApproachSlide } from "@/components/approach/ApproachSlide";
+import { CaseSlider } from "@/components/cases/CaseSlider";
 import { ContactSection } from "@/components/contact/ContactSection";
-import { Roster } from "@/components/home/sections";
-import { Results } from "@/components/influencer-marketing/Results";
-import { SectionNav } from "@/components/influencer-marketing/SectionNav";
-import { Challenges, Differentiators, HowWeStart, ImHero, Services } from "@/components/influencer-marketing/sections";
-import { SystemSlide } from "@/components/system/SystemSlide";
+import { Stats } from "@/components/home/sections";
+import {
+  Approach,
+  BeforeAfter,
+  Challenges,
+  ExclusiveTalent,
+  ImHero,
+  Process,
+  Services,
+  WhyUs,
+} from "@/components/influencer-marketing/sections";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
@@ -28,39 +33,31 @@ function shuffle<T>(items: T[]): T[] {
 }
 
 // Sales page for brands. Sections answer the buyer's questions in order:
-// why this channel → what you buy → how it runs → why us → proof → who →
-// how to start → objections → contact.
+// why this channel → what changes → how we think → what you buy → how it
+// runs → why us → who → proof → contact.
 export default async function InfluencerMarketingPage() {
-  await connection(); // roster is shuffled per visit
+  await connection(); // talents are shuffled per visit
   const payload = await getPayload({ config });
-  const [brands, cases, talents, contact] = await Promise.all([
-    payload.findGlobal({ slug: "brands", depth: 1 }),
-    payload.find({ collection: "case-studies", where: { published: { equals: true } }, sort: "-publishedAt", limit: 12, depth: 1 }),
+  const [cases, talents, contact] = await Promise.all([
+    payload.find({ collection: "case-studies", where: { published: { equals: true } }, sort: "-publishedAt", limit: 6, depth: 1 }),
     payload.find({ collection: "talents", where: { active: { equals: true } }, depth: 1, limit: 100 }),
     payload.findGlobal({ slug: "contact-info" }),
   ]);
+  // Random talents with a photo feed the demo panels, the scroll stories and the marquee.
+  const withPhoto = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url));
 
   return (
     <PageTransition>
       <ImHero />
-      <SectionNav />
       <Challenges />
-      <div id="por-que" className="mx-auto w-full max-w-[96rem] scroll-mt-36 py-20 md:py-28">
-        <ApproachSlide />
-      </div>
-      <Services />
-      <div id="sistema" className="mx-auto w-full max-w-[96rem] scroll-mt-36 py-20 md:py-28">
-        <SystemSlide />
-      </div>
-      <Differentiators />
-      <Results cases={cases.docs} brands={brands.items ?? []} />
-      <div id="talento" className="scroll-mt-36">
-        <Roster talents={shuffle(talents.docs)} forBrands />
-      </div>
-      <HowWeStart />
-      <div id="faq" className="mx-auto w-full max-w-[96rem] scroll-mt-36 py-20 md:py-28">
-        <Faq items={brandFaqs} title="Lo que nos preguntan las marcas." />
-      </div>
+      <BeforeAfter talents={withPhoto} />
+      <Approach />
+      <Services talents={withPhoto} />
+      <Process talents={withPhoto.slice(3)} />
+      <WhyUs />
+      <ExclusiveTalent talents={withPhoto} />
+      <Stats />
+      {cases.docs.length > 0 && <CaseSlider cases={cases.docs} allHref={null} />}
       <ContactSection contact={contact} />
     </PageTransition>
   );

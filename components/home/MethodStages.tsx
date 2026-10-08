@@ -66,7 +66,10 @@ function useClock(key: number, still: number) {
 
 function Frame({ children }: { children: ReactNode }) {
   return (
-    <div className="relative aspect-[16/11] min-h-[420px] overflow-hidden rounded-[20px] border border-base-content/10 bg-[radial-gradient(600px_300px_at_0%_0%,rgba(94,45,133,.35),transparent_70%),#120d19] font-mono text-base-content">
+    <div className="relative aspect-[16/11] min-h-[420px] overflow-hidden rounded-[20px] border border-base-content/10 font-mono text-base-content"
+      // Inline: Tailwind drops an arbitrary background that mixes a gradient and a color.
+      style={{ background: "radial-gradient(600px 300px at 0% 0%,rgba(94,45,133,.35),transparent 70%),#120d19" }}
+    >
       {children}
     </div>
   );
