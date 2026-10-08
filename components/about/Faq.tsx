@@ -1,4 +1,3 @@
-import { SlideIntro } from "@/components/slides/SlideIntro";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 
 export type FaqItem = { q: string; a: string };
@@ -23,65 +22,37 @@ export const institutionalFaqs: FaqItem[] = [
   },
 ];
 
-export const brandFaqs: FaqItem[] = [
-  {
-    q: "¿Cuánto cuesta una campaña?",
-    a: "Cada campaña se cotiza según sus objetivos, mercados, formatos y creadores. Cuéntanos tu proyecto y te enviamos una propuesta a la medida.",
-  },
-  {
-    q: "¿Cuánto tiempo toma arrancar?",
-    a: "La etapa de Planning toma entre 24 y 48 horas: analizamos perfiles, afinidad de audiencia y autenticidad, y proyectamos resultados antes de activar.",
-  },
-  {
-    q: "¿Cómo eligen a los influencers?",
-    a: "No miramos solo el número de seguidores. Analizamos edad, ubicación, género y autenticidad de la audiencia, categorías de contenido y patrones de crecimiento.",
-  },
-  {
-    q: "¿Cómo evitan el fraude con seguidores falsos?",
-    a: "Detectamos señales de audiencias o actividad sospechosa antes de recomendar un perfil, y monitoreamos alertas durante toda la campaña.",
-  },
-  {
-    q: "¿Cómo miden los resultados?",
-    a: "En las 48 horas posteriores entregamos un reporte con lectura e insights: métricas de negocio (CPE, ROI, EM, VMG), métricas por publicación y listening.",
-  },
-  {
-    q: "¿Puedo tener exclusividad de un creador?",
-    a: "Sí. Nuestros convenios permiten exclusividad por categoría, para que la misma voz no recomiende a tu competencia en la misma temporada.",
-  },
-  {
-    q: "¿Cómo se maneja la facturación?",
-    a: "Consolidamos todo en un solo punto: tú recibes una factura y nosotros gestionamos los pagos a cada creador.",
-  },
-  {
-    q: "¿Pueden operar campañas en varios países a la vez?",
-    a: "Sí. Coordinamos talento, contenido y medición en múltiples mercados de Centroamérica y el Caribe desde una sola operación.",
-  },
-];
-
+// Accordion in the redesign style: native <details> sharing a name, so only one
+// stays open (and it works without JavaScript). The first one starts open.
 export function Faq({ items, title = "Lo que suelen preguntarnos." }: { items: FaqItem[]; title?: string }) {
   return (
-    <section className="relative flex w-full flex-col px-6 md:px-[4.7%]">
-      <Reveal className="flex flex-col">
-        <SlideIntro eyebrow="Preguntas frecuentes" title={title} />
-        <RevealItem as="div" effect="fade" stagger={0.06} className="mt-8 grid items-start gap-3 lg:grid-cols-2">
-          {items.map((faq) => (
-            <RevealItem key={faq.q}>
-              <details className="group rounded-2xl border border-base-300 bg-base-200 open:border-primary/60">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 p-5 text-lg font-bold md:p-6">
-                  {faq.q}
-                  <span
-                    aria-hidden
-                    className="flex size-8 shrink-0 items-center justify-center rounded-full bg-base-300 text-xl text-secondary transition-transform group-open:rotate-45"
-                  >
-                    +
-                  </span>
-                </summary>
-                <p className="px-5 pb-5 leading-relaxed text-base-content/80 md:px-6 md:pb-6">{faq.a}</p>
-              </details>
-            </RevealItem>
-          ))}
+    <Reveal className="grid items-start gap-[clamp(2rem,5vw,4.5rem)] lg:grid-cols-3">
+      <div className="flex flex-col gap-[22px]">
+        <RevealItem as="p" className="font-mono text-xs tracking-[0.16em] text-secondary uppercase">
+          Preguntas frecuentes
         </RevealItem>
-      </Reveal>
-    </section>
+        <RevealItem as="h2" className="text-[clamp(1.75rem,3.64vw,3.1rem)] leading-[0.94] font-semibold tracking-[-0.045em] text-balance">
+          {title}
+        </RevealItem>
+      </div>
+      <RevealItem effect="fade" className="flex min-w-0 flex-col border-t border-base-300 lg:col-span-2">
+        {items.map((faq, i) => (
+          <details key={faq.q} name="faq" open={i === 0} className="group border-b border-base-300">
+            <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-[26px] [&::-webkit-details-marker]:hidden">
+              <span className="font-display text-[clamp(22px,2.4vw,32px)] font-medium tracking-[-0.03em] text-[#d6d0de] transition-colors group-open:text-base-content">
+                {faq.q}
+              </span>
+              <span
+                aria-hidden
+                className="flex size-10 shrink-0 items-center justify-center rounded-full border border-base-content/20 text-xl text-secondary transition-transform group-open:rotate-45"
+              >
+                +
+              </span>
+            </summary>
+            <p className="max-w-[720px] pr-16 pb-7 text-[17px] leading-relaxed text-muted">{faq.a}</p>
+          </details>
+        ))}
+      </RevealItem>
+    </Reveal>
   );
 }

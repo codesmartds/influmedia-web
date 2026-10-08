@@ -178,3 +178,15 @@
     transform: translateX(-50%);
   }
 }
+
+/* Office marker on the /nosotros map: rings that grow and fade. */
+@keyframes hqpulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.4);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.6);
+    opacity: 0;
+  }
+}

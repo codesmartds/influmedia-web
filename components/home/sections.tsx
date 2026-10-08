@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { FiArrowRight } from "react-icons/fi";
-import type { Brand, CaseStudy, Media, Post, Talent, Testimonial } from "@/payload-types";
+import type { Brand, CaseStudy, Media, Post, Talent } from "@/payload-types";
 import { formatPostDate, readingMinutes } from "@/components/blog/format";
 import { PostList, type PostRow } from "@/components/home/PostList";
 import { CaseSlider } from "@/components/cases/CaseSlider";
@@ -274,60 +274,13 @@ export function Method({ talents }: { talents: Talent[] }) {
   );
 }
 
-/* 6 · Featured case studies (hidden until there are some) */
+/* 7 · Featured case studies (hidden until there are some) */
 export function CaseStudies({ cases }: { cases: CaseStudy[] }) {
   if (cases.length === 0) return null;
   return <CaseSlider cases={cases} />;
 }
 
-/* 7 · Talent roster: the hinge between brands and creators */
-// `forBrands` drops the creator CTA where the page only talks to brands.
-export function Roster({ talents, forBrands = false }: { talents: Talent[]; forBrands?: boolean }) {
-  const shown = talents.filter((t) => media(t.thumbnail)?.url).slice(0, 8);
-  return (
-    <section className={`${wrap} py-20 md:py-28`}>
-      <Reveal>
-        <Heading eyebrow="Talentos exclusivos" title="+30 creadores que tu audiencia ya sigue.">
-          Lifestyle, comedia, moda, entretenimiento, fitness, deporte, gaming, tech y automotriz.
-        </Heading>
-        <RevealItem as="ul" effect="fade" stagger={0.05} className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          {shown.map((t) => {
-            const category = t.category && typeof t.category === "object" ? t.category : null;
-            return (
-              <RevealItem as="li" effect="scale" key={t.id} className="group relative aspect-[3/4] overflow-hidden rounded-2xl">
-                <Image
-                  src={media(t.thumbnail)!.url!}
-                  alt={t.name}
-                  fill
-                  sizes="(max-width: 640px) 50vw, 25vw"
-                  className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-4 pt-12">
-                  <p className="font-bold">{t.name}</p>
-                  {category && (
-                    <p className="text-xs font-bold uppercase" style={{ color: category.color }}>
-                      {category.name}
-                    </p>
-                  )}
-                </div>
-              </RevealItem>
-            );
-          })}
-        </RevealItem>
-        <RevealItem className="mt-10 flex flex-wrap gap-4">
-          <CtaLink href="/nosotros#talentos">Ver talentos</CtaLink>
-          {!forBrands && (
-            <CtaLink href="/creadores" variant="ghost">
-              Únete al roster
-            </CtaLink>
-          )}
-        </RevealItem>
-      </Reveal>
-    </section>
-  );
-}
-
-/* 7b · Talent network (home): exclusive and free-agent talent, one media plan */
+/* 8 · Talent network (home): exclusive and free-agent talent, one media plan */
 const talentKinds = [
   {
     title: "Talento exclusivo",
@@ -397,73 +350,7 @@ export function TalentNetwork({ talents }: { talents: Talent[] }) {
   );
 }
 
-/* 8 · For creators */
-const perks = [
-  { title: "Marcas líderes", text: "Campañas con marcas de consumo, belleza y retail en toda la región." },
-  { title: "Nosotros negociamos", text: "Contratos, tarifas y calendario resueltos: tú te enfocas en crear." },
-  { title: "Exclusividad por categoría", text: "Tu valor protegido frente a la competencia de tu categoría." },
-  { title: "Datos para crecer", text: "Reportes de cada campaña para entender qué funciona con tu audiencia." },
-];
-export function ForCreators() {
-  return (
-    <section className={`${wrap} py-20 md:py-28`}>
-      <Reveal className="rounded-3xl border border-base-300 bg-base-200 p-8 md:p-14">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:items-center">
-          <div>
-            <Heading eyebrow="Para creadores" title="Crea con las marcas que mueven la región." />
-            <RevealItem className="mt-8">
-              <CtaLink href="/creadores">Aplica al roster</CtaLink>
-            </RevealItem>
-          </div>
-          <RevealItem as="ul" effect="fade" stagger className="grid gap-5 sm:grid-cols-2">
-            {perks.map((p) => (
-              <RevealItem as="li" key={p.title}>
-                <h3 className="font-bold uppercase text-secondary">{p.title}</h3>
-                <p className="mt-1 text-base-content/75">{p.text}</p>
-              </RevealItem>
-            ))}
-          </RevealItem>
-        </div>
-      </Reveal>
-    </section>
-  );
-}
-
-/* 9 · Testimonials (hidden until there are some) */
-export function Testimonials({ items }: { items: Testimonial[] }) {
-  if (items.length === 0) return null;
-  return (
-    <section className={`${wrap} py-20 md:py-28`}>
-      <Reveal>
-        <Heading eyebrow="Testimonios" title="Lo que dicen marcas y creadores." />
-        <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {items.map((t) => {
-            const talent = t.talent && typeof t.talent === "object" ? t.talent : null;
-            const photo = media(t.photo) ?? media(talent?.thumbnail);
-            return (
-              <RevealItem as="li" key={t.id} className="flex flex-col rounded-2xl border border-base-300 bg-base-200 p-7">
-                <blockquote className="text-lg leading-relaxed">“{t.quote}”</blockquote>
-                <div className="mt-6 flex items-center gap-3">
-                  {photo?.url && (
-                    <Image src={photo.url} alt="" width={44} height={44} className="size-11 rounded-full object-cover object-top" />
-                  )}
-                  <p className="text-sm">
-                    <b className="block">{t.author}</b>
-                    <span className="text-base-content/60">
-                      {[t.role, t.type === "brand" ? t.company : "Creador Influmedia"].filter(Boolean).join(" · ")}
-                    </span>
-                  </p>
-                </div>
-              </RevealItem>
-            );
-          })}
-        </RevealItem>
-      </Reveal>
-    </section>
-  );
-}
-
-/* 10 · Latest posts */
+/* 9 · Latest posts */
 export function LatestPosts({ posts }: { posts: Post[] }) {
   if (posts.length === 0) return null;
   const rows: PostRow[] = posts.map((p) => ({
@@ -490,29 +377,6 @@ export function LatestPosts({ posts }: { posts: Post[] }) {
         </div>
         <RevealItem effect="fade">
           <PostList posts={rows} />
-        </RevealItem>
-      </Reveal>
-    </section>
-  );
-}
-
-/* 11 · Two-way closing */
-// `contactHref`: the on-page form (#contacto) when the page has one.
-export function DualCta({ contactHref = "#contacto" }: { contactHref?: string }) {
-  return (
-    <section className={`${wrap} py-16`}>
-      <Reveal className="grid gap-5 md:grid-cols-2">
-        <RevealItem className="flex flex-col items-start gap-5 rounded-3xl bg-primary p-10 text-primary-content">
-          <h2 className="text-3xl font-bold leading-tight">¿Tienes una marca?</h2>
-          <p className="text-primary-content/85">Hablemos de tu próxima campaña.</p>
-          <Link href={contactHref} className="btn h-auto rounded-lg border-0 bg-white px-7 py-3.5 uppercase text-[#14102b] hover:bg-white/90">
-            Hablemos <FiArrowRight aria-hidden />
-          </Link>
-        </RevealItem>
-        <RevealItem className="flex flex-col items-start gap-5 rounded-3xl border border-base-300 bg-base-200 p-10">
-          <h2 className="text-3xl font-bold leading-tight">¿Eres creador?</h2>
-          <p className="text-base-content/75">Únete a un roster con marcas que mueven la región.</p>
-          <CtaLink href="/creadores">Aplica al roster</CtaLink>
         </RevealItem>
       </Reveal>
     </section>

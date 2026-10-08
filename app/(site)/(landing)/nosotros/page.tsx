@@ -3,8 +3,7 @@ import { connection } from "next/server";
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { Faq, institutionalFaqs } from "@/components/about/Faq";
-import { AboutHero, History, Manifesto, Presence, Principles, TalentShowcase, TeamGrid } from "@/components/about/sections";
-import { DualCta } from "@/components/home/sections";
+import { AboutContact, AboutHero, History, Presence, Principles, Purpose, TalentShowcase, TeamList } from "@/components/about/sections";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
   description: "Somos tu partner para que tu campaña llegue a los medios correctos. Powered by people.",
 };
 
-// Fisher–Yates shuffle, so the talent panel shows a different mix each visit.
+// Fisher–Yates shuffle, so the talent panels show a different mix each visit.
 function shuffle<T>(items: T[]): T[] {
   const result = [...items];
   for (let i = result.length - 1; i > 0; i--) {
@@ -23,35 +22,32 @@ function shuffle<T>(items: T[]): T[] {
 }
 
 // Who Influmedia is and why to trust them: purpose → story → reach →
-// people → principles → roster → institutional FAQ → two-way close.
+// people → principles → roster → institutional FAQ → contact.
 export default async function AboutPage() {
   // Render per request: the shuffle must not be frozen at build time.
   await connection();
   const payload = await getPayload({ config });
-  const [talents, team] = await Promise.all([
+  const [talents, team, contact] = await Promise.all([
     payload.find({ collection: "talents", where: { active: { equals: true } }, depth: 1, limit: 100 }),
     payload.find({ collection: "team", where: { active: { equals: true } }, sort: "order", depth: 1, limit: 50 }),
+    payload.findGlobal({ slug: "contact-info" }),
   ]);
+  const shuffled = shuffle(talents.docs);
 
   return (
     <PageTransition>
-      <AboutHero />
-      <Manifesto />
-      <div id="historia" className="scroll-mt-24">
-        <History />
-      </div>
+      <AboutHero talents={shuffled} />
+      <Purpose />
+      <History />
       <Presence />
-      <div id="equipo" className="scroll-mt-24">
-        <TeamGrid members={team.docs} />
-      </div>
+      <TeamList members={team.docs} />
       <Principles />
-      <div id="talentos" className="scroll-mt-24">
-        <TalentShowcase talents={shuffle(talents.docs)} />
-      </div>
-      <section id="faq" className="mx-auto w-full max-w-[96rem] scroll-mt-24 py-20 md:py-28">
+      {/* Hero shows the first five; the grid starts after them so faces don't repeat. */}
+      <TalentShowcase talents={[...shuffled.slice(5), ...shuffled.slice(0, 5)]} />
+      <section id="faq" className="mx-auto w-full max-w-[96rem] scroll-mt-24 border-t border-base-300 px-5 py-[clamp(4.5rem,9vw,7.5rem)] md:px-[4%]">
         <Faq items={institutionalFaqs} />
       </section>
-      <DualCta contactHref="/contacto" />
+      <AboutContact contact={contact} />
     </PageTransition>
   );
 }
