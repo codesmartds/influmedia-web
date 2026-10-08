@@ -97,10 +97,10 @@ export function ClientMarquee({ brands }: { brands: NonNullable<Brand["items"]> 
     </ul>
   );
   return (
-    <section aria-label="Marcas que confían en nosotros" className="flex items-center gap-8 border-b border-base-300 py-9 pl-5 md:gap-12 md:pl-[4%]">
+    <section aria-label="Marcas que confían en nosotros" className="flex flex-col gap-6 border-b border-base-300 py-9 sm:flex-row sm:items-center sm:gap-8 sm:pl-5 md:gap-12 md:pl-[4%]">
       {/* The label stays put while the logos loop past it. */}
-      <p className="shrink-0 font-mono text-[0.7rem] tracking-[0.14em] text-[#8e86a0] uppercase">Confían en nosotros</p>
-      <div className="flex min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]">
+      <p className="shrink-0 px-5 font-mono text-[0.7rem] tracking-[0.14em] text-[#8e86a0] uppercase sm:px-0">Confían en nosotros</p>
+      <div className="flex w-full min-w-0 flex-1 overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_6%,#000_94%,transparent)]">
         <div className="flex animate-[marquee_45s_linear_infinite] motion-reduce:animate-none hover:[animation-play-state:paused]">
           {row(false)}
           {row(true)}
@@ -208,10 +208,16 @@ export function InfluencerMarketing360() {
       </Reveal>
 
       {/* Each step draws its line and lights its node, one after another. */}
-      <Reveal as="ol" stagger={0.55} className="grid gap-y-8 sm:grid-cols-2 lg:grid-cols-5">
+      <Reveal as="ol" stagger={0.55} className="grid lg:grid-cols-5">
         {steps360.map((s, i) => (
-          <RevealItem as="li" key={s.name} effect="fade" stagger={0.08} className="flex flex-col gap-[18px] pr-6 pb-7">
-            <div className="relative mb-2.5 h-0.5 bg-[#2a2233]">
+          <RevealItem as="li" key={s.name} effect="fade" stagger={0.08} className="relative flex flex-col gap-[18px] pb-10 pl-9 lg:pr-6 lg:pb-7 lg:pl-0">
+            {/* Below lg: a vertical rail down the left, node at the top. */}
+            <div className="absolute top-2 bottom-0 left-1.5 w-0.5 bg-[#2a2233] lg:hidden">
+              <RevealItem effect="drawY" className="absolute inset-0 origin-top bg-accent-cycle" />
+            </div>
+            <RevealItem effect="scale" className="absolute top-0.5 left-0 box-border size-3.5 rounded-full border-2 border-tint bg-accent-cycle lg:hidden" />
+            {/* From lg: the horizontal track. */}
+            <div className="relative mb-2.5 hidden h-0.5 bg-[#2a2233] lg:block">
               <RevealItem effect="draw" className="absolute inset-0 origin-left bg-accent-cycle" />
               <RevealItem
                 effect="scale"

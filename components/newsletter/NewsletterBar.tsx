@@ -13,12 +13,12 @@ export function NewsletterBar() {
 
   return (
     <section id="newsletter" aria-labelledby="newsletter-title" className="mx-auto w-full max-w-[96rem] scroll-mt-24 px-5 pt-[clamp(3.5rem,7vw,6rem)] pb-[clamp(4.5rem,9vw,7.5rem)] md:px-[4%]">
-      <div className="relative grid items-end gap-[clamp(2rem,5vw,4rem)] overflow-hidden rounded-[28px] border border-[#2a2233] bg-[#140f1b] p-[clamp(1.75rem,5vw,4rem)] lg:grid-cols-2">
+      <div className="relative grid items-end gap-[clamp(2rem,5vw,4rem)] overflow-hidden rounded-[28px] border border-[#2a2233] bg-[#140f1b] p-[clamp(1.5rem,5vw,4rem)] grid-cols-[minmax(0,1fr)] lg:grid-cols-2">
         <div
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-[radial-gradient(420px_260px_at_100%_0%,color-mix(in_srgb,var(--acc-tint)_18%,transparent),transparent_70%),radial-gradient(300px_200px_at_0%_100%,rgba(123,167,209,.08),transparent_70%)]"
         />
-        <div className="relative flex flex-col gap-[22px]">
+        <div className="relative flex min-w-0 flex-col gap-[22px]">
           <p className="font-mono text-xs tracking-[0.16em] text-accent-cycle uppercase">Newsletter</p>
           <h2 id="newsletter-title" className="text-[clamp(1.75rem,3.92vw,3.5rem)] leading-[0.9] font-semibold tracking-[-0.05em] text-balance">
             ¡Sigamos creando juntos!
@@ -34,8 +34,8 @@ export function NewsletterBar() {
             {state.message}
           </p>
         ) : (
-          <form action={action} noValidate className="relative flex flex-col gap-3.5">
-            <div className="flex gap-2 rounded-full border border-[#2f2738] bg-base-100 p-1.5 has-[[aria-invalid=true]]:border-error">
+          <form action={action} noValidate className="relative flex min-w-0 flex-col gap-3.5">
+            <div className="flex flex-col gap-2 rounded-[22px] border border-[#2f2738] bg-base-100 p-1.5 has-[[aria-invalid=true]]:border-error sm:flex-row sm:rounded-full">
               <label htmlFor="newsletter-email" className="sr-only">
                 Correo electrónico
               </label>
@@ -54,17 +54,17 @@ export function NewsletterBar() {
               <button
                 type="submit"
                 disabled={pending}
-                className="cursor-pointer rounded-full bg-base-content px-6 py-[13px] text-sm font-semibold whitespace-nowrap text-base-100 transition-colors hover:bg-accent-cycle disabled:opacity-60"
+                className="cursor-pointer rounded-full bg-base-content px-6 py-[13px] text-center text-sm font-semibold whitespace-nowrap text-base-100 transition-colors hover:bg-accent-cycle disabled:opacity-60"
               >
                 {pending ? "…" : "Suscribirme"}
               </button>
             </div>
             {error ? (
-              <p id="newsletter-error" className="pl-[18px] text-[13px] text-error">
+              <p id="newsletter-error" className="sm:pl-[18px] text-[13px] text-error">
                 {state.message}
               </p>
             ) : (
-              <p id="newsletter-note" className="pl-[18px] text-[13px] text-[#8e86a0]">
+              <p id="newsletter-note" className="sm:pl-[18px] text-[13px] text-[#8e86a0]">
                 Puedes darte de baja cuando quieras.
               </p>
             )}

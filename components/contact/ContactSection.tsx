@@ -40,7 +40,7 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
               const body = (
                 <>
                   <span className="font-mono text-[11px] tracking-[0.12em] text-[#8e86a0] uppercase">{label}</span>
-                  <span className="text-right whitespace-pre-line break-all">{value}</span>
+                  <span className="break-words whitespace-pre-line sm:text-right">{value}</span>
                 </>
               );
               return (
@@ -50,15 +50,15 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
                       href={href}
                       target={external ? "_blank" : undefined}
                       rel={external ? "noopener noreferrer" : undefined}
-                      className="flex justify-between gap-4 py-4 transition-colors hover:text-accent-cycle"
+                      className="flex flex-col gap-1.5 py-4 transition-colors hover:text-accent-cycle sm:flex-row sm:justify-between sm:gap-4"
                     >
                       {body}
                     </a>
                   ) : (
-                    <div className="flex justify-between gap-4 py-4">{body}</div>
+                    <div className="flex flex-col gap-1.5 py-4 sm:flex-row sm:justify-between sm:gap-4">{body}</div>
                   )}
                   {label === "Oficina" && directions.length > 0 && (
-                    <div className="flex justify-end gap-4 pb-4 text-sm">
+                    <div className="flex gap-4 pb-4 text-sm sm:justify-end">
                       {directions.map((d) => (
                         <a key={d.name} href={d.href} target="_blank" rel="noopener noreferrer" className="text-[#a39bae] transition-colors hover:text-accent-cycle">
                           {d.name} ↗

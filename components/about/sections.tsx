@@ -132,10 +132,14 @@ export function History() {
           </RevealItem>
         </Reveal>
         {/* Each milestone draws its line and lights its node, in turn. */}
-        <Reveal as="ol" stagger={0.8} className="grid gap-y-10 md:grid-cols-3">
+        <Reveal as="ol" stagger={0.8} className="grid md:grid-cols-3">
           {milestones.map((m) => (
-            <RevealItem as="li" key={m.year} effect="fade" stagger={0.1} className="flex flex-col gap-5 pr-7 pb-2">
-              <div className="relative mb-[18px] h-0.5 bg-[#2a2233]">
+            <RevealItem as="li" key={m.year} effect="fade" stagger={0.1} className="relative flex flex-col gap-5 pb-12 pl-9 md:pr-7 md:pb-2 md:pl-0">
+              <div className="absolute top-2 bottom-0 left-1.5 w-0.5 bg-[#2a2233] md:hidden">
+                <RevealItem effect="drawY" className="absolute inset-0 origin-top bg-accent-cycle" />
+              </div>
+              <RevealItem effect="scale" className="absolute top-0.5 left-0 box-border size-3.5 rounded-full border-2 border-tint bg-accent-cycle md:hidden" />
+              <div className="relative mb-[18px] hidden h-0.5 bg-[#2a2233] md:block">
                 <RevealItem effect="draw" className="absolute inset-0 origin-left bg-accent-cycle" />
                 <RevealItem effect="scale" className="absolute -top-1.5 left-0 box-border size-3.5 rounded-full border-2 border-tint bg-accent-cycle" />
               </div>
@@ -351,7 +355,7 @@ export function AboutContact({ contact }: { contact: ContactInfo }) {
             const body = (
               <>
                 <span className="font-mono text-[11px] tracking-[0.12em] text-[#8e86a0] uppercase">{label}</span>
-                <span className="text-right whitespace-pre-line break-all">{value}</span>
+                <span className="break-words whitespace-pre-line sm:text-right">{value}</span>
               </>
             );
             return (
@@ -361,12 +365,12 @@ export function AboutContact({ contact }: { contact: ContactInfo }) {
                     href={href}
                     target={external ? "_blank" : undefined}
                     rel={external ? "noopener noreferrer" : undefined}
-                    className="flex justify-between gap-4 py-[18px] transition-colors hover:text-accent-cycle"
+                    className="flex flex-col gap-1.5 py-[18px] transition-colors hover:text-accent-cycle sm:flex-row sm:justify-between sm:gap-4"
                   >
                     {body}
                   </a>
                 ) : (
-                  <div className="flex justify-between gap-4 py-[18px]">{body}</div>
+                  <div className="flex flex-col gap-1.5 py-[18px] sm:flex-row sm:justify-between sm:gap-4">{body}</div>
                 )}
               </li>
             );

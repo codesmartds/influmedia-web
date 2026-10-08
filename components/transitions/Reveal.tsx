@@ -24,6 +24,8 @@ const effects = {
   right: { opacity: 0, x: 32 },
   // Lines and bars that grow from their start; pair with origin-left.
   draw: { opacity: 0, scaleX: 0 },
+  // Same, vertically; pair with origin-top.
+  drawY: { opacity: 0, scaleY: 0 },
 } as const;
 
 export type RevealEffect = keyof typeof effects;
@@ -97,8 +99,9 @@ export function RevealItem({ children, className, style, as = "div", effect = "u
       y: 0,
       scale: 1,
       scaleX: 1,
+      scaleY: 1,
       transition: {
-        duration: effect === "draw" ? 0.9 : 0.55,
+        duration: effect === "draw" || effect === "drawY" ? 0.9 : 0.55,
         ease: EASE,
         ...(staggerChildren && { delayChildren: 0.15, staggerChildren }),
       },

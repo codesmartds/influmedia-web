@@ -108,7 +108,7 @@ export function BeforeAfter({ talents }: { talents: Talent[] }) {
   ];
   return (
     <section id="antes" className="scroll-mt-24 border-y border-base-300 bg-base-200">
-      <Reveal className={`${wrap} grid items-center gap-[clamp(2rem,5vw,4rem)] py-[clamp(4.5rem,9vw,7.5rem)] lg:grid-cols-2`}>
+      <Reveal className={`${wrap} grid grid-cols-[minmax(0,1fr)] items-center gap-[clamp(2rem,5vw,4rem)] py-[clamp(4.5rem,9vw,7.5rem)] lg:grid-cols-2`}>
         <div className="flex flex-col gap-6">
           <Eyebrow>De selección manual a decisión informada</Eyebrow>
           <RevealItem as="h2" className={titleClass}>

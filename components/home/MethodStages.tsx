@@ -66,7 +66,7 @@ function useClock(key: number, still: number) {
 
 function Frame({ children }: { children: ReactNode }) {
   return (
-    <div className="relative aspect-[16/11] min-h-[420px] overflow-hidden rounded-[20px] border border-base-content/10 font-mono text-base-content"
+    <div className="relative aspect-[4/5] min-h-[420px] overflow-hidden sm:aspect-[16/11] rounded-[20px] border border-base-content/10 font-mono text-base-content"
       // Inline: Tailwind drops an arbitrary background that mixes a gradient and a color.
       style={{ background: "radial-gradient(600px 300px at 0% 0%,color-mix(in srgb, var(--acc-tint) 18%, transparent),transparent 70%),#120d19" }}
     >
@@ -103,7 +103,7 @@ function PlanningPanel({ talent }: { talent?: Talent }) {
   return (
     <Frame>
       {photo?.url && (
-        <div className="absolute inset-y-0 right-0 w-[62%]">
+        <div className="absolute inset-y-0 right-0 w-full sm:w-[62%]">
           <Image
             src={photo.url}
             alt=""
@@ -114,13 +114,14 @@ function PlanningPanel({ talent }: { talent?: Talent }) {
           />
         </div>
       )}
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,#0b0810_0%,#0b0810_34%,rgba(11,8,16,.6)_58%,rgba(11,8,16,0)_82%),linear-gradient(0deg,rgba(11,8,16,.9)_0%,rgba(11,8,16,0)_40%)]" />
+      {/* Phones: the photo fills the frame behind a darker veil so the list stays readable. */}
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(11,8,16,.92)_0%,rgba(11,8,16,.75)_100%)] sm:bg-[linear-gradient(90deg,#0b0810_0%,#0b0810_34%,rgba(11,8,16,.6)_58%,rgba(11,8,16,0)_82%),linear-gradient(0deg,rgba(11,8,16,.9)_0%,rgba(11,8,16,0)_40%)]" />
       <div className="absolute inset-0 flex flex-col justify-between gap-4 p-[26px]">
-        <div className="flex justify-between gap-3 text-[11px] tracking-[0.14em] whitespace-nowrap text-[#8e86a0]">
+        <div className="flex flex-wrap justify-between gap-x-3 gap-y-1 text-[11px] tracking-[0.14em] text-[#8e86a0]">
           <span>LECTURA DE PERFIL{talent ? ` · ${handle(talent)}` : ""}</span>
           <span style={{ color: done ? "#f2eef6" : LILAC }}>{done ? "RECOMENDADO" : "ANALIZANDO"}</span>
         </div>
-        <div className="flex max-w-[58%] flex-col gap-1">
+        <div className="flex flex-col gap-1 sm:max-w-[58%]">
           {criteria.map(([k, v], i) => {
             const state = i < current ? 1 : i === current ? 2 : 0;
             return (
@@ -318,7 +319,7 @@ export function MethodStages({ talents }: { talents: Talent[] }) {
 
   return (
     <>
-      <div role="tablist" aria-label="Momentos de la campaña" className="grid grid-cols-3 border-t border-[#2c2436]">
+      <div role="tablist" aria-label="Momentos de la campaña" className="grid grid-cols-1 border-t border-[#2c2436] sm:grid-cols-3">
         {stages.map((s, i) => (
           <button
             key={s.name}
@@ -326,10 +327,11 @@ export function MethodStages({ talents }: { talents: Talent[] }) {
             role="tab"
             aria-selected={i === active}
             onClick={() => setActive(i)}
-            className="relative flex cursor-pointer flex-col gap-2 py-6 pr-6 text-left"
+            className="relative flex cursor-pointer items-baseline justify-between gap-2 border-b border-[#2c2436] py-4 pl-4 text-left sm:flex-col sm:items-start sm:justify-start sm:border-0 sm:py-6 sm:pr-6 sm:pl-0"
           >
-            {i === active && <span className="absolute -top-px right-6 left-0 h-0.5 bg-accent-cycle" />}
-            <span className="font-mono text-xs text-accent-cycle uppercase">
+            {/* Active marker: left bar on phones, top line from sm up. */}
+            {i === active && <span className="absolute inset-y-3 left-0 w-0.5 bg-accent-cycle sm:inset-y-auto sm:-top-px sm:right-6 sm:h-0.5 sm:w-auto" />}
+            <span className="order-2 font-mono text-xs text-accent-cycle uppercase sm:order-none">
               {String(i + 1).padStart(2, "0")} · {s.time}
             </span>
             <span
@@ -341,7 +343,7 @@ export function MethodStages({ talents }: { talents: Talent[] }) {
           </button>
         ))}
       </div>
-      <div role="tabpanel" className="grid items-start gap-10 lg:grid-cols-2">
+      <div role="tabpanel" className="grid grid-cols-[minmax(0,1fr)] items-start gap-10 lg:grid-cols-2">
         <div className="flex flex-col gap-5">
           <p className="text-[clamp(24px,2.4vw,32px)] leading-[1.2] tracking-[-0.025em]">{stage.lead}</p>
           <ul className="flex flex-col border-t border-[#2c2436]">
