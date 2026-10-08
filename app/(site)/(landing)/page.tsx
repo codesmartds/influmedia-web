@@ -38,8 +38,8 @@ export default async function Home() {
     payload.findGlobal({ slug: "contact-info" }),
   ]);
 
-  // Hero lineup: five random talents with a photo, until the final selection exists.
-  const heroTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url)).slice(0, 5);
+  // Hero lineup: every talent with a photo, shuffled; five show and the rest rotate in.
+  const heroTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url));
 
   // Method demo panels: five more random talents with a photo.
   const methodTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url)).slice(0, 5);

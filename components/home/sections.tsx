@@ -332,12 +332,10 @@ const talentKinds = [
   {
     title: "Talento exclusivo",
     text: "Creadores que filman solo para marcas de Influmedia. Disponibilidad asegurada y una relación construida campaña tras campaña.",
-    tag: "Solo clientes Influmedia",
   },
   {
     title: "Talento sin límites",
     text: "Creadores que trabajan con nuestros clientes y también de forma independiente. Sumamos su voz cuando es la indicada para el objetivo.",
-    tag: "Agente libre",
   },
 ];
 export function TalentNetwork({ talents }: { talents: Talent[] }) {
@@ -379,14 +377,13 @@ export function TalentNetwork({ talents }: { talents: Talent[] }) {
               <RevealItem
                 as="li"
                 key={k.title}
-                className="grid grid-cols-[56px_minmax(0,1fr)] items-center gap-5 border-b border-base-300 py-[30px] transition-[background-color,padding] duration-300 hover:bg-[#151020] hover:px-5 sm:grid-cols-[56px_minmax(0,1fr)_auto]"
+                className="grid grid-cols-[56px_minmax(0,1fr)] items-center gap-5 border-b border-base-300 py-[30px] transition-[background-color,padding] duration-300 hover:bg-[#151020] hover:px-5"
               >
                 <span className="font-mono text-[13px] text-[#7ba7d1]">{String(i + 1).padStart(2, "0")}</span>
                 <div className="flex flex-col gap-1.5">
                   <h3 className="text-[clamp(24px,2.4vw,32px)] font-medium tracking-[-0.03em]">{k.title}</h3>
                   <p className="text-[15px] leading-relaxed text-muted">{k.text}</p>
                 </div>
-                <span className="font-mono text-[11px] tracking-[0.1em] text-[#8e86a0] uppercase max-sm:col-start-2 sm:text-right">{k.tag}</span>
               </RevealItem>
             ))}
           </RevealItem>

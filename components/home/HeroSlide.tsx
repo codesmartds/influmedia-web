@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useReducedMotion, type TargetAndTransition, type Transition } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion, type TargetAndTransition, type Transition } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 import type { Media, Talent } from "@/payload-types";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
@@ -17,41 +18,99 @@ const PANEL_STEP = 0.22;
 
 const rise = (delay: number): Transition => ({ duration: 0.8, ease: EASE, delay });
 
-const media = (m: unknown) => (m && typeof m === "object" ? (m as Media) : null);
+const SLOTS = 5;
+// Rotation: after the entrance, one random panel at a time swaps its talent
+// for the next one in the queue, at random intervals.
+const ROTATE_AFTER = PANELS_AT + SLOTS * PANEL_STEP + 2.5;
+const SWAP_MIN = 1.6;
+const SWAP_MAX = 4.2;
+const SWAP_FADE = 1.2;
 
-/** Five talents, picked at random per visit by the page. */
+const media = (m: unknown) => (m && typeof m === "object" ? (m as Media) : null);
+const randomBetween = (min: number, max: number) => min + Math.random() * (max - min);
+
+/**
+ * Five visible slots fed by a queue. Each swap picks a random slot (never one
+ * of the two changed last), puts the queue's head there and sends the
+ * replaced talent to the back, so nobody shows twice on screen and everyone
+ * in the pool cycles through before repeating.
+ */
+function useTalentRotation(talents: Talent[], enabled: boolean) {
+  const [slots, setSlots] = useState(() => talents.slice(0, SLOTS));
+  // Refs hold the source of truth so a swap reads and writes them once,
+  // outside the state updater (which React may call twice in development).
+  const shown = useRef(slots);
+  const queue = useRef(talents.slice(SLOTS));
+  const recent = useRef<number[]>([]);
+
+  useEffect(() => {
+    if (!enabled || queue.current.length === 0) return;
+    let timer: ReturnType<typeof setTimeout>;
+
+    const swap = () => {
+      // Skip while the tab is hidden; try again on the next tick.
+      if (!document.hidden) {
+        const candidates = Array.from({ length: SLOTS }, (_, i) => i).filter((i) => !recent.current.includes(i));
+        const slot = candidates[Math.floor(Math.random() * candidates.length)];
+        recent.current = [slot, ...recent.current].slice(0, 2);
+        const incoming = queue.current.shift();
+        if (incoming) {
+          queue.current.push(shown.current[slot]);
+          shown.current = shown.current.map((t, i) => (i === slot ? incoming : t));
+          setSlots(shown.current);
+        }
+      }
+      timer = setTimeout(swap, randomBetween(SWAP_MIN, SWAP_MAX) * 1000);
+    };
+
+    timer = setTimeout(swap, (ROTATE_AFTER + randomBetween(0, 1.5)) * 1000);
+    return () => clearTimeout(timer);
+  }, [enabled]);
+
+  return slots;
+}
+
+/** Talents with a photo, shuffled per visit by the page: the first five show, the rest wait in the queue. */
 export function HeroSlide({ talents }: { talents: Talent[] }) {
   const reduce = useReducedMotion();
   const from = (state: TargetAndTransition) => (reduce ? false : state);
+  const slots = useTalentRotation(talents, !reduce);
 
   return (
     // Pulled up under the transparent sticky header (4.5rem tall).
     <section className="relative isolate -mt-[4.5rem] flex min-h-[min(880px,100dvh)] w-full flex-col overflow-hidden bg-base-100 pt-[4.5rem]">
       {/* Talent lineup */}
       <div aria-hidden className="absolute inset-0 -z-10 grid grid-cols-5 gap-[3px]">
-        {talents.map((t, i) => {
-          const photo = media(t.thumbnail);
-          return (
-            <motion.div
-              key={t.id}
-              className="group relative overflow-hidden bg-[#140f1a]"
-              initial={from({ opacity: 0, y: 40 })}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: EASE, delay: PANELS_AT + i * PANEL_STEP }}
-            >
-              {photo?.url && (
+        {slots.map((t, i) => (
+          <motion.div
+            key={i}
+            className="group relative overflow-hidden bg-[#140f1a]"
+            initial={from({ opacity: 0, y: 40 })}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: EASE, delay: PANELS_AT + i * PANEL_STEP }}
+          >
+            {/* Crossfade: the incoming talent fades in over the outgoing one. */}
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={t.id}
+                className="absolute inset-0"
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: SWAP_FADE, ease: EASE }}
+              >
                 <Image
-                  src={photo.url}
+                  src={media(t.thumbnail)!.url!}
                   alt=""
                   fill
                   priority={i < 3}
                   sizes="20vw"
                   className="object-cover object-[50%_18%] brightness-50 saturate-[.9] transition-[filter,transform] duration-700 group-hover:scale-[1.03] group-hover:brightness-100 group-hover:saturate-100"
                 />
-              )}
-            </motion.div>
-          );
-        })}
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
+        ))}
       </div>
       <div
         aria-hidden
