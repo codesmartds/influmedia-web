@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { FiArrowRight } from "react-icons/fi";
 import type { Brand, CaseStudy, Media, Post, Talent, Testimonial } from "@/payload-types";
 import { PostCard } from "@/components/blog/PostCard";
-import { CaseCard } from "@/components/cases/CaseCard";
+import { CaseSlider } from "@/components/cases/CaseSlider";
 import { CountUp } from "@/components/slides/CountUp";
 import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import { MethodStages } from "@/components/home/MethodStages";
@@ -276,25 +276,7 @@ export function Method({ talents }: { talents: Talent[] }) {
 /* 6 · Featured case studies (hidden until there are some) */
 export function CaseStudies({ cases }: { cases: CaseStudy[] }) {
   if (cases.length === 0) return null;
-  return (
-    <section id="casos" className={`${wrap} scroll-mt-24 py-20 md:py-28`}>
-      <Reveal>
-        <Heading eyebrow="Casos de éxito" title="Conversaciones que movieron resultados." />
-        <RevealItem as="ul" effect="fade" stagger className="mt-10 grid gap-6 lg:grid-cols-3">
-          {cases.map((c) => (
-            <RevealItem as="li" key={c.id}>
-              <CaseCard item={c} />
-            </RevealItem>
-          ))}
-        </RevealItem>
-        <RevealItem className="mt-10">
-          <CtaLink href="/influencer-marketing#resultados" variant="ghost">
-            Ver más resultados
-          </CtaLink>
-        </RevealItem>
-      </Reveal>
-    </section>
-  );
+  return <CaseSlider cases={cases} />;
 }
 
 /* 7 · Talent roster: the hinge between brands and creators */

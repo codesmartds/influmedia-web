@@ -286,12 +286,16 @@ export interface CaseStudy {
   brandName: string;
   brandLogo?: (number | null) | Media;
   /**
+   * Una o dos frases para el slider del home. Si se deja vacío, se usa el objetivo.
+   */
+  excerpt?: string | null;
+  /**
    * Qué buscaba la marca, en una o dos frases.
    */
   objective: string;
   approach: string;
   /**
-   * Cifras destacadas, ej. 2.4M · Alcance. Entre 1 y 4.
+   * Cifras destacadas, ej. 2.4M · Alcance. Entre 1 y 3.
    */
   results?:
     | {
@@ -695,6 +699,7 @@ export interface CaseStudiesSelect<T extends boolean = true> {
   title?: T;
   brandName?: T;
   brandLogo?: T;
+  excerpt?: T;
   objective?: T;
   approach?: T;
   results?:

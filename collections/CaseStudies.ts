@@ -37,6 +37,13 @@ export const CaseStudies: CollectionConfig = {
         { name: "brandLogo", label: "Logo de la marca", type: "upload", relationTo: "media" },
       ],
     },
+    {
+      name: "excerpt",
+      label: "Resumen",
+      type: "textarea",
+      maxLength: 220,
+      admin: { description: "Una o dos frases para el slider del home. Si se deja vacío, se usa el objetivo." },
+    },
     { name: "objective", label: "Objetivo", type: "textarea", required: true, admin: { description: "Qué buscaba la marca, en una o dos frases." } },
     { name: "approach", label: "Qué hicimos", type: "textarea", required: true },
     {
@@ -45,9 +52,9 @@ export const CaseStudies: CollectionConfig = {
       labels: { singular: "Resultado", plural: "Resultados" },
       type: "array",
       minRows: 1,
-      maxRows: 4,
+      maxRows: 3,
       admin: {
-        description: "Cifras destacadas, ej. 2.4M · Alcance. Entre 1 y 4.",
+        description: "Cifras destacadas, ej. 2.4M · Alcance. Entre 1 y 3.",
         components: { RowLabel: "@/components/admin/ArrayRowLabel#ArrayRowLabel" },
       },
       fields: [

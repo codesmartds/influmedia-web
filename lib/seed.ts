@@ -273,7 +273,9 @@ const mockCases = [
     results: [
       { name: "2.4M", label: "Alcance" },
       { name: "+38%", label: "Engagement vs. benchmark" },
+      { name: "40", label: "Rutinas integradas" },
     ],
+    excerpt: "Embajadores de lifestyle abrieron la conversación y creadores de integración llevaron el producto a reuniones y celebraciones reales.",
     talents: ["Sandy Méndez", "El Primaso", "Jafita"],
     category: "Lifestyle",
   },
@@ -285,7 +287,9 @@ const mockCases = [
     results: [
       { name: "1.1M", label: "Visualizaciones" },
       { name: "4.8x", label: "ROI estimado" },
+      { name: "30", label: "Días de rutina" },
     ],
+    excerpt: "Tres creadoras de belleza integraron el producto en su rutina diaria y documentaron el proceso con su propia voz.",
     talents: ["MakeUp Chikys", "Victoria Romanof", "Diana Castro"],
     category: "Fashion & Beauty",
   },
@@ -297,7 +301,9 @@ const mockCases = [
     results: [
       { name: "850K", label: "Minutos vistos" },
       { name: "$0.04", label: "CPE" },
+      { name: "6", label: "Países en vivo" },
     ],
+    excerpt: "Streamers y comunidades gamer jugaron en vivo con el producto en escritorio, sin cortes publicitarios.",
     talents: ["Gyss Sierra", "Norimm"],
     category: "Gaming",
   },
@@ -441,6 +447,7 @@ export async function seed() {
       slug: slugify(mock.title),
       brandName: mock.brand,
       brandLogo: (brandsGlobal.items ?? []).find((b) => b.name === mock.brand)?.image as number | undefined,
+      excerpt: mock.excerpt,
       objective: mock.objective,
       approach: mock.approach,
       results: mock.results,
