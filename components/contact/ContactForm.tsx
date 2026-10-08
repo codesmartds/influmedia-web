@@ -4,6 +4,7 @@ import { useActionState, type ReactNode } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { sendContact, type ContactState } from "./actions";
 import { budgets } from "./budgets";
+import { Select } from "@/components/forms/Select";
 
 const initial: ContactState = {
   status: "idle",
@@ -15,6 +16,12 @@ const initial: ContactState = {
 // Underlined fields on the section background; the line turns red when the server flags them.
 const controlClass =
   "min-w-0 border-0 border-b border-[#3a3145] bg-transparent py-2.5 text-[17px] text-base-content outline-none transition-colors placeholder:text-[#6f6880] focus:border-tint aria-[invalid=true]:border-error";
+// Props from field() for the custom Select (it renders a button, not a <select>).
+type FieldProps = { id: string; name: string; defaultValue: string; "aria-invalid": boolean; "aria-describedby"?: string };
+const selectProps = (p: object) => {
+  const f = p as FieldProps;
+  return { id: f.id, name: f.name, defaultValue: f.defaultValue, invalid: f["aria-invalid"], describedBy: f["aria-describedby"] };
+};
 const labelClass = "text-[13px] text-[#a39bae]";
 
 export function ContactForm({ needs }: { needs: string[] }) {
@@ -80,16 +87,7 @@ export function ContactForm({ needs }: { needs: string[] }) {
         "budget",
         "Presupuesto",
         (p) => (
-          <select {...p} required className={`${controlClass} bg-base-200`}>
-            <option value="" disabled>
-              Elige un rango
-            </option>
-            {budgets.map((b) => (
-              <option key={b.value} value={b.value}>
-                {b.label}
-              </option>
-            ))}
-          </select>
+          <Select {...selectProps(p)} placeholder="Elige un rango" options={budgets.map((b) => ({ value: b.value, label: b.label }))} />
         ),
         true,
       )}

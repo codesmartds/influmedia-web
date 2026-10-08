@@ -4,6 +4,7 @@ import { useActionState, type ReactNode } from "react";
 import { FiCheckCircle } from "react-icons/fi";
 import { applyAsCreator, type ApplyState } from "./actions";
 import { audienceSizes } from "./audienceSizes";
+import { Select } from "@/components/forms/Select";
 
 type Field = keyof ApplyState["values"];
 
@@ -17,6 +18,13 @@ const initial: ApplyState = {
 // Underlined fields on the section background; the line turns red when the server flags them.
 const controlClass =
   "w-full min-w-0 border-0 border-b border-[#3a3145] bg-transparent py-2.5 text-[17px] text-base-content outline-none transition-colors placeholder:text-[#6f6880] focus:border-tint aria-[invalid=true]:border-error";
+
+// Props from field() for the custom Select (it renders a button, not a <select>).
+type FieldProps = { id: string; name: string; defaultValue: string; "aria-invalid": boolean; "aria-describedby"?: string };
+const selectProps = (p: object) => {
+  const f = p as FieldProps;
+  return { id: f.id, name: f.name, defaultValue: f.defaultValue, invalid: f["aria-invalid"], describedBy: f["aria-describedby"] };
+};
 
 export function CreatorApplicationForm({ categories }: { categories: { id: number; name: string }[] }) {
   const [state, action, pending] = useActionState(applyAsCreator, initial);
@@ -74,28 +82,10 @@ export function CreatorApplicationForm({ categories }: { categories: { id: numbe
         hint: "Al menos una de las dos redes.",
       })}
       {field("category", "Categoría principal", (p) => (
-        <select {...p} required className={`${controlClass} bg-base-200`}>
-          <option value="" disabled>
-            Elige una categoría
-          </option>
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </select>
+        <Select {...selectProps(p)} placeholder="Elige una categoría" options={categories.map((c) => ({ value: String(c.id), label: c.name }))} />
       ))}
       {field("audienceSize", "Seguidores en tu red principal", (p) => (
-        <select {...p} required className={`${controlClass} bg-base-200`}>
-          <option value="" disabled>
-            Elige un rango
-          </option>
-          {audienceSizes.map((a) => (
-            <option key={a.value} value={a.value}>
-              {a.label}
-            </option>
-          ))}
-        </select>
+        <Select {...selectProps(p)} placeholder="Elige un rango" options={audienceSizes.map((a) => ({ value: a.value, label: a.label }))} />
       ))}
       {field(
         "message",
