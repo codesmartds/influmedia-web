@@ -11,8 +11,8 @@ import {
   LatestPosts,
   InfluencerMarketing360,
   Method,
-  Roster,
   Stats,
+  TalentNetwork,
   Testimonials,
   WhatWeDo,
 } from "@/components/home/sections";
@@ -57,7 +57,7 @@ export default async function Home() {
       <InfluencerMarketing360 />
       <Method talents={methodTalents} />
       <CaseStudies cases={cases.docs} />
-      <Roster talents={shuffle(talents.docs)} />
+      <TalentNetwork talents={shuffle(talents.docs)} />
       <ForCreators />
       <Testimonials items={testimonials.docs} />
       <NewsletterBar />

@@ -326,6 +326,79 @@ export function Roster({ talents, forBrands = false }: { talents: Talent[]; forB
   );
 }
 
+/* 7b · Talent network (home): exclusive and free-agent talent, one media plan */
+const talentKinds = [
+  {
+    title: "Talento exclusivo",
+    text: "Creadores que filman solo para marcas de Influmedia. Disponibilidad asegurada y una relación construida campaña tras campaña.",
+    tag: "Solo clientes Influmedia",
+  },
+  {
+    title: "Talento sin límites",
+    text: "Creadores que trabajan con nuestros clientes y también de forma independiente. Sumamos su voz cuando es la indicada para el objetivo.",
+    tag: "Agente libre",
+  },
+];
+export function TalentNetwork({ talents }: { talents: Talent[] }) {
+  const faces = talents.filter((t) => media(t.thumbnail)?.url).slice(0, 4);
+  return (
+    <section id="talento" className="scroll-mt-24 border-t border-base-300">
+      <Reveal className={`${wrap} grid gap-[clamp(2rem,5vw,4.5rem)] py-20 md:py-28 lg:grid-cols-2`}>
+        <div className="flex flex-col gap-[22px]">
+          <Eyebrow>Red de talento</Eyebrow>
+          <RevealItem as="h2" className={titleClass}>
+            Dos tipos de talento. Un solo plan de medios.
+          </RevealItem>
+          <RevealItem as="p" className="max-w-[460px] text-[17px] leading-relaxed text-muted">
+            Elegimos al creador que la campaña necesita, sea exclusivo de Influmedia o agente libre. Lo que importa es llegar al objetivo,
+            siempre con audiencia verificada.
+          </RevealItem>
+          <RevealItem className="mt-2 flex items-center gap-4">
+            {faces.length > 0 && (
+              <div className="flex">
+                {faces.map((t, i) => (
+                  <Image
+                    key={t.id}
+                    src={media(t.thumbnail)!.url!}
+                    alt={t.name}
+                    width={48}
+                    height={48}
+                    className={`size-12 rounded-full border-2 border-base-100 object-cover object-[50%_20%] ${i > 0 ? "-ml-3" : ""}`}
+                  />
+                ))}
+              </div>
+            )}
+            <TextLink href="/creadores">Conoce la red</TextLink>
+          </RevealItem>
+        </div>
+
+        <div className="flex flex-col">
+          <RevealItem as="ul" effect="fade" stagger className="flex flex-col border-t border-base-300">
+            {talentKinds.map((k, i) => (
+              <RevealItem
+                as="li"
+                key={k.title}
+                className="grid grid-cols-[56px_minmax(0,1fr)] items-center gap-5 border-b border-base-300 py-[30px] transition-[background-color,padding] duration-300 hover:bg-[#151020] hover:px-5 sm:grid-cols-[56px_minmax(0,1fr)_auto]"
+              >
+                <span className="font-mono text-[13px] text-[#7ba7d1]">{String(i + 1).padStart(2, "0")}</span>
+                <div className="flex flex-col gap-1.5">
+                  <h3 className="text-[clamp(24px,2.4vw,32px)] font-medium tracking-[-0.03em]">{k.title}</h3>
+                  <p className="text-[15px] leading-relaxed text-muted">{k.text}</p>
+                </div>
+                <span className="font-mono text-[11px] tracking-[0.1em] text-[#8e86a0] uppercase max-sm:col-start-2 sm:text-right">{k.tag}</span>
+              </RevealItem>
+            ))}
+          </RevealItem>
+          {/* The point of the section: talent is the means, the objective is the end. */}
+          <RevealItem as="p" className="mt-8 font-display text-[clamp(20px,2vw,26px)] leading-snug font-medium tracking-[-0.03em]">
+            Interno o independiente, el talento es el medio. <span className="text-secondary">El resultado es el fin.</span>
+          </RevealItem>
+        </div>
+      </Reveal>
+    </section>
+  );
+}
+
 /* 8 · For creators */
 const perks = [
   { title: "Marcas líderes", text: "Campañas con marcas de consumo, belleza y retail en toda la región." },
