@@ -3,36 +3,11 @@ import { getPayload, type Payload } from "payload";
 import config from "@payload-config";
 import { slugify } from "@/lib/slug";
 import type { Post } from "@/payload-types";
+import { brands, resetBrands, seedBrands } from "@/lib/seeds/brands";
 
 // Seed assets live in seed-source/ at the project root; resolved from the
 // working directory so the CLI and the /api/seed route find the same files.
 const TALENT_PHOTOS = path.join(process.cwd(), "seed-source", "talents");
-const BRAND_LOGOS = path.join(process.cwd(), "seed-source", "brands");
-
-// Client logos, in the order of the deck's "Algunos clientes" grid. The deck
-// shows the industry filters but doesn't say which brand is which, so these
-// industries are an editorial call; banking and ride-hailing fit none of the
-// four and stay unassigned (visible only with no filter active).
-const brands: { name: string; logo: string; industry?: "fmcg" | "beauty" | "retail" | "entertainment" }[] = [
-  { name: "Gallo", logo: "gallo.png", industry: "fmcg" },
-  { name: "Bam", logo: "bam.png" },
-  { name: "Doritos", logo: "doritos.png", industry: "fmcg" },
-  { name: "McDonald's", logo: "mcdonalds.png", industry: "retail" },
-  { name: "Vuse", logo: "vuse.png", industry: "fmcg" },
-  { name: "Eucerin", logo: "eucerin.png", industry: "beauty" },
-  { name: "L'Oréal", logo: "loreal.png", industry: "beauty" },
-  { name: "Garnier", logo: "garnier.png", industry: "beauty" },
-  { name: "Maybelline", logo: "maybelline.png", industry: "beauty" },
-  { name: "Shell", logo: "shell.png", industry: "retail" },
-  { name: "Grupo Promerica", logo: "grupo-promerica.png" },
-  { name: "inDrive", logo: "indrive.png" },
-  { name: "Miniso", logo: "miniso.png", industry: "retail" },
-  { name: "Chokis", logo: "chokis.png", industry: "fmcg" },
-  { name: "Temu", logo: "temu.png", industry: "retail" },
-  { name: "Quezalteca", logo: "quezalteca.png", industry: "fmcg" },
-  { name: "Lay's", logo: "lays.png", industry: "fmcg" },
-  { name: "Dorada Ice", logo: "dorada-ice.png", industry: "fmcg" },
-];
 
 // Social links from the deck's closing slide (tracking params removed; the
 // LinkedIn link in the deck pointed at the admin dashboard, this is the
@@ -386,7 +361,7 @@ export async function seed() {
 
   // clean ups
   
-  await payload.updateGlobal({ slug: 'brands', data: { items: [] }, ...SKIP_REVALIDATE }); // clear first, so upsertPhoto doesn't find old logos
+  await resetBrands(payload); // old logos and their files
   await payload.delete({ collection: "gallery-moments", where: {}, ...SKIP_REVALIDATE }); // replaced as a whole below
   await payload.delete({ collection: "categories", where: {}, ...SKIP_REVALIDATE }); // clean up old mock categories
   await payload.delete({ collection: "talents", where: {}, ...SKIP_REVALIDATE });
@@ -395,13 +370,8 @@ export async function seed() {
   // Globals are upserted, not created: a global always exists.
   await payload.updateGlobal({ slug: "contact-info", data: contactInfo, ...SKIP_REVALIDATE });
 
-  // Brands global: the list is replaced as a whole, in deck order.
-  const brandItems = [];
-  for (const brand of brands) {
-    const image = await upsertPhoto(payload, path.join(BRAND_LOGOS, brand.logo), `Logo de ${brand.name}`);
-    brandItems.push({ name: brand.name, image, industry: brand.industry ?? null });
-  }
-  await payload.updateGlobal({ slug: "brands", data: { items: brandItems }, ...SKIP_REVALIDATE });
+  // Brands global: logos and order come from lib/seeds/brands.ts.
+  await seedBrands(payload);
 
   // Categories, matched by name.
   const categoryIds = new Map<CategoryName, number>();
