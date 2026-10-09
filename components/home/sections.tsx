@@ -89,8 +89,8 @@ export function ClientMarquee({ brands }: { brands: NonNullable<Brand["items"]> 
             alt={hidden ? "" : l.name}
             width={l.width}
             height={l.height}
-            sizes="160px"
-            className="h-7 w-auto max-w-40 object-contain opacity-70 brightness-0 invert"
+            sizes="(min-width: 768px) 224px, 160px"
+            className="h-12 w-auto max-w-40 object-contain opacity-80 brightness-0 invert md:h-16 md:max-w-56"
           />
         </li>
       ))}
