@@ -16,7 +16,7 @@ export function TopicFilter({ filters, active }: { filters: Filter<TopicValue>[]
       label="Tema"
       title="Filtrar por tema"
       scrollTo="articulos"
-      onPick={(id) => router.push(id ? `/blog?tema=${id}` : "/blog", { scroll: false })}
+      onPick={(id) => router.push(id ? `/influlab?tema=${id}` : "/influlab", { scroll: false })}
     />
   );
 }

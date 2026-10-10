@@ -372,13 +372,13 @@ export function LatestPosts({ posts }: { posts: Post[] }) {
       <Reveal className={`${wrap} flex flex-col gap-10 py-20 md:py-28`}>
         <div className="flex flex-wrap items-end justify-between gap-6">
           <div className="flex max-w-[760px] flex-col gap-[18px]">
-            <Eyebrow>Blog</Eyebrow>
+            <Eyebrow>Influlab</Eyebrow>
             <RevealItem as="h2" className={titleClass}>
               Casos y eventos, contados desde adentro.
             </RevealItem>
           </div>
           <RevealItem>
-            <TextLink href="/blog">Todos los artículos</TextLink>
+            <TextLink href="/influlab">Todos los artículos</TextLink>
           </RevealItem>
         </div>
         <RevealItem effect="fade">

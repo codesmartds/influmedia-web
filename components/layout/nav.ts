@@ -3,11 +3,11 @@ export const navItems = [
   { href: "/influencer-marketing", label: "Influencer Marketing" },
   { href: "/nosotros", label: "Nosotros" },
   { href: "/talento-exclusivo", label: "Talento exclusivo" },
-  { href: "/blog", label: "Blog" },
+  { href: "/influlab", label: "Influlab" },
   { href: "/galeria", label: "Galería" },
 ] as const;
 
 export const contactHref = "/contacto";
 
-/** A nav item stays active on its sub-pages (e.g. /blog/some-post). */
+/** A nav item stays active on its sub-pages (e.g. /influlab/some-post). */
 export const isActive = (pathname: string, href: string) => pathname === href || pathname.startsWith(`${href}/`);

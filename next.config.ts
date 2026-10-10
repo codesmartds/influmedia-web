@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
       to("/sistema/:path*", "/influencer-marketing#proceso"),
       to("/trabajo", "/galeria"),
       to("/creadores", "/talento-exclusivo"),
+      to("/blog", "/influlab"),
+      to("/blog/:slug", "/influlab/:slug"),
     ];
   },
   images: {

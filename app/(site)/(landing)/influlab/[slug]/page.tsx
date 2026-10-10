@@ -16,12 +16,12 @@ async function getPost(slug: string) {
   return docs[0] ?? null;
 }
 
-export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps<"/influlab/[slug]">): Promise<Metadata> {
   const post = await getPost((await params).slug);
   return post ? { title: `${post.title} | Influmedia`, description: post.excerpt } : {};
 }
 
-export default async function PostPage({ params }: PageProps<"/blog/[slug]">) {
+export default async function PostPage({ params }: PageProps<"/influlab/[slug]">) {
   const post = await getPost((await params).slug);
   if (!post) notFound();
 

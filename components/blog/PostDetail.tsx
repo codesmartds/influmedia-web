@@ -59,13 +59,13 @@ export function PostDetail({ post, more }: { post: Post; more: Post[] }) {
               Inicio
             </Link>
             <span aria-hidden>/</span>
-            <Link href="/blog" transitionTypes={["nav-back"]} className="transition-colors hover:text-base-content">
+            <Link href="/influlab" transitionTypes={["nav-back"]} className="transition-colors hover:text-base-content">
               Blog
             </Link>
             {topic && (
               <>
                 <span aria-hidden>/</span>
-                <Link href={`/blog?tema=${post.topic}`} transitionTypes={["nav-back"]} className="text-accent-cycle">
+                <Link href={`/influlab?tema=${post.topic}`} transitionTypes={["nav-back"]} className="text-accent-cycle">
                   {topic}
                 </Link>
               </>
@@ -109,7 +109,7 @@ export function PostDetail({ post, more }: { post: Post; more: Post[] }) {
             {topic && (
               <p className="mt-10 flex gap-2">
                 <Link
-                  href={`/blog?tema=${post.topic}`}
+                  href={`/influlab?tema=${post.topic}`}
                   className="rounded-full border border-[#2a2233] px-3.5 py-2 font-mono text-[10.5px] tracking-[0.12em] text-[#a39bae] uppercase transition-colors hover:border-base-content hover:text-base-content"
                 >
                   {topic}
@@ -139,7 +139,7 @@ export function PostDetail({ post, more }: { post: Post; more: Post[] }) {
               </RevealItem>
               <RevealItem>
                 <Link
-                  href="/blog"
+                  href="/influlab"
                   transitionTypes={["nav-back"]}
                   className="border-b border-tint/60 pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
                 >

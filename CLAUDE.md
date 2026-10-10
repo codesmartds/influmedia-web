@@ -4,7 +4,7 @@
 
 The site is a traditional landing site (it began as a full-screen slide deck; old slide routes redirect in `next.config.ts`).
 
-- **Pages:** `app/(site)/(landing)/` holds every page; its layout renders `SiteHeader` (sticky nav, items in `components/layout/nav.ts`) and `SiteFooter`. Pages: `/` (hero, about teaser, newsletter bar), `/nosotros`, `/influencer-marketing`, `/talento-exclusivo` (roster application), `/galeria`, `/contacto`, `/blog`.
+- **Pages:** `app/(site)/(landing)/` holds every page; its layout renders `SiteHeader` (sticky nav, items in `components/layout/nav.ts`) and `SiteFooter`. Pages: `/` (hero, about teaser, newsletter bar), `/nosotros`, `/influencer-marketing`, `/talento-exclusivo` (roster application), `/galeria`, `/contacto`, `/influlab` (blog).
 - **Page structure:** each inner page opens with `PageHeader` (its single `h1`), then content blocks wrapped in `LandingSection` (spacing, max width, an `id` anchor). Section components use `h2`, never `h1`. Close with `ContactCta` where it fits.
 - **Page transition:** wrap the page in `<PageTransition>` (`components/transitions/PageTransition.tsx`). The header is pinned during transitions.
 - **Content entrance:** `<Reveal>` / `<RevealItem>` (`components/transitions/Reveal.tsx`), never ad-hoc Motion code. Reveal starts when the block scrolls into view. Containers that group items use `effect="fade"` with `stagger`, so only the leaves move.
