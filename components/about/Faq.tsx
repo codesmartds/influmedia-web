@@ -18,7 +18,7 @@ export const institutionalFaqs: FaqItem[] = [
   },
   {
     q: "¿Cómo puedo unirme como creador?",
-    a: "Aplica desde la página Creadores. Revisamos cada perfil y te contactamos si encaja con lo que buscan nuestras marcas.",
+    a: "Aplica desde la página Talento exclusivo. Revisamos cada perfil y te contactamos si encaja con lo que buscan nuestras marcas.",
   },
 ];
 

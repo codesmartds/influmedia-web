@@ -2,7 +2,7 @@ import { revalidatePath } from "next/cache";
 import type { PayloadRequest } from "payload";
 
 // Content is reused across pages (logos on home and /influencer-marketing,
-// categories on /creadores, contact info in the footer…), so any change
+// categories on /talento-exclusivo, contact info in the footer…), so any change
 // refreshes the whole site instead of tracking which page shows what.
 // Skipped when there's no Next request to revalidate (the CLI seed).
 const revalidateSite = ({ req }: { req: PayloadRequest }) => {

@@ -7,7 +7,7 @@ export const CreatorApplications: CollectionConfig = {
     singular: "Aplicación de creador",
     plural: "Aplicaciones de creadores",
   },
-  // Admin-only. Applications come through the /creadores server action,
+  // Admin-only. Applications come through the /talento-exclusivo server action,
   // which uses the Local API; the public API can't create or list them.
   access: {
     create: ({ req }) => Boolean(req.user),
@@ -19,7 +19,7 @@ export const CreatorApplications: CollectionConfig = {
     group: "Contacto",
     useAsTitle: "name",
     defaultColumns: ["name", "category", "audienceSize", "country", "status", "createdAt"],
-    description: "Creadores que aplicaron al roster desde /creadores.",
+    description: "Creadores que aplicaron al roster desde /talento-exclusivo.",
   },
   defaultSort: "-createdAt",
   fields: [

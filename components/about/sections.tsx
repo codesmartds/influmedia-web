@@ -306,7 +306,7 @@ export function TalentShowcase({ talents }: { talents: Talent[] }) {
         </RevealItem>
         <RevealItem>
           <Link
-            href="/creadores"
+            href="/talento-exclusivo"
             transitionTypes={["nav-forward"]}
             className="border-b border-tint/60 pb-1 text-[15px] text-[#d6d0de] transition-colors hover:text-base-content"
           >

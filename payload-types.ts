@@ -472,7 +472,7 @@ export interface ContactSubmission {
   createdAt: string;
 }
 /**
- * Creadores que aplicaron al roster desde /creadores.
+ * Creadores que aplicaron al roster desde /talento-exclusivo.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "creator-applications".

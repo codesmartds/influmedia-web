@@ -2,7 +2,7 @@
 export const navItems = [
   { href: "/influencer-marketing", label: "Influencer Marketing" },
   { href: "/nosotros", label: "Nosotros" },
-  { href: "/creadores", label: "Creadores" },
+  { href: "/talento-exclusivo", label: "Talento exclusivo" },
   { href: "/blog", label: "Blog" },
   { href: "/galeria", label: "Galería" },
 ] as const;

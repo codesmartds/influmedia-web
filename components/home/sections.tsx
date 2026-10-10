@@ -326,7 +326,7 @@ export function TalentNetwork({ talents }: { talents: Talent[] }) {
                 ))}
               </div>
             )}
-            <TextLink href="/creadores">Conoce la red</TextLink>
+            <TextLink href="/talento-exclusivo">Conoce la red</TextLink>
           </RevealItem>
         </div>
 
