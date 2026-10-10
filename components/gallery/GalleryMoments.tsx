@@ -8,7 +8,7 @@ import { FilterPicker, type Filter } from "@/components/layout/FilterPicker";
 import { loadMoments } from "./actions";
 import { categoryLabels, type GalleryCategory, type MediaFilter, type MomentsPage } from "./types";
 
-// /galeria: the featured moment, a category + media filter, a gap-free mosaic
+// /momentos: the featured moment, a category + media filter, a gap-free mosaic
 // fed page by page from the server (infinite scroll), and a full-screen viewer
 // (photos and videos) with animated transitions.
 

@@ -524,7 +524,7 @@ export interface GalleryMoment {
   place?: string | null;
   brand?: string | null;
   /**
-   * El más reciente marcado abre /galeria.
+   * El más reciente marcado abre /momentos.
    */
   featured?: boolean | null;
   updatedAt: string;

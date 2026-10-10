@@ -4,7 +4,7 @@ export const navItems = [
   { href: "/nosotros", label: "Nosotros" },
   { href: "/talento-exclusivo", label: "Talento exclusivo" },
   { href: "/influlab", label: "Influlab" },
-  { href: "/galeria", label: "Galería" },
+  { href: "/momentos", label: "Momentos" },
 ] as const;
 
 export const contactHref = "/contacto";
