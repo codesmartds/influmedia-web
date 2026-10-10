@@ -8,7 +8,7 @@ import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
   title: "Influlab | Influmedia",
-  description: "Estrategia, datos y creatividad para conectar marcas con personas reales.",
+  description: "Influlab: pruebas, datos y hallazgos de las campañas de Influmedia con creadores reales. Lo que funciona, lo que no y por qué.",
 };
 
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);

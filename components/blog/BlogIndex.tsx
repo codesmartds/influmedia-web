@@ -104,12 +104,12 @@ export function BlogIndex({
             <span className="text-accent-cycle">Influlab</span>
           </RevealItem>
           <RevealItem as="h1" className="text-[clamp(2.1rem,5.4vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em] text-balance">
-            Ideas para liderar <span className="text-accent-cycle">la conversación.</span>
+            Lo que aprendemos <span className="text-accent-cycle">campaña tras campaña.</span>
           </RevealItem>
         </div>
         <div className="flex flex-col gap-3.5 pb-2">
           <RevealItem as="p" className="text-[17px] leading-relaxed text-[#c9c2d2]">
-            Estrategia, datos y creatividad para conectar marcas con personas reales. Escrito por el equipo y el roster Influmedia.
+            Pruebas, datos y hallazgos de las campañas que hacemos con creadores reales. Lo que funciona, lo que no y por qué.
           </RevealItem>
           <RevealItem as="p" className="font-mono text-xs tracking-[0.14em] text-[#8e86a0] uppercase">
             {pad(total)} artículos · {pad(filters.length - 1)} temas
