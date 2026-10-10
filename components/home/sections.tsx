@@ -290,11 +290,11 @@ export function CaseStudies({ cases }: { cases: CaseStudy[] }) {
 const talentKinds = [
   {
     title: "Talento exclusivo",
-    text: "Creadores que filman solo para marcas de Influmedia. Disponibilidad asegurada y una relación construida campaña tras campaña.",
+    text: "Disponibilidad asegurada y una relación construida campaña tras campaña.",
   },
   {
     title: "Talento sin límites",
-    text: "Creadores que trabajan con nuestros clientes y también de forma independiente. Sumamos su voz cuando es la indicada para el objetivo.",
+    text: "Sumamos su voz cuando es la indicada para el objetivo.",
   },
 ];
 export function TalentNetwork({ talents }: { talents: Talent[] }) {
