@@ -289,11 +289,11 @@ export function CaseStudies({ cases }: { cases: CaseStudy[] }) {
 /* 8 · Talent network (home): exclusive and free-agent talent, one media plan */
 const talentKinds = [
   {
-    title: "Talento exclusivo",
+    title: "Exclusivos de Influmedia",
     text: "Disponibilidad asegurada y una relación construida campaña tras campaña.",
   },
   {
-    title: "Talento sin límites",
+    title: "Agentes libres",
     text: "Sumamos su voz cuando es la indicada para el objetivo.",
   },
 ];
@@ -305,7 +305,7 @@ export function TalentNetwork({ talents }: { talents: Talent[] }) {
         <div className="flex flex-col gap-[22px]">
           <Eyebrow>Red de talento</Eyebrow>
           <RevealItem as="h2" className={titleClass}>
-            Dos tipos de talento. Un solo plan de medios.
+            Tú pones el objetivo. Nosotros, el creador.
           </RevealItem>
           <RevealItem as="p" className="max-w-[460px] text-[17px] leading-relaxed text-muted">
             Elegimos al creador que la campaña necesita, sea exclusivo de Influmedia o agente libre. Lo que importa es llegar al objetivo,
