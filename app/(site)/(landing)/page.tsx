@@ -51,9 +51,6 @@ export default async function Home() {
     heroTalents = Array.from({ length: HERO_SLOTS }, (_, i) => heroTalents[i % heroTalents.length]);
   }
 
-  // Method demo panels: five more random talents with a photo.
-  const methodTalents = shuffle(withPhoto).slice(0, 5);
-
   return (
     <PageTransition>
       <HeroSlide talents={heroTalents} />
@@ -61,7 +58,7 @@ export default async function Home() {
       <ClientMarquee brands={brands.items ?? []} />
       <WhatWeDo />
       <InfluencerMarketing360 />
-      <Method talents={methodTalents} />
+      <Method />
       <CaseStudies cases={cases.docs} />
       <TalentNetwork talents={shuffle(talents.docs)} />
       <LatestPosts posts={posts.docs} />

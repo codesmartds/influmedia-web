@@ -254,8 +254,8 @@ export function InfluencerMarketing360() {
   );
 }
 
-/* 6 · Method: Planning, Onway, Postbuy, each with an animated demo panel */
-export function Method({ talents }: { talents: Talent[] }) {
+/* 6 · Method: Planning, Onway, Postbuy */
+export function Method() {
   return (
     <section id="metodo" className="scroll-mt-24 border-y border-base-300 bg-base-200">
       <div className={`${wrap} flex flex-col gap-12 py-20 md:py-28`}>
@@ -272,7 +272,7 @@ export function Method({ talents }: { talents: Talent[] }) {
         </Reveal>
         <Reveal>
           <RevealItem effect="fade" className="flex flex-col gap-12">
-            <MethodStages talents={talents} />
+            <MethodStages />
           </RevealItem>
         </Reveal>
       </div>
