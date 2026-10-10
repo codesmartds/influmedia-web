@@ -25,6 +25,9 @@ function shuffle<T>(items: T[]): T[] {
   return result;
 }
 
+// Panels in the hero lineup (SLOTS in HeroSlide).
+const HERO_SLOTS = 5;
+
 // Brands first (proof → problem → method → cases), then the talent side
 // (roster → why join), then social proof, content and a two-way close.
 export default async function Home() {
@@ -38,11 +41,18 @@ export default async function Home() {
     payload.findGlobal({ slug: "contact-info" }),
   ]);
 
-  // Hero lineup: every talent with a photo, shuffled; five show and the rest rotate in.
-  const heroTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url));
+  // Hero lineup: featured talents with a photo (every talent if none is
+  // featured), shuffled; five show and the rest rotate in. Fewer than five
+  // featured repeat to fill the panels.
+  const withPhoto = talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url);
+  const featured = withPhoto.filter((t) => t.featured);
+  let heroTalents = shuffle(featured.length > 0 ? featured : withPhoto);
+  if (featured.length > 0 && heroTalents.length < HERO_SLOTS) {
+    heroTalents = Array.from({ length: HERO_SLOTS }, (_, i) => heroTalents[i % heroTalents.length]);
+  }
 
   // Method demo panels: five more random talents with a photo.
-  const methodTalents = shuffle(talents.docs.filter((t) => typeof t.thumbnail === "object" && t.thumbnail?.url)).slice(0, 5);
+  const methodTalents = shuffle(withPhoto).slice(0, 5);
 
   return (
     <PageTransition>

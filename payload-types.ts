@@ -238,6 +238,7 @@ export interface Talent {
    * Si está desactivado, no aparece en el listado del sitio.
    */
   active?: boolean | null;
+  featured?: boolean | null;
   thumbnail: number | Media;
   category?: (number | null) | Category;
   /**
@@ -718,6 +719,7 @@ export interface TalentsSelect<T extends boolean = true> {
   name?: T;
   content?: T;
   active?: T;
+  featured?: T;
   thumbnail?: T;
   category?: T;
   instagram?: T;
