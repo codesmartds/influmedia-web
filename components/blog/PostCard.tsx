@@ -38,7 +38,7 @@ export function PostMeta({ post, className = "" }: { post: Post; className?: str
 export function PostCard({ post, n }: { post: Post; n?: number }) {
   const cover = coverOf(post);
   return (
-    <Link href={`/blog/${post.slug}`} transitionTypes={["nav-forward"]} className="group flex h-full flex-col gap-[18px]">
+    <Link href={`/influlab/${post.slug}`} transitionTypes={["nav-forward"]} className="group flex h-full flex-col gap-[18px]">
       <span className="relative block aspect-[4/3] overflow-hidden bg-[#140f1a]">
         {cover?.url && (
           <Image

@@ -7,7 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Category, Media, Talent } from "@/payload-types";
 import { FilterPicker, type Filter } from "@/components/layout/FilterPicker";
 
-// Roster browser for /creadores: a sticky bar with a category filter (a button
+// Roster browser for /talento-exclusivo: a sticky bar with a category filter (a button
 // that opens every category full screen), the creator grid, and a profile
 // dialog that steps through the visible creators with animated transitions.
 

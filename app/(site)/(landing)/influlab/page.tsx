@@ -7,13 +7,13 @@ import { POSTS_PER_PAGE, topics, type TopicValue } from "@/components/blog/forma
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
-  title: "Blog | Influmedia",
-  description: "Estrategia, datos y creatividad para conectar marcas con personas reales.",
+  title: "Influlab | Influmedia",
+  description: "Influlab: pruebas, datos y hallazgos de las campañas de Influmedia con creadores reales. Lo que funciona, lo que no y por qué.",
 };
 
 const first = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
 
-export default async function BlogPage({ searchParams }: PageProps<"/blog">) {
+export default async function BlogPage({ searchParams }: PageProps<"/influlab">) {
   const params = await searchParams;
   const page = Number(first(params.page) ?? "1");
   if (!Number.isInteger(page) || page < 1) notFound();

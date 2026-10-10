@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { revalidateCollection } from "@/lib/revalidate";
 
-// Agency moments for /galeria: events, activations, productions, team and
+// Agency moments for /momentos: events, activations, productions, team and
 // awards, as photos or videos. Newest first; the newest featured one opens
 // the page.
 export const GalleryMoments: CollectionConfig = {
@@ -72,7 +72,7 @@ export const GalleryMoments: CollectionConfig = {
       label: "Momento destacado",
       type: "checkbox",
       defaultValue: false,
-      admin: { position: "sidebar", description: "El más reciente marcado abre /galeria." },
+      admin: { position: "sidebar", description: "El más reciente marcado abre /momentos." },
     },
   ],
 };

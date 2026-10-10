@@ -238,6 +238,7 @@ export interface Talent {
    * Si está desactivado, no aparece en el listado del sitio.
    */
   active?: boolean | null;
+  featured?: boolean | null;
   thumbnail: number | Media;
   category?: (number | null) | Category;
   /**
@@ -471,7 +472,7 @@ export interface ContactSubmission {
   createdAt: string;
 }
 /**
- * Creadores que aplicaron al roster desde /creadores.
+ * Creadores que aplicaron al roster desde /talento-exclusivo.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "creator-applications".
@@ -523,7 +524,7 @@ export interface GalleryMoment {
   place?: string | null;
   brand?: string | null;
   /**
-   * El más reciente marcado abre /galeria.
+   * El más reciente marcado abre /momentos.
    */
   featured?: boolean | null;
   updatedAt: string;
@@ -718,6 +719,7 @@ export interface TalentsSelect<T extends boolean = true> {
   name?: T;
   content?: T;
   active?: T;
+  featured?: T;
   thumbnail?: T;
   category?: T;
   instagram?: T;

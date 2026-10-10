@@ -125,7 +125,7 @@ export function HeroSlide({ talents }: { talents: Talent[] }) {
             animate={{ opacity: 1, y: 0 }}
             transition={rise(TEXT_AT)}
           >
-            Agencia de medios — Centroamérica y el Caribe
+            Agencia de Influence Marketing — Centroamérica y el Caribe
           </motion.p>
           <h1 className="text-[clamp(2.1rem,5.6vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em]">
             {[

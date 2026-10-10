@@ -72,7 +72,7 @@ export function ContactSection({ contact, headingLevel = "h2" }: { contact: Cont
           </RevealItem>
 
           <RevealItem>
-            <Link href="/creadores#aplica" transitionTypes={["nav-forward"]} className="text-[15px] text-accent-cycle transition-colors hover:text-base-content">
+            <Link href="/talento-exclusivo#aplica" transitionTypes={["nav-forward"]} className="text-[15px] text-accent-cycle transition-colors hover:text-base-content">
               ¿Eres creador? Aplica a la red →
             </Link>
           </RevealItem>

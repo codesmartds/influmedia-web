@@ -9,7 +9,7 @@ import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
-  title: "Creadores | Influmedia",
+  title: "Talento exclusivo | Influmedia",
   description: "Conoce a los creadores exclusivos de Influmedia: lifestyle, comedia, moda, entretenimiento, fitness, deporte, gaming, tech y automotriz.",
 };
 
@@ -39,7 +39,7 @@ export default async function CreatorsPage() {
               Inicio
             </Link>
             <span aria-hidden>/</span>
-            <span className="text-accent-cycle">Creadores</span>
+            <span className="text-accent-cycle">Talento exclusivo</span>
           </RevealItem>
           <RevealItem as="h1" className="text-[clamp(2.1rem,5.4vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em]">
             Talento que conecta <span className="text-accent-cycle">e inspira.</span>

@@ -25,7 +25,7 @@ export function PostList({ posts }: { posts: PostRow[] }) {
         {posts.map((p, k) => (
           <li key={p.id}>
             <Link
-              href={`/blog/${p.slug}`}
+              href={`/influlab/${p.slug}`}
               transitionTypes={["nav-forward"]}
               onMouseEnter={() => setHover(k)}
               onFocus={() => setHover(k)}

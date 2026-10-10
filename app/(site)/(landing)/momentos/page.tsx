@@ -9,7 +9,7 @@ import { Reveal, RevealItem } from "@/components/transitions/Reveal";
 import { PageTransition } from "@/components/transitions/PageTransition";
 
 export const metadata: Metadata = {
-  title: "Galería | Influmedia",
+  title: "Momentos Influmedia",
   description: "Eventos, activaciones, producciones y equipo: el archivo visual de Influmedia en Centroamérica y el Caribe.",
 };
 
@@ -40,7 +40,7 @@ export default async function GalleryPage() {
               Inicio
             </Link>
             <span aria-hidden>/</span>
-            <span className="text-accent-cycle">Galería</span>
+            <span className="text-accent-cycle">Momentos Influmedia</span>
           </RevealItem>
           <RevealItem as="h1" className="text-[clamp(2.1rem,5.4vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em] text-balance">
             Los momentos detrás de <span className="text-accent-cycle">cada conversación.</span>

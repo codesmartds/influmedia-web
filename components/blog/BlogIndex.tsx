@@ -8,7 +8,7 @@ import { POSTS_PER_PAGE, topicLabel, type TopicValue } from "./format";
 import { Byline, PostCard, PostMeta } from "./PostCard";
 import { TopicFilter } from "./TopicFilter";
 
-// /blog: hero, the newest post featured, a topic filter, the paginated grid,
+// /influlab: hero, the newest post featured, a topic filter, the paginated grid,
 // newsletter and a closing call to action.
 
 const wrap = "mx-auto w-full max-w-[96rem] px-5 md:px-[4%]";
@@ -19,7 +19,7 @@ function pageHref(page: number, topic: TopicValue | null) {
   if (topic) params.set("tema", topic);
   if (page > 1) params.set("page", String(page));
   const q = params.toString();
-  return q ? `/blog?${q}` : "/blog";
+  return q ? `/influlab?${q}` : "/influlab";
 }
 
 function Featured({ post }: { post: Post }) {
@@ -27,7 +27,7 @@ function Featured({ post }: { post: Post }) {
   const topic = topicLabel(post.topic);
   return (
     <section aria-label="Artículo destacado" className="grid border-y border-base-300 lg:grid-cols-2">
-      <Link href={`/blog/${post.slug}`} transitionTypes={["nav-forward"]} className="group relative block min-h-[clamp(320px,38vw,560px)] overflow-hidden bg-[#140f1a]">
+      <Link href={`/influlab/${post.slug}`} transitionTypes={["nav-forward"]} className="group relative block min-h-[clamp(320px,38vw,560px)] overflow-hidden bg-[#140f1a]">
         {cover?.url && (
           <Image
             src={cover.url}
@@ -60,7 +60,7 @@ function Featured({ post }: { post: Post }) {
         <RevealItem className="flex flex-wrap items-center justify-between gap-5">
           {post.author && <Byline author={post.author} size="lg" />}
           <Link
-            href={`/blog/${post.slug}`}
+            href={`/influlab/${post.slug}`}
             transitionTypes={["nav-forward"]}
             className="rounded-full bg-base-content px-6 py-[15px] text-sm font-semibold text-base-100 transition-colors hover:bg-accent-cycle"
           >
@@ -101,15 +101,15 @@ export function BlogIndex({
               Inicio
             </Link>
             <span aria-hidden>/</span>
-            <span className="text-accent-cycle">Blog</span>
+            <span className="text-accent-cycle">Influlab</span>
           </RevealItem>
           <RevealItem as="h1" className="text-[clamp(2.1rem,5.4vw,5.1rem)] leading-[0.86] font-semibold tracking-[-0.055em] text-balance">
-            Ideas para liderar <span className="text-accent-cycle">la conversación.</span>
+            Lo que aprendemos <span className="text-accent-cycle">campaña tras campaña.</span>
           </RevealItem>
         </div>
         <div className="flex flex-col gap-3.5 pb-2">
           <RevealItem as="p" className="text-[17px] leading-relaxed text-[#c9c2d2]">
-            Estrategia, datos y creatividad para conectar marcas con personas reales. Escrito por el equipo y el roster Influmedia.
+            Pruebas, datos y hallazgos de las campañas que hacemos con creadores reales. Lo que funciona, lo que no y por qué.
           </RevealItem>
           <RevealItem as="p" className="font-mono text-xs tracking-[0.14em] text-[#8e86a0] uppercase">
             {pad(total)} artículos · {pad(filters.length - 1)} temas

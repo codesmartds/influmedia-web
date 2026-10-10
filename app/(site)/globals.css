@@ -75,6 +75,16 @@
   h3 {
     font-family: var(--font-display);
   }
+
+  /* No focus outline on links, buttons and tabs (form fields keep theirs). */
+  a:focus,
+  a:focus-visible,
+  button:focus,
+  button:focus-visible,
+  [role="tab"]:focus,
+  [role="tab"]:focus-visible {
+    outline: none;
+  }
 }
 
 /* ---------- Page transitions (React <ViewTransition>) ---------- */

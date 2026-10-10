@@ -39,6 +39,15 @@ export const Talents: CollectionConfig = {
       },
     },
     {
+      name: "featured",
+      label: "Talento destacado",
+      type: "checkbox",
+      defaultValue: false,
+      admin: {
+        position: "sidebar",
+      },
+    },
+    {
       name: "thumbnail",
       label: "Foto",
       type: "upload",
