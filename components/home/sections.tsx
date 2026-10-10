@@ -171,10 +171,6 @@ export function WhatWeDo() {
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover object-[45%_40%] brightness-[.92] contrast-[1.05] saturate-[.85]"
           />
-          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(0deg,rgba(11,8,16,.55),rgba(11,8,16,0)_45%)]" />
-          <span className="absolute bottom-4 left-4 bg-base-100/75 px-2.5 py-[7px] font-mono text-[11px] tracking-[0.12em]">
-            ESC. 04 · AGUA MINERAL · CARRERA 10K
-          </span>
         </RevealItem>
       </Reveal>
     </section>
@@ -209,7 +205,7 @@ export function InfluencerMarketing360() {
 
       {/* Each step draws its line and lights its node, one after another. */}
       <Reveal as="ol" stagger={0.55} className="grid lg:grid-cols-5">
-        {steps360.map((s, i) => (
+        {steps360.map((s) => (
           <RevealItem as="li" key={s.name} effect="fade" stagger={0.08} className="relative flex flex-col gap-[18px] pb-10 pl-9 lg:pr-6 lg:pb-7 lg:pl-0">
             {/* Below lg: a vertical rail down the left, node at the top. */}
             <div className="absolute top-2 bottom-0 left-1.5 w-0.5 bg-[#2a2233] lg:hidden">
@@ -224,9 +220,6 @@ export function InfluencerMarketing360() {
                 className="absolute -top-1.5 left-0 box-border size-3.5 rounded-full border-2 border-tint bg-accent-cycle shadow-[0_0_14px_color-mix(in_srgb,var(--acc-tint)_70%,transparent)]"
               />
             </div>
-            <RevealItem as="span" className="font-mono text-xs tracking-[0.12em] text-[#8e86a0]">
-              PASO {String(i + 1).padStart(2, "0")}
-            </RevealItem>
             <RevealItem as="span" className="font-display text-[clamp(26px,2.52vw,35px)] leading-none font-medium tracking-[-0.04em]">
               {s.name}
             </RevealItem>
@@ -332,17 +325,18 @@ export function TalentNetwork({ talents }: { talents: Talent[] }) {
 
         <div className="flex flex-col">
           <RevealItem as="ul" effect="fade" stagger className="flex flex-col border-t border-base-300">
-            {talentKinds.map((k, i) => (
+            {talentKinds.map((k) => (
               <RevealItem
                 as="li"
                 key={k.title}
-                className="grid grid-cols-[56px_minmax(0,1fr)] items-center gap-5 border-b border-base-300 py-[30px] transition-[background-color,padding] duration-300 hover:bg-[#151020] hover:px-5"
+                className="group flex flex-col gap-1.5 border-b border-base-300 py-[30px] transition-[background-color,padding] duration-300 hover:bg-[#151020] hover:px-5"
               >
-                <span className="font-mono text-[13px] text-accent-cycle">{String(i + 1).padStart(2, "0")}</span>
-                <div className="flex flex-col gap-1.5">
-                  <h3 className="text-[clamp(24px,2.4vw,32px)] font-medium tracking-[-0.03em]">{k.title}</h3>
-                  <p className="text-[15px] leading-relaxed text-muted">{k.text}</p>
-                </div>
+                {/* Accent marker, as in the method points; stretches into a dash on hover. */}
+                <h3 className="flex items-center gap-3 text-[clamp(24px,2.4vw,32px)] font-medium tracking-[-0.03em]">
+                  <span aria-hidden className="h-2 w-2 shrink-0 rounded-full bg-accent-cycle transition-[width] duration-300 group-hover:w-6" />
+                  {k.title}
+                </h3>
+                <p className="pl-5 text-[15px] leading-relaxed text-muted">{k.text}</p>
               </RevealItem>
             ))}
           </RevealItem>
